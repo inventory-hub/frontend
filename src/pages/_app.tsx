@@ -1,6 +1,17 @@
-import "~/styles/globals.css";
 import type { AppProps } from "next/app";
+import { useRef } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ChakraProvider } from "@chakra-ui/react";
+import { theme } from "~/utilities/theme";
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  const queryClient = useRef(new QueryClient()).current;
+
+  return (
+    <ChakraProvider theme={theme}>
+      <QueryClientProvider client={queryClient}>
+        <Component {...pageProps} />
+      </QueryClientProvider>
+    </ChakraProvider>
+  );
 }
