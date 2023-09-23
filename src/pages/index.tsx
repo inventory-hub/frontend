@@ -1,9 +1,8 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Mohave, Poppins } from "next/font/google";
-import { Inter } from "next/font/google";
-import { mohave, poppins } from "~/utilities/fonts";
-import { Flex, HStack, Text, chakra } from "@chakra-ui/react";
+import { mohave, mplus1p, poppins } from "~/utilities/fonts";
+import { Button, Divider, Flex, HStack, Text, chakra } from "@chakra-ui/react";
+import { Link } from "@chakra-ui/next-js";
 
 export default function Home() {
   return (
@@ -40,6 +39,34 @@ export default function Home() {
           >
             Inventory Hub
           </Text>
+          <HStack spacing="2rem" ml="auto">
+            <Link href="/" color="primary.background" fontSize="xl">
+              Home
+            </Link>
+            <Divider
+              orientation="vertical"
+              h="2rem"
+              bgColor="primary.background"
+            />
+            <Button
+              px="4rem"
+              as={Link}
+              href="/login"
+              bgColor="secondary.main"
+              _hover={{
+                bgColor: "secondary.hover",
+                textDecoration: "none",
+              }}
+              _focus={{
+                bgColor: "secondary.focus",
+              }}
+              fontSize="sm"
+              rounded="xl"
+              fontWeight={400}
+            >
+              Log in &#10230;
+            </Button>
+          </HStack>
         </HStack>
         <chakra.main className={poppins.className}>Hi</chakra.main>
       </Flex>
