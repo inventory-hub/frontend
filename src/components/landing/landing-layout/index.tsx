@@ -1,7 +1,8 @@
+import { type PropsWithChildren } from "react";
 import { Flex, chakra, type ChakraProps } from "@chakra-ui/react";
+
 import { poppins } from "~/utilities/fonts";
 import LandingNavbar from "./LandingNavbar";
-import { type PropsWithChildren } from "react";
 
 const LandingLayout = (props: PropsWithChildren<ChakraProps>) => {
   return (

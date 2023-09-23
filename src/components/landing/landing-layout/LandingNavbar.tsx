@@ -1,20 +1,17 @@
-import { Link } from "@chakra-ui/next-js";
-import {
-  HStack,
-  type ChakraProps,
-  Divider,
-  Button,
-  Text,
-} from "@chakra-ui/react";
+import { memo } from "react";
 import Image from "next/image";
+import { Link } from "@chakra-ui/next-js";
+import { HStack, type ChakraProps, Divider, Text } from "@chakra-ui/react";
+
 import { mohave } from "~/utilities/fonts";
 import logoImage from "~/assets/images/logo.png";
+import { FilledSecondaryButton } from "~/components/ui/buttons";
 
 const LandingNavbar = (props: ChakraProps) => {
   return (
     <HStack
       as="nav"
-      bgColor="primary.main"
+      bgColor="primary.dark"
       w="auto"
       h="5rem"
       roundedBottom="3xl"
@@ -39,30 +36,22 @@ const LandingNavbar = (props: ChakraProps) => {
           Home
         </Link>
         <Divider orientation="vertical" h="2rem" bgColor="primary.background" />
-        <Button
+        <FilledSecondaryButton
           px={{
             base: "1rem",
             md: "4rem",
           }}
           as={Link}
           href="/login"
-          bgColor="secondary.main"
-          _hover={{
-            bgColor: "secondary.hover",
-            textDecoration: "none",
-          }}
-          _focus={{
-            bgColor: "secondary.focus",
-          }}
           fontSize="sm"
           rounded="xl"
           fontWeight={400}
         >
           Log in &#10230;
-        </Button>
+        </FilledSecondaryButton>
       </HStack>
     </HStack>
   );
 };
 
-export default LandingNavbar;
+export default memo(LandingNavbar);

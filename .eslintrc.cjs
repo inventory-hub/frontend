@@ -13,6 +13,7 @@ const config = {
       "error",
       {
         endOfLine: "auto",
+        tralingComma: "es6",
       },
     ],
     "@typescript-eslint/consistent-type-imports": [

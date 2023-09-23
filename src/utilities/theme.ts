@@ -14,8 +14,10 @@ export const theme = extendTheme({
   },
   colors: {
     primary: {
-      main: "#242424",
-      light: "#4a4a4a",
+      dark: "#242424",
+      main: "#4a4a4a",
+      hover: "#5c5c5c",
+      focus: "#6d6d6d",
       text: "#b3b3b3",
       outline: "#8b8b8b",
       background: "#ececec",

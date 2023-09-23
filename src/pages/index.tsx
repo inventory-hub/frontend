@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Button, Heading, Text, chakra } from "@chakra-ui/react";
 import LandingLayout from "~/components/landing/landing-layout";
 import warehouseLandingImage from "~/assets/images/landing_warehouse.png";
+import { FilledSecondaryButton } from "~/components/ui/buttons";
 
 const Home = () => {
   return (
@@ -64,22 +65,14 @@ const Home = () => {
             of using Lorem Ipsum is that it has a more-or-less normal
             distribution of letters, as opposed to using
           </Text>
-          <Button
+          <FilledSecondaryButton
             rounded="full"
-            bgColor="secondary.main"
-            _hover={{
-              bgColor: "secondary.hover",
-              textDecoration: "none",
-            }}
-            _focus={{
-              bgColor: "secondary.focus",
-            }}
             w="fit-content"
             fontWeight={400}
             p="1.5rem"
           >
             Get started &#10230;
-          </Button>
+          </FilledSecondaryButton>
         </chakra.section>
         <chakra.div
           justifySelf="center"
