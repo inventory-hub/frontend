@@ -42,6 +42,13 @@ const config = {
         children: "never",
       },
     ],
+    "react/function-component-definition": [
+      "error",
+      {
+        namedComponents: "arrow-function",
+        unnamedComponents: "arrow-function",
+      },
+    ],
   },
 };
 

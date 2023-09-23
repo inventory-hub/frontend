@@ -5,7 +5,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { theme } from "~/utilities/theme";
 import { mplus1p } from "~/utilities/fonts";
 
-export default function App({ Component, pageProps }: AppProps) {
+const App = ({ Component, pageProps }: AppProps) => {
   const queryClient = useRef(new QueryClient()).current;
 
   return (
@@ -22,4 +22,6 @@ export default function App({ Component, pageProps }: AppProps) {
       </ChakraProvider>
     </>
   );
-}
+};
+
+export default App;
