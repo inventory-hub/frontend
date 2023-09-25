@@ -26,16 +26,7 @@ import { useCallback } from "react";
 
 const loginFormSchema = z.object({
   email: z.string().email(),
-  password: z
-    .string()
-    .min(8, "Password must be at least 8 characters long")
-    .refine((password) => {
-      return (
-        password.match(/[a-z]/) &&
-        password.match(/[A-Z]/) &&
-        password.match(/[0-9]/)
-      );
-    }, "Password must contain at least one uppercase letter, one lowercase letter, and one number"),
+  password: z.string().nonempty("Enter your password"),
 });
 
 type LoginForm = z.infer<typeof loginFormSchema>;
@@ -51,7 +42,7 @@ const Login = () => {
       email: "",
       password: "",
     },
-    mode: "onChange",
+    mode: "onBlur",
   });
 
   const onSubmit: SubmitHandler<LoginForm> = useCallback((data) => {
