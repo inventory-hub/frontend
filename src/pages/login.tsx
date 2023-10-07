@@ -1,53 +1,32 @@
 import Image from "next/image";
 import {
   chakra,
-  Button,
   Heading,
-  Text,
   Grid,
   Box,
-  Flex,
   Center,
   FormControl,
   FormLabel,
-  Input,
   FormErrorMessage,
   Show,
 } from "@chakra-ui/react";
-import { type SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 import LandingLayout from "~/components/landing/landing-layout";
 import authWarehouseImage from "~/assets/images/auth_warehouse.png";
 import { PrimaryOutlineInput } from "~/components/ui/inputs";
 import { FilledPrimaryButton } from "~/components/ui/buttons";
-import { useCallback } from "react";
-
-const loginFormSchema = z.object({
-  email: z.string().email(),
-  password: z.string().nonempty("Enter your password"),
-});
-
-type LoginForm = z.infer<typeof loginFormSchema>;
+import { useLoginForm } from "~/modules/login/hooks/useLoginForm";
 
 const Login = () => {
   const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid },
-  } = useForm<LoginForm>({
-    resolver: zodResolver(loginFormSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-    mode: "onBlur",
-  });
-
-  const onSubmit: SubmitHandler<LoginForm> = useCallback((data) => {
-    console.log("wip");
-  }, []);
+    email,
+    password,
+    handleLogin,
+    handleEmailChange,
+    handlePasswordChange,
+    errors,
+    error,
+  } = useLoginForm();
 
   return (
     <LandingLayout
@@ -68,30 +47,40 @@ const Login = () => {
             <Heading as="h2" fontSize="2xl" fontWeight="normal" mb="2rem">
               Log in to your account
             </Heading>
-            <chakra.form onSubmit={handleSubmit(onSubmit)}>
+            <chakra.form onSubmit={(e) => handleLogin(e)}>
               <FormControl isInvalid={!!errors.email}>
                 <FormLabel color="primary.outline">Email Address</FormLabel>
-                <PrimaryOutlineInput type="email" {...register("email")} />
+                <PrimaryOutlineInput
+                  type="email"
+                  value={email}
+                  onChange={handleEmailChange}
+                />
                 <FormErrorMessage mt={0} fontSize="xs">
-                  {errors.email?.message}
+                  {errors.email}
                 </FormErrorMessage>
               </FormControl>
               <FormControl isInvalid={!!errors.password}>
                 <FormLabel color="primary.outline">Password</FormLabel>
                 <PrimaryOutlineInput
                   type="password"
-                  {...register("password")}
+                  value={password}
+                  onChange={handlePasswordChange}
                 />
                 <FormErrorMessage mt={0} fontSize="xs">
-                  {errors.password?.message}
+                  {errors.password}
                 </FormErrorMessage>
               </FormControl>
+              {error && (
+                <Box color="red" mt={2} fontSize="sm">
+                  {error}
+                </Box>
+              )}
               <FilledPrimaryButton
                 mt={4}
                 type="submit"
                 fontWeight={300}
                 w="100%"
-                disabled={!isValid}
+                disabled={!!errors.email || !!errors.password}
               >
                 Continue
               </FilledPrimaryButton>
