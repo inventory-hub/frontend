@@ -14,6 +14,8 @@ const config = {
       {
         endOfLine: "auto",
         tralingComma: "es6",
+        tabWidth: 2,
+        useTabs: false,
       },
     ],
     "@typescript-eslint/consistent-type-imports": [

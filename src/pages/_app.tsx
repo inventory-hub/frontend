@@ -4,7 +4,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ChakraProvider } from "@chakra-ui/react";
 import { theme } from "~/utilities/theme";
 import { mplus1p } from "~/utilities/fonts";
-import { AuthProvider } from "~/context/AuthProvider";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const queryClient = useRef(new QueryClient()).current;
@@ -18,9 +17,7 @@ const App = ({ Component, pageProps }: AppProps) => {
       `}</style>
       <ChakraProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
-          <AuthProvider>
-            <Component {...pageProps} />\
-          </AuthProvider>
+          <Component {...pageProps} />
         </QueryClientProvider>
       </ChakraProvider>
     </>
