@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Button, Heading, Text, chakra } from "@chakra-ui/react";
+import { Heading, Text, chakra } from "@chakra-ui/react";
 import LandingLayout from "~/components/landing/landing-layout";
 import warehouseLandingImage from "~/assets/images/landing_warehouse.png";
 import { FilledSecondaryButton } from "~/components/ui/buttons";

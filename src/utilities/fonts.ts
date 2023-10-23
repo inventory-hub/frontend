@@ -7,6 +7,6 @@ export const poppins = Poppins({
 });
 export const mohave = Mohave({ subsets: ["latin"] });
 export const mplus1p = M_PLUS_1p({
-  weight: ["400", "500"],
+  weight: ["300", "400", "500"],
   subsets: ["latin"],
 });
