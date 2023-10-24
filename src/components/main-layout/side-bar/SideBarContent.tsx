@@ -1,43 +1,17 @@
+import { memo } from "react";
 import { Box, Flex, type BoxProps, Text, CloseButton } from "@chakra-ui/react";
 import Image from "next/image";
+
 import logoImage from "~/assets/images/logo.png";
-
-import SideBarItem from "./SideBarItem";
-
-import {
-  MdOutlineSpaceDashboard,
-  MdOutlineInbox,
-  MdOutlineInventory2,
-  MdPeopleOutline,
-  MdOutlineAlarm,
-} from "react-icons/md";
-import { type IconType } from "react-icons";
+import SideBarItem, { type ActionItem } from "./SideBarAction";
 import { mohave } from "~/utilities/fonts";
 
-interface SideBarProps extends BoxProps {
+type SideBarProps = BoxProps & {
+  actionItems: ActionItem[];
   onClose: () => void;
-  onSidebarLinkClick?: (pageName: string) => void;
-}
-
-type LinkItemProps = {
-  name: string;
-  icon: IconType;
-  href: string;
 };
 
-const LinkItems: Array<LinkItemProps> = [
-  { name: "Dashboard", icon: MdOutlineSpaceDashboard, href: "/dashboard" },
-  { name: "Seller Packages", icon: MdOutlineInbox, href: "/seller-packages" },
-  { name: "Inventory", icon: MdOutlineInventory2, href: "/inventory" },
-  { name: "Team", icon: MdPeopleOutline, href: "/team" },
-  { name: "Alerts", icon: MdOutlineAlarm, href: "/alerts" },
-];
-
-const SideBarContent = ({
-  onClose,
-  onSidebarLinkClick,
-  ...props
-}: SideBarProps) => {
+const SideBarContent = ({ onClose, actionItems, ...props }: SideBarProps) => {
   return (
     <Box
       roundedRight="3xl"
@@ -71,18 +45,14 @@ const SideBarContent = ({
           Inventory Hub
         </Text>
 
-        <CloseButton
-          display={{ base: "flex", md: "none" }}
-          onClick={onClose}
-        ></CloseButton>
+        <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
-      {LinkItems.map((item) => (
+      {actionItems.map((item) => (
         <SideBarItem
           key={item.name}
           icon={item.icon}
-          onClick={() => {
-            onSidebarLinkClick && onSidebarLinkClick(item.name);
-          }}
+          name={item.name}
+          href={item.href}
         >
           {item.name}
         </SideBarItem>
@@ -91,4 +61,4 @@ const SideBarContent = ({
   );
 };
 
-export default SideBarContent;
+export default memo(SideBarContent);

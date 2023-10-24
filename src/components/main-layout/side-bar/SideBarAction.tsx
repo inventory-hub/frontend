@@ -1,18 +1,22 @@
-import { Box, Flex, Icon, type FlexProps } from "@chakra-ui/react";
+import { Flex, Icon, type FlexProps } from "@chakra-ui/react";
+import { Link } from "@chakra-ui/next-js";
 import { type IconType } from "react-icons";
+import { memo } from "react";
 
-interface SideBarItemProps extends FlexProps {
-  icon: IconType;
-  children: string;
-}
+export type ActionItem = {
+  icon?: IconType;
+  href: string;
+  name: string;
+};
 
-const SideBarItem = ({ icon, children, ...props }: SideBarItemProps) => {
+type SideBarItemProps = FlexProps & ActionItem;
+
+const SideBarItem = ({ icon, href, children, ...props }: SideBarItemProps) => {
   return (
-    <Box
-      as="a"
-      href="#"
+    <Link
+      href={href}
       color="primary.text"
-      style={{ textDecoration: "none" }}
+      textDecoration="none"
       _focus={{ boxShadow: "none" }}
       fontFamily="fonts.body"
     >
@@ -42,8 +46,8 @@ const SideBarItem = ({ icon, children, ...props }: SideBarItemProps) => {
         )}
         {children}
       </Flex>
-    </Box>
+    </Link>
   );
 };
 
-export default SideBarItem;
+export default memo(SideBarItem);

@@ -1,16 +1,12 @@
-import { type NextPageWithLayout } from "../_app";
-import { type ReactElement } from "react";
-import MainLayout from "~/components/main-layout/MainLayout";
+import MainLayout from "~/components/main-layout";
 import { Box } from "@chakra-ui/react";
 
-const MainPage: NextPageWithLayout = () => {
+const MainPage = () => {
   return (
-    <Box width="100vh" margin="auto">
-      App
-    </Box>
+    <MainLayout pageName="Dashboard">
+      <Box h="100%">App</Box>
+    </MainLayout>
   );
 };
-
-MainPage.getLayout = (page: ReactElement) => <MainLayout>{page}</MainLayout>;
 
 export default MainPage;

@@ -1,4 +1,5 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
+import { memo } from "react";
 
 type HeaderProps = {
   pageName: string;
@@ -14,4 +15,4 @@ const Header = ({ pageName }: HeaderProps) => {
   );
 };
 
-export default Header;
+export default memo(Header);
