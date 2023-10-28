@@ -30,14 +30,21 @@ api.interceptors.response.use(
       {
         _retry?: boolean;
       }
-    >,
+    >
   ) => {
     const originalRequest = error.config as InternalAxiosRequestConfig & {
       _retry?: boolean;
     };
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      refresh().then((response) => {
-        const { accessToken } = response.data;
+    const { refreshToken, setTokens } = useAuthStore.getState();
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      refreshToken
+    ) {
+      const promise = refresh(refreshToken);
+
+      promise.then((result) => {
+        const { accessToken } = result;
         try {
           originalRequest.headers.Authorization = `Bearer ${accessToken}`;
 
@@ -50,7 +57,9 @@ api.interceptors.response.use(
           return Promise.reject(err);
         }
       });
+
+      promise.then(setTokens);
     }
     return Promise.reject(error);
-  },
+  }
 );

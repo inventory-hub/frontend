@@ -9,8 +9,10 @@ import {
   FormLabel,
   FormErrorMessage,
   Show,
+  Alert,
+  AlertDescription,
 } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
+import { type SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -19,6 +21,10 @@ import authWarehouseImage from "~/assets/images/auth_warehouse.png";
 import { PrimaryOutlineInput } from "~/components/ui/inputs";
 import { FilledPrimaryButton } from "~/components/ui/buttons";
 import { login } from "~/services/auth-service";
+import { useMutation } from "@tanstack/react-query";
+import { useAuthStore } from "~/stores/auth-store";
+import { useCallback } from "react";
+import { useRouter } from "next/router";
 
 const loginFormSchema = z.object({
   email: z.string().email(),
@@ -28,10 +34,12 @@ const loginFormSchema = z.object({
 type LoginForm = z.infer<typeof loginFormSchema>;
 
 const Login = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
+    setError,
   } = useForm<LoginForm>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -40,6 +48,21 @@ const Login = () => {
     },
     mode: "onBlur",
   });
+
+  const setTokens = useAuthStore((state) => state.setTokens);
+  const loginMutation = useMutation({
+    mutationFn: login,
+    onSuccess: (tokens) => {
+      setTokens(tokens);
+      router.push("/");
+    },
+    onError: (response: { error: string }) =>
+      setError("root", { message: response?.error ?? "Network Error" }),
+  });
+  const onSubmit: SubmitHandler<LoginForm> = useCallback(
+    (data) => loginMutation.mutate(data),
+    [loginMutation]
+  );
 
   return (
     <LandingLayout
@@ -60,7 +83,12 @@ const Login = () => {
             <Heading as="h2" fontSize="2xl" fontWeight="normal" mb="2rem">
               Log in to your account
             </Heading>
-            <chakra.form onSubmit={handleSubmit(login)}>
+            <chakra.form onSubmit={handleSubmit(onSubmit)}>
+              {errors.root?.message && (
+                <Alert status="error">
+                  <AlertDescription>{errors.root?.message}</AlertDescription>
+                </Alert>
+              )}
               <FormControl isInvalid={!!errors.email}>
                 <FormLabel color="primary.outline">Email Address</FormLabel>
                 <PrimaryOutlineInput type="email" {...register("email")} />

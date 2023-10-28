@@ -1,4 +1,3 @@
-import { useAuthStore } from "~/stores/auth-store";
 import { api } from "~/utilities/api";
 
 export type AuthResponse = {
@@ -11,10 +10,12 @@ type LoginPayload = {
   password: string;
 };
 
-export const login = async (payload: LoginPayload) =>
-  api.post<AuthResponse>("/auth", payload);
+/** @throws {AxiosError}*/
+export const login = (payload: LoginPayload) =>
+  api.post<AuthResponse>("/auth/login", payload).then(({ data }) => data);
 
-export const refresh = async () => {
-  const { accessToken } = useAuthStore.getState();
-  return api.post<AuthResponse>("/auth/refresh", { accessToken });
-};
+/** @throws {AxiosError}*/
+export const refresh = (refreshToken: string) =>
+  api
+    .post<AuthResponse>("/auth/refresh", { refreshToken })
+    .then(({ data }) => data);
