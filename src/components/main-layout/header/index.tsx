@@ -1,22 +1,13 @@
-import {
-  Avatar,
-  Box,
-  Divider,
-  Flex,
-  Menu,
-  MenuButton,
-  Skeleton,
-  Text,
-} from "@chakra-ui/react";
-import useUserData from "~/hooks/useUserData";
-import HeaderMenuList from "./HeaderMenuList";
+import { Divider, Flex, Text } from "@chakra-ui/react";
+import HeaderMenu from "./HeaderMenu";
+import { type ReactNode } from "react";
 
 type HeaderProps = {
   pageName: string;
+  children?: ReactNode;
 };
 
-const Header = ({ pageName }: HeaderProps) => {
-  const { isLoading, user } = useUserData();
+const Header = ({ pageName, children }: HeaderProps) => {
   return (
     <Flex
       bg="white"
@@ -26,25 +17,13 @@ const Header = ({ pageName }: HeaderProps) => {
       justifyContent="space-between"
       p={10}
     >
-      <Text fontSize="xl" color="black" fontWeight="bold">
+      <Text fontSize="2xl" color="black" fontWeight="bold">
         {pageName}
       </Text>
-      <Flex>
+      <Flex gap={2} alignItems="center">
+        {children}
         <Divider orientation="vertical" mr={2} />
-        <Skeleton display="flex" isLoaded={!isLoading}>
-          <Menu>
-            <MenuButton aria-label="Toggle user menu">
-              <Avatar />
-            </MenuButton>
-            <HeaderMenuList />
-          </Menu>
-          <Box ml={2}>
-            <Text>{`Names from API ${user?.firstName} ${user?.lastName}`}</Text>
-            <Text fontSize="sm" color="primary.text">
-              Employee #{user?.id}
-            </Text>
-          </Box>
-        </Skeleton>
+        <HeaderMenu />
       </Flex>
     </Flex>
   );

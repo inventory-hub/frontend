@@ -26,6 +26,7 @@ const useUserData = (): UserState => {
   const { isLoading, data } = useQuery({
     queryKey: ["user"],
     queryFn: () => getUserData(storeData!.id),
+    refetchOnMount: false,
     enabled: isLoggedIn,
   });
 
