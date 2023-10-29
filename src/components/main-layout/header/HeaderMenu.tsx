@@ -14,8 +14,20 @@ const HeaderMenu = () => {
 
   return (
     <Skeleton display="flex" isLoaded={!isLoading}>
-      <Menu>
-        <MenuButton aria-label="Toggle user menu">
+      <Menu placement="bottom">
+        <MenuButton
+          transition="all 0.2s ease-in-out"
+          rounded="full"
+          _hover={{
+            outline: "2px solid",
+            outlineColor: "primary.dark",
+          }}
+          _focus={{
+            outline: "2px solid",
+            outlineColor: "primary.dark",
+          }}
+          aria-label="Toggle user menu"
+        >
           <Avatar />
         </MenuButton>
         <HeaderMenuList />

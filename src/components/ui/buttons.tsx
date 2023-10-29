@@ -17,6 +17,7 @@ export const FilledSecondaryButton = (props: ComponentProps<typeof Button>) => (
 
 const filledPrimaryButtonBaseProps = {
   bgColor: "primary.main",
+  color: "primary.text",
   _hover: {
     bgColor: "primary.hover",
     textDecoration: "none",

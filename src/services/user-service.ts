@@ -8,7 +8,8 @@ export type UserData = {
   lastName: string;
   email: string;
   role: number;
-  createdAt: undefined;
+  createdAt: Date;
+  deletedAt: Date | null;
 };
 
 export const getUserData = async (userId: string | number) =>
@@ -23,3 +24,29 @@ export type InviteUserData = {
 
 export const inviteUser = async (data: InviteUserData) =>
   api.post(`/users/invite`, data).then(({ data }) => data);
+
+export type UserFilters = {
+  page?: number;
+  pageSize?: number;
+  search?: string;
+};
+
+export type UserListData = {
+  users: UserData[];
+  totalPages: number;
+};
+
+export const getUsers = async ({
+  page = 1,
+  pageSize = 10,
+  search,
+}: UserFilters) =>
+  api
+    .get<UserListData>(`/users`, {
+      params: {
+        page,
+        pageSize,
+        search,
+      },
+    })
+    .then(({ data }) => data);

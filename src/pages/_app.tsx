@@ -22,9 +22,9 @@ type AppPropsWithLayout = AppProps & {
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const queryClient = useRef(new QueryClient()).current;
 
-  const Layout = Component.Layout ?? Fragment;
+  const Layout = Component.Layout ?? "div";
   return (
-    <div>
+    <>
       <style jsx global>{`
         :root {
           --font-mplus1p: ${mplus1p.style.fontFamily};
@@ -37,7 +37,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
           </Layout>
         </QueryClientProvider>
       </ChakraProvider>
-    </div>
+    </>
   );
 };
 
