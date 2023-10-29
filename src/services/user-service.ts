@@ -7,23 +7,13 @@ export type UserData = {
   firstName: string;
   lastName: string;
   email: string;
-  role: number;
+  role: Roles;
   createdAt: Date;
   deletedAt: Date | null;
 };
 
 export const getUserData = async (userId: string | number) =>
   api.get<UserData>(`/users/${userId}`).then(({ data }) => data);
-
-export type InviteUserData = {
-  email: string;
-  firstName: string;
-  lastName: string;
-  role: Roles;
-};
-
-export const inviteUser = async (data: InviteUserData) =>
-  api.post(`/users/invite`, data).then(({ data }) => data);
 
 export type UserFilters = {
   page?: number;

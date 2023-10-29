@@ -1,3 +1,4 @@
+import type Roles from "~/enums/Roles";
 import { api } from "~/utilities/api";
 
 export type AuthResponse = {
@@ -19,3 +20,13 @@ export const refresh = (refreshToken: string) =>
   api
     .post<AuthResponse>("/auth/refresh", { refreshToken })
     .then(({ data }) => data);
+
+export type InviteUserData = {
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: Roles;
+};
+
+export const inviteUser = async (data: InviteUserData) =>
+  api.post(`/auth/invite`, data).then(({ data }) => data);

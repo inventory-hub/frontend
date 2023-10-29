@@ -30,3 +30,18 @@ const filledPrimaryButtonBaseProps = {
 export const FilledPrimaryButton = (props: ComponentProps<typeof Button>) => (
   <Button {...filledPrimaryButtonBaseProps} {...props} />
 );
+
+const outlinePrimaryButtonBaseProps = {
+  variant: "outline",
+  color: "primary.dark",
+  borderColor: "primary.dark",
+  _hover: {
+    borderColor: "primary.main",
+    color: "primary.main",
+  },
+  focusBorderColor: "primary.main",
+};
+
+export const OutlinePrimaryButton = (props: ComponentProps<typeof Button>) => (
+  <Button {...outlinePrimaryButtonBaseProps} {...props} />
+);
