@@ -12,7 +12,6 @@ const TeamPage = () => {
   const usersQuery = useQuery({
     queryKey: ["users", `users:${search}`],
     queryFn: () => getUsers({ search: search as string }),
-    enabled: search !== undefined,
   });
   return (
     <MainLayout pageName="Team" headerContent={<UserSearch />}>

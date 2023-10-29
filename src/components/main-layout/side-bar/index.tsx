@@ -15,11 +15,11 @@ import { type ActionItem } from "./SideBarAction";
 const actionItems: ActionItem[] = [
   { name: "Dashboard", icon: MdOutlineSpaceDashboard, href: "/app" },
   {
-    name: "Seller Packages",
+    name: "Orders",
     icon: MdOutlineInbox,
-    href: "/app/seller-packages",
+    href: "/app/orders",
   },
-  { name: "Inventory", icon: MdOutlineInventory2, href: "/app/inventory" },
+  { name: "Products", icon: MdOutlineInventory2, href: "/app/products" },
   { name: "Team", icon: MdPeopleOutline, href: "/app/team" },
   { name: "Alerts", icon: MdOutlineAlarm, href: "/app/alerts" },
 ];

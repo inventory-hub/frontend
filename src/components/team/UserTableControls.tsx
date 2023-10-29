@@ -19,7 +19,12 @@ const UserTableControls = () => {
         p={2}
         visibility={isInviteAuthorized || isLoading ? "visible" : "hidden"}
       >
-        <Tooltip hasArrow label="Invite user" aria-label={INVITE_LABEL}>
+        <Tooltip
+          hasArrow
+          label="Invite user"
+          placement="top"
+          aria-label={INVITE_LABEL}
+        >
           <IconButton
             outline="2px solid"
             outlineColor="primary.dark"
