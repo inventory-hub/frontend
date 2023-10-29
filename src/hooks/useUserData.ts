@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
+import { type UserData, getUserData } from "~/services/user-service";
 import { useAuthStore } from "~/stores/auth-store";
 
 type UserState =
   | {
       isLoggedIn: true;
       isLoading: false;
-      user: any;
+      user: UserData;
     }
   | {
       isLoggedIn: false;
@@ -19,13 +20,20 @@ type UserState =
     };
 
 const useUserData = (): UserState => {
+  const storeData = useAuthStore((state) => state.data);
+  const isLoggedIn = !!storeData;
+
   const { isLoading, data } = useQuery({
     queryKey: ["user"],
-    queryFn: () => Promise.resolve({}),
+    queryFn: () => getUserData(storeData!.id),
+    enabled: isLoggedIn,
   });
-  const isLoggedIn = useAuthStore((state) => !!state.data);
 
-  return { isLoggedIn, isLoading, user: data } as UserState;
+  return {
+    isLoggedIn,
+    isLoading: isLoading && isLoggedIn,
+    user: data,
+  } as UserState;
 };
 
 export default useUserData;

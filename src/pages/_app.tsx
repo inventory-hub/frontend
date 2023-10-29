@@ -24,7 +24,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
 
   const Layout = Component.Layout ?? Fragment;
   return (
-    <>
+    <div>
       <style jsx global>{`
         :root {
           --font-mplus1p: ${mplus1p.style.fontFamily};
@@ -37,7 +37,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
           </Layout>
         </QueryClientProvider>
       </ChakraProvider>
-    </>
+    </div>
   );
 };
 

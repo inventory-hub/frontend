@@ -54,7 +54,7 @@ const Login = () => {
     mutationFn: login,
     onSuccess: (tokens) => {
       setTokens(tokens);
-      router.push("/");
+      router.push("/app");
     },
     onError: (response: { error: string }) =>
       setError("root", { message: response?.error ?? "Network Error" }),

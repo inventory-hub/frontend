@@ -5,8 +5,8 @@ import { decodeJwt } from "~/utilities/auth";
 type JWTData = {
   exp: number;
   iat: number;
-  sub: string;
-  username: string;
+  id: number;
+  role: number;
 };
 
 type AuthState =
@@ -60,6 +60,6 @@ export const useAuthStore = create<AuthStore>()(
     {
       name: "auth-state",
       getStorage: () => localStorage,
-    },
-  ),
+    }
+  )
 );
