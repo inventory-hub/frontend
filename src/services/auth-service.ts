@@ -21,6 +21,15 @@ export const refresh = (refreshToken: string) =>
     .post<AuthResponse>("/auth/refresh", { refreshToken })
     .then(({ data }) => data);
 
+export type SignUpPayload = {
+  token: string;
+  username: string;
+  password: string;
+};
+
+export const signUp = (payload: SignUpPayload) =>
+  api.post<AuthResponse>("/auth/register", payload).then(({ data }) => data);
+
 export type InviteUserData = {
   email: string;
   firstName: string;
