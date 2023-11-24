@@ -1,12 +1,14 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+
+import type JwtRoles from "~/enums/JwtRoles";
 import { decodeJwt } from "~/utilities/auth";
 
 type JWTData = {
   exp: number;
   iat: number;
   id: number;
-  role: number;
+  role: JwtRoles;
 };
 
 type AuthState =

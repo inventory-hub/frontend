@@ -5,7 +5,9 @@ import InviteUserFormButton from "./InviteUserFormButton";
 
 const UserTableControls = () => {
   const { isLoading, user } = useUserData();
+  console.log(user);
   const isInviteAuthorized =
+    // remove tautology when endpoint is fixed
     true || user?.role === Roles.Admin || user?.role === Roles.Manager;
 
   return (

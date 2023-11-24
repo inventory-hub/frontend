@@ -28,7 +28,8 @@ const HeaderMenuList = () => {
   const logout = useAuthStore((state) => state.logout);
   const handleLogout = () => {
     logout();
-    router.push("/login", {
+    router.replace({
+      pathname: "/login",
       query: {
         redirect: router.pathname,
       },
