@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "hasura": "hasura --project ./hasura --skip-update-check",
+    "hasura:console": "pnpm hasura console",
+    "hasura:apply": "pnpm hasura metadata apply && pnpm hasura migrations apply",
+    "hasura:seed": "pnpm run hasura seeds apply"
   },
   "packageManager": "pnpm@8.7.6",
   "dependencies": {
@@ -36,6 +40,7 @@
     "eslint-config-next": "14.0.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.1",
+    "hasura-cli": "^2.36.1",
     "prettier": "^3.0.3",
     "typescript": "5.2.2"
   }
