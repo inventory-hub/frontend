@@ -9,7 +9,7 @@
     "lint": "next lint",
     "hasura": "hasura --project ./hasura --skip-update-check",
     "hasura:console": "pnpm hasura console",
-    "hasura:apply": "pnpm hasura metadata apply && pnpm hasura migrations apply",
+    "hasura:apply": "pnpm hasura migrate apply && pnpm hasura md apply",
     "hasura:seed": "pnpm run hasura seeds apply"
   },
   "packageManager": "pnpm@8.7.6",
