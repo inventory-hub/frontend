@@ -1,15 +1,15 @@
 table:
-  name: products
+  name: orders
   schema: public
 object_relationships:
-  - name: category
+  - name: order_state
     using:
-      foreign_key_constraint_on: category_id
+      foreign_key_constraint_on: state
 array_relationships:
   - name: orders_items
     using:
       foreign_key_constraint_on:
-        column: product_id
+        column: order_id
         table:
           name: orders_items
           schema: public
