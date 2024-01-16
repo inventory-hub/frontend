@@ -1,0 +1,2 @@
+CREATE TABLE "audit"."product_stock_additions" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "created_at" timestamptz NOT NULL DEFAULT now(), "product_id" uuid NOT NULL, "added_count" integer NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("product_id") REFERENCES "public"."products"("id") ON UPDATE restrict ON DELETE restrict);COMMENT ON TABLE "audit"."product_stock_additions" IS E'audits product stock additions';
+CREATE EXTENSION IF NOT EXISTS pgcrypto;

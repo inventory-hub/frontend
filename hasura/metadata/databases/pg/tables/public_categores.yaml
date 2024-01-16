@@ -1,12 +1,11 @@
 table:
-  name: alert_operators
+  name: categores
   schema: public
-is_enum: true
 array_relationships:
-  - name: product_alerts
+  - name: products
     using:
       foreign_key_constraint_on:
-        column: operator
+        column: category_id
         table:
-          name: product_alerts
+          name: products
           schema: public
