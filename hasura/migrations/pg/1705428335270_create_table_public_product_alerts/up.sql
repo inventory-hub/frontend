@@ -1,0 +1,2 @@
+CREATE TABLE "public"."product_alerts" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "product_id" uuid NOT NULL, "operator" text NOT NULL, "count_operand" integer NOT NULL, "user_id" uuid NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("operator") REFERENCES "public"."alert_operators"("operator") ON UPDATE restrict ON DELETE restrict, UNIQUE ("product_id", "operator", "user_id"));COMMENT ON TABLE "public"."product_alerts" IS E'Alerts for notifying a user about product stock changes';
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
