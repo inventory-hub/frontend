@@ -5,6 +5,7 @@ const config = {
   extends: ["next/core-web-vitals", "prettier"],
   plugins: ["@typescript-eslint", "prettier"],
   parser: "@typescript-eslint/parser",
+  ignorePatterns: ["node_modules", ".next", "generated", "apollo.config.js"],
   parserOptions: {
     project: path.join(__dirname, "tsconfig.json"),
   },
