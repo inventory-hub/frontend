@@ -9,7 +9,7 @@
     "lint": "next lint",
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
     "hasura": "hasura --project ./hasura --skip-update-check --database-name=pg",
-    "hasura:console": "pnpm hasura console",
+    "hasura:console": "hasura --project ./hasura --skip-update-check console",
     "hasura:apply": "pnpm hasura migrate apply && pnpm hasura md apply",
     "hasura:seed": "pnpm hasura seeds apply",
     "codegen:graphql": "graphql-codegen --config codegen.yml",
