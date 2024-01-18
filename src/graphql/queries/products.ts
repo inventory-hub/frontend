@@ -1,7 +1,7 @@
 import { gql } from "graphql-request";
 
 export const GET_PRODUCTS_OVERVIEW = gql`
-  query GetProducts {
+  query GetProductsOverview {
     products {
       id
       name
@@ -11,6 +11,7 @@ export const GET_PRODUCTS_OVERVIEW = gql`
       }
       imageUrl
       quantity
+      hash_name
     }
   }
 `;
