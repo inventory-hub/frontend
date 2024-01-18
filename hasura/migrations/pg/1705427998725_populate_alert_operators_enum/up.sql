@@ -1,1 +1,6 @@
-truncate table "public"."alert_operators";
+INSERT INTO "public"."alert_operators"("operator")
+VALUES
+    ('LessThan'),
+    ('Equal'),
+    ('MoreThan')
+;

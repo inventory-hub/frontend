@@ -1,8 +1,1 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- INSERT INTO "public"."alert_operators"("operator")
--- VALUES
---     ('LessThan'),
---     ('Equal'),
---     ('MoreThan')
--- ;
+truncate table "public"."alert_operators";
