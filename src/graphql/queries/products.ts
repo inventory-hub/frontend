@@ -10,6 +10,7 @@ export const GET_PRODUCTS_OVERVIEW = gql`
         name
       }
       imageUrl
+      quantity
     }
   }
 `;

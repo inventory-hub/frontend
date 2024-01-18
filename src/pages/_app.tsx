@@ -1,10 +1,6 @@
 import type { AppProps } from "next/app";
-import {
-  type ReactNode,
-  useRef,
-  type PropsWithChildren,
-  Fragment,
-} from "react";
+import { type ReactNode, useRef, type PropsWithChildren } from "react";
+import { Client, Provider, cacheExchange, fetchExchange } from "urql";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ChakraProvider } from "@chakra-ui/react";
 import { theme } from "~/utilities/theme";
@@ -19,6 +15,11 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
+const client = new Client({
+  url: "http://localhost:8080/v1/graphql",
+  exchanges: [cacheExchange, fetchExchange],
+});
+
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const queryClient = useRef(new QueryClient()).current;
 
@@ -32,9 +33,11 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
       `}</style>
       <ChakraProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <Provider value={client}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </Provider>
         </QueryClientProvider>
       </ChakraProvider>
     </>
