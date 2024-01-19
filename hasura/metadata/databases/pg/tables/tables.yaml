@@ -1,4 +1,5 @@
 - "!include audit_product_stock_additions.yaml"
+- "!include public_accounts.yaml"
 - "!include public_alert_operators.yaml"
 - "!include public_categories.yaml"
 - "!include public_order_states.yaml"
@@ -6,4 +7,6 @@
 - "!include public_orders_items.yaml"
 - "!include public_product_alerts.yaml"
 - "!include public_products.yaml"
+- "!include public_sessions.yaml"
 - "!include public_users.yaml"
+- "!include public_verification_tokens.yaml"

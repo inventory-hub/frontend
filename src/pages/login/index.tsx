@@ -1,3 +1,5 @@
+import { useCallback } from "react";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 import {
   chakra,
@@ -15,16 +17,12 @@ import {
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/router";
 
 import LandingLayout from "~/components/landing/landing-layout";
 import authWarehouseImage from "~/assets/images/auth_warehouse.png";
 import { PrimaryOutlineInput } from "~/components/ui/inputs";
 import { FilledPrimaryButton } from "~/components/ui/buttons";
-import { login } from "~/services/auth-service";
-import { useMutation } from "@tanstack/react-query";
-import { useAuthStore } from "~/stores/auth-store";
-import { useCallback } from "react";
-import { useRouter } from "next/router";
 
 const loginFormSchema = z.object({
   email: z.string().email(),
@@ -50,19 +48,17 @@ const Login = () => {
     mode: "onBlur",
   });
 
-  const setTokens = useAuthStore((state) => state.setTokens);
-  const loginMutation = useMutation({
-    mutationFn: login,
-    onSuccess: (tokens) => {
-      setTokens(tokens);
-      router.push(redirectUrl);
-    },
-    onError: (response: { error: string }) =>
-      setError("root", { message: response?.error ?? "Network Error" }),
-  });
   const onSubmit: SubmitHandler<LoginForm> = useCallback(
-    (data) => loginMutation.mutate(data),
-    [loginMutation]
+    (data) => {
+      signIn(
+        "credentials",
+        {
+          callbackUrl: redirectUrl,
+        },
+        data
+      ).catch((error) => setError("root", { message: error }));
+    },
+    [setError, redirectUrl]
   );
 
   return (

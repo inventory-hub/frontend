@@ -1,11 +1,13 @@
-import type { AppProps } from "next/app";
 import { type ReactNode, useRef, type PropsWithChildren } from "react";
 import { Client, Provider, cacheExchange, fetchExchange } from "urql";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ChakraProvider } from "@chakra-ui/react";
+import { SessionProvider } from "next-auth/react";
+import { type NextPage } from "next";
+import type { AppProps } from "next/app";
+
 import { theme } from "~/utilities/theme";
 import { mplus1p } from "~/utilities/fonts";
-import { type NextPage } from "next";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   Layout?: (props: PropsWithChildren) => ReactNode;
@@ -20,7 +22,10 @@ const client = new Client({
   exchanges: [cacheExchange, fetchExchange],
 });
 
-const App = ({ Component, pageProps }: AppPropsWithLayout) => {
+const App = ({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppPropsWithLayout) => {
   const queryClient = useRef(new QueryClient()).current;
 
   const Layout = Component.Layout ?? "div";
@@ -31,15 +36,17 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
           --font-mplus1p: ${mplus1p.style.fontFamily};
         }
       `}</style>
-      <ChakraProvider theme={theme}>
-        <QueryClientProvider client={queryClient}>
-          <Provider value={client}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </Provider>
-        </QueryClientProvider>
-      </ChakraProvider>
+      <SessionProvider session={session}>
+        <ChakraProvider theme={theme}>
+          <QueryClientProvider client={queryClient}>
+            <Provider value={client}>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </Provider>
+          </QueryClientProvider>
+        </ChakraProvider>
+      </SessionProvider>
     </>
   );
 };
