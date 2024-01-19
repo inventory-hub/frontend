@@ -1,5 +1,6 @@
 import { randomBytes, pbkdf2 as _pbkdf2 } from "node:crypto";
 import { promisify } from "node:util";
+import { customAlphabet } from "nanoid";
 
 const ITERATIONS = 1000;
 const pbkdf2 = promisify(_pbkdf2);
@@ -18,3 +19,7 @@ export const verifyPassword = async (
   const verifyHash = await pbkdf2(password, salt, ITERATIONS, 64, "sha512");
   return verifyHash.toString("hex") === hash;
 };
+
+const nanoid = customAlphabet("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ", 16);
+
+export const generateInvitationToken = () => nanoid(16);

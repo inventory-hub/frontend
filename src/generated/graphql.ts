@@ -30,6 +30,26 @@ export type Int_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
+export type InviteUserInput = {
+  email: Scalars['String']['input'];
+  first_name: Scalars['String']['input'];
+  last_name: Scalars['String']['input'];
+  role: RolesEnum;
+};
+
+export type InviteUserOutput = {
+  __typename?: 'InviteUserOutput';
+  error?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+};
+
+export enum RolesEnum {
+  Admin = 'admin',
+  Manager = 'manager',
+  ReadonlyUser = 'readonly_user',
+  User = 'user'
+}
+
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
 export type String_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['String']['input']>;
@@ -1046,6 +1066,188 @@ export enum Cursor_Ordering {
   Desc = 'DESC'
 }
 
+/** users invited to the platform */
+export type Draft_Users = {
+  __typename?: 'draft_users';
+  email: Scalars['String']['output'];
+  first_name: Scalars['String']['output'];
+  id: Scalars['uuid']['output'];
+  invitation_token: Scalars['String']['output'];
+  last_name: Scalars['String']['output'];
+  role: Roles_Enum;
+};
+
+/** aggregated selection of "draft_users" */
+export type Draft_Users_Aggregate = {
+  __typename?: 'draft_users_aggregate';
+  aggregate?: Maybe<Draft_Users_Aggregate_Fields>;
+  nodes: Array<Draft_Users>;
+};
+
+/** aggregate fields of "draft_users" */
+export type Draft_Users_Aggregate_Fields = {
+  __typename?: 'draft_users_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Draft_Users_Max_Fields>;
+  min?: Maybe<Draft_Users_Min_Fields>;
+};
+
+
+/** aggregate fields of "draft_users" */
+export type Draft_Users_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Draft_Users_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "draft_users". All fields are combined with a logical 'AND'. */
+export type Draft_Users_Bool_Exp = {
+  _and?: InputMaybe<Array<Draft_Users_Bool_Exp>>;
+  _not?: InputMaybe<Draft_Users_Bool_Exp>;
+  _or?: InputMaybe<Array<Draft_Users_Bool_Exp>>;
+  email?: InputMaybe<String_Comparison_Exp>;
+  first_name?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  invitation_token?: InputMaybe<String_Comparison_Exp>;
+  last_name?: InputMaybe<String_Comparison_Exp>;
+  role?: InputMaybe<Roles_Enum_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "draft_users" */
+export enum Draft_Users_Constraint {
+  /** unique or primary key constraint on columns "email" */
+  DraftUsersEmailKey = 'draft_users_email_key',
+  /** unique or primary key constraint on columns "id" */
+  DraftUsersPkey = 'draft_users_pkey'
+}
+
+/** input type for inserting data into table "draft_users" */
+export type Draft_Users_Insert_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  first_name?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  invitation_token?: InputMaybe<Scalars['String']['input']>;
+  last_name?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<Roles_Enum>;
+};
+
+/** aggregate max on columns */
+export type Draft_Users_Max_Fields = {
+  __typename?: 'draft_users_max_fields';
+  email?: Maybe<Scalars['String']['output']>;
+  first_name?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  invitation_token?: Maybe<Scalars['String']['output']>;
+  last_name?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type Draft_Users_Min_Fields = {
+  __typename?: 'draft_users_min_fields';
+  email?: Maybe<Scalars['String']['output']>;
+  first_name?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  invitation_token?: Maybe<Scalars['String']['output']>;
+  last_name?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "draft_users" */
+export type Draft_Users_Mutation_Response = {
+  __typename?: 'draft_users_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Draft_Users>;
+};
+
+/** on_conflict condition type for table "draft_users" */
+export type Draft_Users_On_Conflict = {
+  constraint: Draft_Users_Constraint;
+  update_columns?: Array<Draft_Users_Update_Column>;
+  where?: InputMaybe<Draft_Users_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "draft_users". */
+export type Draft_Users_Order_By = {
+  email?: InputMaybe<Order_By>;
+  first_name?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  invitation_token?: InputMaybe<Order_By>;
+  last_name?: InputMaybe<Order_By>;
+  role?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: draft_users */
+export type Draft_Users_Pk_Columns_Input = {
+  id: Scalars['uuid']['input'];
+};
+
+/** select columns of table "draft_users" */
+export enum Draft_Users_Select_Column {
+  /** column name */
+  Email = 'email',
+  /** column name */
+  FirstName = 'first_name',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  InvitationToken = 'invitation_token',
+  /** column name */
+  LastName = 'last_name',
+  /** column name */
+  Role = 'role'
+}
+
+/** input type for updating data in table "draft_users" */
+export type Draft_Users_Set_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  first_name?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  invitation_token?: InputMaybe<Scalars['String']['input']>;
+  last_name?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<Roles_Enum>;
+};
+
+/** Streaming cursor of the table "draft_users" */
+export type Draft_Users_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Draft_Users_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Draft_Users_Stream_Cursor_Value_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  first_name?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  invitation_token?: InputMaybe<Scalars['String']['input']>;
+  last_name?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<Roles_Enum>;
+};
+
+/** update columns of table "draft_users" */
+export enum Draft_Users_Update_Column {
+  /** column name */
+  Email = 'email',
+  /** column name */
+  FirstName = 'first_name',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  InvitationToken = 'invitation_token',
+  /** column name */
+  LastName = 'last_name',
+  /** column name */
+  Role = 'role'
+}
+
+export type Draft_Users_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Draft_Users_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Draft_Users_Bool_Exp;
+};
+
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
@@ -1065,6 +1267,10 @@ export type Mutation_Root = {
   delete_categories?: Maybe<Categories_Mutation_Response>;
   /** delete single row from the table: "categories" */
   delete_categories_by_pk?: Maybe<Categories>;
+  /** delete data from the table: "draft_users" */
+  delete_draft_users?: Maybe<Draft_Users_Mutation_Response>;
+  /** delete single row from the table: "draft_users" */
+  delete_draft_users_by_pk?: Maybe<Draft_Users>;
   /** delete data from the table: "order_states" */
   delete_order_states?: Maybe<Order_States_Mutation_Response>;
   /** delete single row from the table: "order_states" */
@@ -1117,6 +1323,10 @@ export type Mutation_Root = {
   insert_categories?: Maybe<Categories_Mutation_Response>;
   /** insert a single row into the table: "categories" */
   insert_categories_one?: Maybe<Categories>;
+  /** insert data into the table: "draft_users" */
+  insert_draft_users?: Maybe<Draft_Users_Mutation_Response>;
+  /** insert a single row into the table: "draft_users" */
+  insert_draft_users_one?: Maybe<Draft_Users>;
   /** insert data into the table: "order_states" */
   insert_order_states?: Maybe<Order_States_Mutation_Response>;
   /** insert a single row into the table: "order_states" */
@@ -1153,6 +1363,7 @@ export type Mutation_Root = {
   insert_verification_tokens?: Maybe<Verification_Tokens_Mutation_Response>;
   /** insert a single row into the table: "verification_tokens" */
   insert_verification_tokens_one?: Maybe<Verification_Tokens>;
+  invite_user?: Maybe<InviteUserOutput>;
   /** update data of the table: "accounts" */
   update_accounts?: Maybe<Accounts_Mutation_Response>;
   /** update single row of the table: "accounts" */
@@ -1177,6 +1388,12 @@ export type Mutation_Root = {
   update_categories_by_pk?: Maybe<Categories>;
   /** update multiples rows of table: "categories" */
   update_categories_many?: Maybe<Array<Maybe<Categories_Mutation_Response>>>;
+  /** update data of the table: "draft_users" */
+  update_draft_users?: Maybe<Draft_Users_Mutation_Response>;
+  /** update single row of the table: "draft_users" */
+  update_draft_users_by_pk?: Maybe<Draft_Users>;
+  /** update multiples rows of table: "draft_users" */
+  update_draft_users_many?: Maybe<Array<Maybe<Draft_Users_Mutation_Response>>>;
   /** update data of the table: "order_states" */
   update_order_states?: Maybe<Order_States_Mutation_Response>;
   /** update single row of the table: "order_states" */
@@ -1278,6 +1495,18 @@ export type Mutation_RootDelete_CategoriesArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Categories_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Draft_UsersArgs = {
+  where: Draft_Users_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Draft_Users_By_PkArgs = {
   id: Scalars['uuid']['input'];
 };
 
@@ -1447,6 +1676,20 @@ export type Mutation_RootInsert_Categories_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_Draft_UsersArgs = {
+  objects: Array<Draft_Users_Insert_Input>;
+  on_conflict?: InputMaybe<Draft_Users_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Draft_Users_OneArgs = {
+  object: Draft_Users_Insert_Input;
+  on_conflict?: InputMaybe<Draft_Users_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_Order_StatesArgs = {
   objects: Array<Order_States_Insert_Input>;
   on_conflict?: InputMaybe<Order_States_On_Conflict>;
@@ -1573,6 +1816,12 @@ export type Mutation_RootInsert_Verification_Tokens_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInvite_UserArgs = {
+  data?: InputMaybe<InviteUserInput>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_AccountsArgs = {
   _inc?: InputMaybe<Accounts_Inc_Input>;
   _set?: InputMaybe<Accounts_Set_Input>;
@@ -1653,6 +1902,26 @@ export type Mutation_RootUpdate_Categories_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Categories_ManyArgs = {
   updates: Array<Categories_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Draft_UsersArgs = {
+  _set?: InputMaybe<Draft_Users_Set_Input>;
+  where: Draft_Users_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Draft_Users_By_PkArgs = {
+  _set?: InputMaybe<Draft_Users_Set_Input>;
+  pk_columns: Draft_Users_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Draft_Users_ManyArgs = {
+  updates: Array<Draft_Users_Updates>;
 };
 
 
@@ -3394,6 +3663,12 @@ export type Query_Root = {
   categories_aggregate: Categories_Aggregate;
   /** fetch data from the table: "categories" using primary key columns */
   categories_by_pk?: Maybe<Categories>;
+  /** fetch data from the table: "draft_users" */
+  draft_users: Array<Draft_Users>;
+  /** fetch aggregated fields from the table: "draft_users" */
+  draft_users_aggregate: Draft_Users_Aggregate;
+  /** fetch data from the table: "draft_users" using primary key columns */
+  draft_users_by_pk?: Maybe<Draft_Users>;
   /** fetch data from the table: "order_states" */
   order_states: Array<Order_States>;
   /** fetch aggregated fields from the table: "order_states" */
@@ -3539,6 +3814,29 @@ export type Query_RootCategories_AggregateArgs = {
 
 
 export type Query_RootCategories_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootDraft_UsersArgs = {
+  distinct_on?: InputMaybe<Array<Draft_Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Draft_Users_Order_By>>;
+  where?: InputMaybe<Draft_Users_Bool_Exp>;
+};
+
+
+export type Query_RootDraft_Users_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Draft_Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Draft_Users_Order_By>>;
+  where?: InputMaybe<Draft_Users_Bool_Exp>;
+};
+
+
+export type Query_RootDraft_Users_By_PkArgs = {
   id: Scalars['uuid']['input'];
 };
 
@@ -4079,6 +4377,14 @@ export type Subscription_Root = {
   categories_by_pk?: Maybe<Categories>;
   /** fetch data from the table in a streaming manner: "categories" */
   categories_stream: Array<Categories>;
+  /** fetch data from the table: "draft_users" */
+  draft_users: Array<Draft_Users>;
+  /** fetch aggregated fields from the table: "draft_users" */
+  draft_users_aggregate: Draft_Users_Aggregate;
+  /** fetch data from the table: "draft_users" using primary key columns */
+  draft_users_by_pk?: Maybe<Draft_Users>;
+  /** fetch data from the table in a streaming manner: "draft_users" */
+  draft_users_stream: Array<Draft_Users>;
   /** fetch data from the table: "order_states" */
   order_states: Array<Order_States>;
   /** fetch aggregated fields from the table: "order_states" */
@@ -4271,6 +4577,36 @@ export type Subscription_RootCategories_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Categories_Stream_Cursor_Input>>;
   where?: InputMaybe<Categories_Bool_Exp>;
+};
+
+
+export type Subscription_RootDraft_UsersArgs = {
+  distinct_on?: InputMaybe<Array<Draft_Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Draft_Users_Order_By>>;
+  where?: InputMaybe<Draft_Users_Bool_Exp>;
+};
+
+
+export type Subscription_RootDraft_Users_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Draft_Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Draft_Users_Order_By>>;
+  where?: InputMaybe<Draft_Users_Bool_Exp>;
+};
+
+
+export type Subscription_RootDraft_Users_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootDraft_Users_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Draft_Users_Stream_Cursor_Input>>;
+  where?: InputMaybe<Draft_Users_Bool_Exp>;
 };
 
 
@@ -4561,8 +4897,12 @@ export type Users = {
   __typename?: 'users';
   email?: Maybe<Scalars['String']['output']>;
   emailVerified?: Maybe<Scalars['timestamptz']['output']>;
+  first_name: Scalars['String']['output'];
+  /** A computed field, executes function "get_full_name" */
+  full_name?: Maybe<Scalars['String']['output']>;
   id: Scalars['uuid']['output'];
   image?: Maybe<Scalars['String']['output']>;
+  last_name: Scalars['String']['output'];
   name?: Maybe<Scalars['String']['output']>;
   role: Roles_Enum;
 };
@@ -4596,8 +4936,11 @@ export type Users_Bool_Exp = {
   _or?: InputMaybe<Array<Users_Bool_Exp>>;
   email?: InputMaybe<String_Comparison_Exp>;
   emailVerified?: InputMaybe<Timestamptz_Comparison_Exp>;
+  first_name?: InputMaybe<String_Comparison_Exp>;
+  full_name?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   image?: InputMaybe<String_Comparison_Exp>;
+  last_name?: InputMaybe<String_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   role?: InputMaybe<Roles_Enum_Comparison_Exp>;
 };
@@ -4614,8 +4957,10 @@ export enum Users_Constraint {
 export type Users_Insert_Input = {
   email?: InputMaybe<Scalars['String']['input']>;
   emailVerified?: InputMaybe<Scalars['timestamptz']['input']>;
+  first_name?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   image?: InputMaybe<Scalars['String']['input']>;
+  last_name?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<Roles_Enum>;
 };
@@ -4625,8 +4970,12 @@ export type Users_Max_Fields = {
   __typename?: 'users_max_fields';
   email?: Maybe<Scalars['String']['output']>;
   emailVerified?: Maybe<Scalars['timestamptz']['output']>;
+  first_name?: Maybe<Scalars['String']['output']>;
+  /** A computed field, executes function "get_full_name" */
+  full_name?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   image?: Maybe<Scalars['String']['output']>;
+  last_name?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
 };
 
@@ -4635,8 +4984,12 @@ export type Users_Min_Fields = {
   __typename?: 'users_min_fields';
   email?: Maybe<Scalars['String']['output']>;
   emailVerified?: Maybe<Scalars['timestamptz']['output']>;
+  first_name?: Maybe<Scalars['String']['output']>;
+  /** A computed field, executes function "get_full_name" */
+  full_name?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   image?: Maybe<Scalars['String']['output']>;
+  last_name?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
 };
 
@@ -4660,8 +5013,11 @@ export type Users_On_Conflict = {
 export type Users_Order_By = {
   email?: InputMaybe<Order_By>;
   emailVerified?: InputMaybe<Order_By>;
+  first_name?: InputMaybe<Order_By>;
+  full_name?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   image?: InputMaybe<Order_By>;
+  last_name?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   role?: InputMaybe<Order_By>;
 };
@@ -4678,9 +5034,13 @@ export enum Users_Select_Column {
   /** column name */
   EmailVerified = 'emailVerified',
   /** column name */
+  FirstName = 'first_name',
+  /** column name */
   Id = 'id',
   /** column name */
   Image = 'image',
+  /** column name */
+  LastName = 'last_name',
   /** column name */
   Name = 'name',
   /** column name */
@@ -4691,8 +5051,10 @@ export enum Users_Select_Column {
 export type Users_Set_Input = {
   email?: InputMaybe<Scalars['String']['input']>;
   emailVerified?: InputMaybe<Scalars['timestamptz']['input']>;
+  first_name?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   image?: InputMaybe<Scalars['String']['input']>;
+  last_name?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<Roles_Enum>;
 };
@@ -4709,8 +5071,10 @@ export type Users_Stream_Cursor_Input = {
 export type Users_Stream_Cursor_Value_Input = {
   email?: InputMaybe<Scalars['String']['input']>;
   emailVerified?: InputMaybe<Scalars['timestamptz']['input']>;
+  first_name?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   image?: InputMaybe<Scalars['String']['input']>;
+  last_name?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<Roles_Enum>;
 };
@@ -4722,9 +5086,13 @@ export enum Users_Update_Column {
   /** column name */
   EmailVerified = 'emailVerified',
   /** column name */
+  FirstName = 'first_name',
+  /** column name */
   Id = 'id',
   /** column name */
   Image = 'image',
+  /** column name */
+  LastName = 'last_name',
   /** column name */
   Name = 'name',
   /** column name */
@@ -4897,6 +5265,13 @@ export type Verification_Tokens_Updates = {
   where: Verification_Tokens_Bool_Exp;
 };
 
+export type InviteUserMutationVariables = Exact<{
+  data: InviteUserInput;
+}>;
+
+
+export type InviteUserMutation = { __typename?: 'mutation_root', invited_user?: { __typename?: 'InviteUserOutput', id?: string | null } | null };
+
 export type GetOrdersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -4906,3 +5281,17 @@ export type GetProductsOverviewQueryVariables = Exact<{ [key: string]: never; }>
 
 
 export type GetProductsOverviewQuery = { __typename?: 'query_root', products: Array<{ __typename?: 'products', id: any, name: string, description: string, imageUrl: string, quantity: number, hash_name: string, category: { __typename?: 'categories', name: string } }> };
+
+export type CreateDraftUserMutationVariables = Exact<{
+  user: Draft_Users_Insert_Input;
+}>;
+
+
+export type CreateDraftUserMutation = { __typename?: 'mutation_root', user?: { __typename?: 'draft_users', id: any } | null };
+
+export type GetUsersEmailExistsQueryVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type GetUsersEmailExistsQuery = { __typename?: 'query_root', users_aggregate: { __typename?: 'users_aggregate', aggregate?: { __typename?: 'users_aggregate_fields', count: number } | null } };
