@@ -4,6 +4,27 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { type JWT } from "next-auth/jwt";
 import { HasuraAdapter } from "next-auth-hasura-adapter";
 import * as jsonwebtoken from "jsonwebtoken";
+import { gql } from "graphql-request";
+import { graphqlRequest } from "~/server/graphql";
+import {
+  type GetUserAccountsByEmailQuery,
+  type GetUserAccountsByEmailQueryVariables,
+} from "~/generated/graphql";
+import { verifyPassword } from "~/server/auth";
+
+const GET_USER_ACCOUNTS_BY_EMAIL_QUERY = gql`
+  query GetUserAccountsByEmail($email: String!) {
+    users(where: { email: { _eq: $email } }) {
+      accounts(where: { provider: { _eq: "credentials" } }) {
+        salt
+        password_hash
+      }
+      id
+      name
+      email
+    }
+  }
+`;
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
@@ -19,16 +40,33 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
-        // Add logic here to look up the user from the credentials supplied
-        // You can also use the req param to obtain additional parameters
-        // (i.e., the request IP address)
+      async authorize(credentials, _req) {
+        if (!credentials) {
+          return null;
+        }
+        const { email, password } = credentials;
+        const user = await graphqlRequest<
+          GetUserAccountsByEmailQuery,
+          GetUserAccountsByEmailQueryVariables
+        >(GET_USER_ACCOUNTS_BY_EMAIL_QUERY, {
+          email,
+        }).then((response) => response.users[0]);
+        if (!user || !user.accounts[0]) {
+          return null;
+        }
 
-        return {
-          id: "1",
-          name: "Test User",
-          email: "asdf",
-        };
+        const { accounts, id, name } = user;
+        const { salt, password_hash } = accounts[0];
+        const isPasswordValid = await verifyPassword(
+          password,
+          password_hash!,
+          salt!
+        );
+        if (!isPasswordValid) {
+          return null;
+        }
+
+        return { id, name, email };
       },
     }),
   ],

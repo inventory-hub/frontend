@@ -102,6 +102,8 @@ export type Accounts = {
   session_state?: Maybe<Scalars['String']['output']>;
   token_type?: Maybe<Scalars['String']['output']>;
   type: Scalars['String']['output'];
+  /** An object relationship */
+  user: Users;
   userId: Scalars['uuid']['output'];
 };
 
@@ -110,6 +112,17 @@ export type Accounts_Aggregate = {
   __typename?: 'accounts_aggregate';
   aggregate?: Maybe<Accounts_Aggregate_Fields>;
   nodes: Array<Accounts>;
+};
+
+export type Accounts_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Accounts_Aggregate_Bool_Exp_Count>;
+};
+
+export type Accounts_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Accounts_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Accounts_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "accounts" */
@@ -135,11 +148,39 @@ export type Accounts_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+/** order by aggregate values of table "accounts" */
+export type Accounts_Aggregate_Order_By = {
+  avg?: InputMaybe<Accounts_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Accounts_Max_Order_By>;
+  min?: InputMaybe<Accounts_Min_Order_By>;
+  stddev?: InputMaybe<Accounts_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Accounts_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Accounts_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Accounts_Sum_Order_By>;
+  var_pop?: InputMaybe<Accounts_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Accounts_Var_Samp_Order_By>;
+  variance?: InputMaybe<Accounts_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "accounts" */
+export type Accounts_Arr_Rel_Insert_Input = {
+  data: Array<Accounts_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Accounts_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Accounts_Avg_Fields = {
   __typename?: 'accounts_avg_fields';
   expires_at?: Maybe<Scalars['Float']['output']>;
   refresh_token_expires_in?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by avg() on columns of table "accounts" */
+export type Accounts_Avg_Order_By = {
+  expires_at?: InputMaybe<Order_By>;
+  refresh_token_expires_in?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "accounts". All fields are combined with a logical 'AND'. */
@@ -163,6 +204,7 @@ export type Accounts_Bool_Exp = {
   session_state?: InputMaybe<String_Comparison_Exp>;
   token_type?: InputMaybe<String_Comparison_Exp>;
   type?: InputMaybe<String_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
   userId?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
@@ -196,6 +238,7 @@ export type Accounts_Insert_Input = {
   session_state?: InputMaybe<Scalars['String']['input']>;
   token_type?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<Scalars['String']['input']>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   userId?: InputMaybe<Scalars['uuid']['input']>;
 };
 
@@ -221,6 +264,27 @@ export type Accounts_Max_Fields = {
   userId?: Maybe<Scalars['uuid']['output']>;
 };
 
+/** order by max() on columns of table "accounts" */
+export type Accounts_Max_Order_By = {
+  access_token?: InputMaybe<Order_By>;
+  expires_at?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  id_token?: InputMaybe<Order_By>;
+  oauth_token?: InputMaybe<Order_By>;
+  oauth_token_secret?: InputMaybe<Order_By>;
+  password_hash?: InputMaybe<Order_By>;
+  provider?: InputMaybe<Order_By>;
+  providerAccountId?: InputMaybe<Order_By>;
+  refresh_token?: InputMaybe<Order_By>;
+  refresh_token_expires_in?: InputMaybe<Order_By>;
+  salt?: InputMaybe<Order_By>;
+  scope?: InputMaybe<Order_By>;
+  session_state?: InputMaybe<Order_By>;
+  token_type?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
+  userId?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Accounts_Min_Fields = {
   __typename?: 'accounts_min_fields';
@@ -241,6 +305,27 @@ export type Accounts_Min_Fields = {
   token_type?: Maybe<Scalars['String']['output']>;
   type?: Maybe<Scalars['String']['output']>;
   userId?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by min() on columns of table "accounts" */
+export type Accounts_Min_Order_By = {
+  access_token?: InputMaybe<Order_By>;
+  expires_at?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  id_token?: InputMaybe<Order_By>;
+  oauth_token?: InputMaybe<Order_By>;
+  oauth_token_secret?: InputMaybe<Order_By>;
+  password_hash?: InputMaybe<Order_By>;
+  provider?: InputMaybe<Order_By>;
+  providerAccountId?: InputMaybe<Order_By>;
+  refresh_token?: InputMaybe<Order_By>;
+  refresh_token_expires_in?: InputMaybe<Order_By>;
+  salt?: InputMaybe<Order_By>;
+  scope?: InputMaybe<Order_By>;
+  session_state?: InputMaybe<Order_By>;
+  token_type?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
+  userId?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "accounts" */
@@ -277,6 +362,7 @@ export type Accounts_Order_By = {
   session_state?: InputMaybe<Order_By>;
   token_type?: InputMaybe<Order_By>;
   type?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
   userId?: InputMaybe<Order_By>;
 };
 
@@ -351,6 +437,12 @@ export type Accounts_Stddev_Fields = {
   refresh_token_expires_in?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by stddev() on columns of table "accounts" */
+export type Accounts_Stddev_Order_By = {
+  expires_at?: InputMaybe<Order_By>;
+  refresh_token_expires_in?: InputMaybe<Order_By>;
+};
+
 /** aggregate stddev_pop on columns */
 export type Accounts_Stddev_Pop_Fields = {
   __typename?: 'accounts_stddev_pop_fields';
@@ -358,11 +450,23 @@ export type Accounts_Stddev_Pop_Fields = {
   refresh_token_expires_in?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by stddev_pop() on columns of table "accounts" */
+export type Accounts_Stddev_Pop_Order_By = {
+  expires_at?: InputMaybe<Order_By>;
+  refresh_token_expires_in?: InputMaybe<Order_By>;
+};
+
 /** aggregate stddev_samp on columns */
 export type Accounts_Stddev_Samp_Fields = {
   __typename?: 'accounts_stddev_samp_fields';
   expires_at?: Maybe<Scalars['Float']['output']>;
   refresh_token_expires_in?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev_samp() on columns of table "accounts" */
+export type Accounts_Stddev_Samp_Order_By = {
+  expires_at?: InputMaybe<Order_By>;
+  refresh_token_expires_in?: InputMaybe<Order_By>;
 };
 
 /** Streaming cursor of the table "accounts" */
@@ -399,6 +503,12 @@ export type Accounts_Sum_Fields = {
   __typename?: 'accounts_sum_fields';
   expires_at?: Maybe<Scalars['bigint']['output']>;
   refresh_token_expires_in?: Maybe<Scalars['Int']['output']>;
+};
+
+/** order by sum() on columns of table "accounts" */
+export type Accounts_Sum_Order_By = {
+  expires_at?: InputMaybe<Order_By>;
+  refresh_token_expires_in?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "accounts" */
@@ -455,6 +565,12 @@ export type Accounts_Var_Pop_Fields = {
   refresh_token_expires_in?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by var_pop() on columns of table "accounts" */
+export type Accounts_Var_Pop_Order_By = {
+  expires_at?: InputMaybe<Order_By>;
+  refresh_token_expires_in?: InputMaybe<Order_By>;
+};
+
 /** aggregate var_samp on columns */
 export type Accounts_Var_Samp_Fields = {
   __typename?: 'accounts_var_samp_fields';
@@ -462,11 +578,23 @@ export type Accounts_Var_Samp_Fields = {
   refresh_token_expires_in?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by var_samp() on columns of table "accounts" */
+export type Accounts_Var_Samp_Order_By = {
+  expires_at?: InputMaybe<Order_By>;
+  refresh_token_expires_in?: InputMaybe<Order_By>;
+};
+
 /** aggregate variance on columns */
 export type Accounts_Variance_Fields = {
   __typename?: 'accounts_variance_fields';
   expires_at?: Maybe<Scalars['Float']['output']>;
   refresh_token_expires_in?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by variance() on columns of table "accounts" */
+export type Accounts_Variance_Order_By = {
+  expires_at?: InputMaybe<Order_By>;
+  refresh_token_expires_in?: InputMaybe<Order_By>;
 };
 
 /** enum table of alerts */
@@ -3639,9 +3767,9 @@ export type Products_Variance_Order_By = {
 
 export type Query_Root = {
   __typename?: 'query_root';
-  /** fetch data from the table: "accounts" */
+  /** An array relationship */
   accounts: Array<Accounts>;
-  /** fetch aggregated fields from the table: "accounts" */
+  /** An aggregate relationship */
   accounts_aggregate: Accounts_Aggregate;
   /** fetch data from the table: "accounts" using primary key columns */
   accounts_by_pk?: Maybe<Accounts>;
@@ -4345,9 +4473,9 @@ export type Sessions_Updates = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
-  /** fetch data from the table: "accounts" */
+  /** An array relationship */
   accounts: Array<Accounts>;
-  /** fetch aggregated fields from the table: "accounts" */
+  /** An aggregate relationship */
   accounts_aggregate: Accounts_Aggregate;
   /** fetch data from the table: "accounts" using primary key columns */
   accounts_by_pk?: Maybe<Accounts>;
@@ -4895,6 +5023,10 @@ export type Timestamptz_Comparison_Exp = {
 /** columns and relationships of "users" */
 export type Users = {
   __typename?: 'users';
+  /** An array relationship */
+  accounts: Array<Accounts>;
+  /** An aggregate relationship */
+  accounts_aggregate: Accounts_Aggregate;
   email?: Maybe<Scalars['String']['output']>;
   emailVerified?: Maybe<Scalars['timestamptz']['output']>;
   first_name: Scalars['String']['output'];
@@ -4905,6 +5037,26 @@ export type Users = {
   last_name: Scalars['String']['output'];
   name?: Maybe<Scalars['String']['output']>;
   role: Roles_Enum;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersAccountsArgs = {
+  distinct_on?: InputMaybe<Array<Accounts_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Accounts_Order_By>>;
+  where?: InputMaybe<Accounts_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersAccounts_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Accounts_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Accounts_Order_By>>;
+  where?: InputMaybe<Accounts_Bool_Exp>;
 };
 
 /** aggregated selection of "users" */
@@ -4934,6 +5086,8 @@ export type Users_Bool_Exp = {
   _and?: InputMaybe<Array<Users_Bool_Exp>>;
   _not?: InputMaybe<Users_Bool_Exp>;
   _or?: InputMaybe<Array<Users_Bool_Exp>>;
+  accounts?: InputMaybe<Accounts_Bool_Exp>;
+  accounts_aggregate?: InputMaybe<Accounts_Aggregate_Bool_Exp>;
   email?: InputMaybe<String_Comparison_Exp>;
   emailVerified?: InputMaybe<Timestamptz_Comparison_Exp>;
   first_name?: InputMaybe<String_Comparison_Exp>;
@@ -4955,6 +5109,7 @@ export enum Users_Constraint {
 
 /** input type for inserting data into table "users" */
 export type Users_Insert_Input = {
+  accounts?: InputMaybe<Accounts_Arr_Rel_Insert_Input>;
   email?: InputMaybe<Scalars['String']['input']>;
   emailVerified?: InputMaybe<Scalars['timestamptz']['input']>;
   first_name?: InputMaybe<Scalars['String']['input']>;
@@ -5002,6 +5157,13 @@ export type Users_Mutation_Response = {
   returning: Array<Users>;
 };
 
+/** input type for inserting object relation for remote table "users" */
+export type Users_Obj_Rel_Insert_Input = {
+  data: Users_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Users_On_Conflict>;
+};
+
 /** on_conflict condition type for table "users" */
 export type Users_On_Conflict = {
   constraint: Users_Constraint;
@@ -5011,6 +5173,7 @@ export type Users_On_Conflict = {
 
 /** Ordering options when selecting data from "users". */
 export type Users_Order_By = {
+  accounts_aggregate?: InputMaybe<Accounts_Aggregate_Order_By>;
   email?: InputMaybe<Order_By>;
   emailVerified?: InputMaybe<Order_By>;
   first_name?: InputMaybe<Order_By>;
@@ -5282,6 +5445,28 @@ export type GetProductsOverviewQueryVariables = Exact<{ [key: string]: never; }>
 
 export type GetProductsOverviewQuery = { __typename?: 'query_root', products: Array<{ __typename?: 'products', id: any, name: string, description: string, imageUrl: string, quantity: number, hash_name: string, category: { __typename?: 'categories', name: string } }> };
 
+export type GetUserAccountsByEmailQueryVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type GetUserAccountsByEmailQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', id: any, name?: string | null, email?: string | null, accounts: Array<{ __typename?: 'accounts', salt?: string | null, password_hash?: string | null }> }> };
+
+export type GetDraftUserQueryVariables = Exact<{
+  token: Scalars['String']['input'];
+}>;
+
+
+export type GetDraftUserQuery = { __typename?: 'query_root', draft_users: Array<{ __typename?: 'draft_users', id: any, email: string, first_name: string, last_name: string, role: Roles_Enum }> };
+
+export type UpgradeUserMutationVariables = Exact<{
+  user: Users_Insert_Input;
+  draft_user_id: Scalars['uuid']['input'];
+}>;
+
+
+export type UpgradeUserMutation = { __typename?: 'mutation_root', user?: { __typename?: 'users', id: any } | null, deleted_draft_user?: { __typename?: 'draft_users', id: any } | null };
+
 export type CreateDraftUserMutationVariables = Exact<{
   user: Draft_Users_Insert_Input;
 }>;
@@ -5295,3 +5480,10 @@ export type GetUsersEmailExistsQueryVariables = Exact<{
 
 
 export type GetUsersEmailExistsQuery = { __typename?: 'query_root', users_aggregate: { __typename?: 'users_aggregate', aggregate?: { __typename?: 'users_aggregate_fields', count: number } | null } };
+
+export type GetInvitationInfoQueryVariables = Exact<{
+  token: Scalars['String']['input'];
+}>;
+
+
+export type GetInvitationInfoQuery = { __typename?: 'query_root', invitation_info: Array<{ __typename?: 'draft_users', email: string, first_name: string }> };
