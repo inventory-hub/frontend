@@ -1,6 +1,12 @@
 table:
   name: users
   schema: public
+computed_fields:
+  - name: full_name
+    definition:
+      function:
+        name: get_full_name
+        schema: public
 select_permissions:
   - role: user
     permission:

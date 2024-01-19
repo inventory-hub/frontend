@@ -72,10 +72,12 @@ export type Accounts = {
   id_token?: Maybe<Scalars['String']['output']>;
   oauth_token?: Maybe<Scalars['String']['output']>;
   oauth_token_secret?: Maybe<Scalars['String']['output']>;
+  password_hash?: Maybe<Scalars['String']['output']>;
   provider: Scalars['String']['output'];
   providerAccountId: Scalars['String']['output'];
   refresh_token?: Maybe<Scalars['String']['output']>;
   refresh_token_expires_in?: Maybe<Scalars['Int']['output']>;
+  salt?: Maybe<Scalars['String']['output']>;
   scope?: Maybe<Scalars['String']['output']>;
   session_state?: Maybe<Scalars['String']['output']>;
   token_type?: Maybe<Scalars['String']['output']>;
@@ -131,10 +133,12 @@ export type Accounts_Bool_Exp = {
   id_token?: InputMaybe<String_Comparison_Exp>;
   oauth_token?: InputMaybe<String_Comparison_Exp>;
   oauth_token_secret?: InputMaybe<String_Comparison_Exp>;
+  password_hash?: InputMaybe<String_Comparison_Exp>;
   provider?: InputMaybe<String_Comparison_Exp>;
   providerAccountId?: InputMaybe<String_Comparison_Exp>;
   refresh_token?: InputMaybe<String_Comparison_Exp>;
   refresh_token_expires_in?: InputMaybe<Int_Comparison_Exp>;
+  salt?: InputMaybe<String_Comparison_Exp>;
   scope?: InputMaybe<String_Comparison_Exp>;
   session_state?: InputMaybe<String_Comparison_Exp>;
   token_type?: InputMaybe<String_Comparison_Exp>;
@@ -162,10 +166,12 @@ export type Accounts_Insert_Input = {
   id_token?: InputMaybe<Scalars['String']['input']>;
   oauth_token?: InputMaybe<Scalars['String']['input']>;
   oauth_token_secret?: InputMaybe<Scalars['String']['input']>;
+  password_hash?: InputMaybe<Scalars['String']['input']>;
   provider?: InputMaybe<Scalars['String']['input']>;
   providerAccountId?: InputMaybe<Scalars['String']['input']>;
   refresh_token?: InputMaybe<Scalars['String']['input']>;
   refresh_token_expires_in?: InputMaybe<Scalars['Int']['input']>;
+  salt?: InputMaybe<Scalars['String']['input']>;
   scope?: InputMaybe<Scalars['String']['input']>;
   session_state?: InputMaybe<Scalars['String']['input']>;
   token_type?: InputMaybe<Scalars['String']['input']>;
@@ -182,10 +188,12 @@ export type Accounts_Max_Fields = {
   id_token?: Maybe<Scalars['String']['output']>;
   oauth_token?: Maybe<Scalars['String']['output']>;
   oauth_token_secret?: Maybe<Scalars['String']['output']>;
+  password_hash?: Maybe<Scalars['String']['output']>;
   provider?: Maybe<Scalars['String']['output']>;
   providerAccountId?: Maybe<Scalars['String']['output']>;
   refresh_token?: Maybe<Scalars['String']['output']>;
   refresh_token_expires_in?: Maybe<Scalars['Int']['output']>;
+  salt?: Maybe<Scalars['String']['output']>;
   scope?: Maybe<Scalars['String']['output']>;
   session_state?: Maybe<Scalars['String']['output']>;
   token_type?: Maybe<Scalars['String']['output']>;
@@ -202,10 +210,12 @@ export type Accounts_Min_Fields = {
   id_token?: Maybe<Scalars['String']['output']>;
   oauth_token?: Maybe<Scalars['String']['output']>;
   oauth_token_secret?: Maybe<Scalars['String']['output']>;
+  password_hash?: Maybe<Scalars['String']['output']>;
   provider?: Maybe<Scalars['String']['output']>;
   providerAccountId?: Maybe<Scalars['String']['output']>;
   refresh_token?: Maybe<Scalars['String']['output']>;
   refresh_token_expires_in?: Maybe<Scalars['Int']['output']>;
+  salt?: Maybe<Scalars['String']['output']>;
   scope?: Maybe<Scalars['String']['output']>;
   session_state?: Maybe<Scalars['String']['output']>;
   token_type?: Maybe<Scalars['String']['output']>;
@@ -237,10 +247,12 @@ export type Accounts_Order_By = {
   id_token?: InputMaybe<Order_By>;
   oauth_token?: InputMaybe<Order_By>;
   oauth_token_secret?: InputMaybe<Order_By>;
+  password_hash?: InputMaybe<Order_By>;
   provider?: InputMaybe<Order_By>;
   providerAccountId?: InputMaybe<Order_By>;
   refresh_token?: InputMaybe<Order_By>;
   refresh_token_expires_in?: InputMaybe<Order_By>;
+  salt?: InputMaybe<Order_By>;
   scope?: InputMaybe<Order_By>;
   session_state?: InputMaybe<Order_By>;
   token_type?: InputMaybe<Order_By>;
@@ -268,6 +280,8 @@ export enum Accounts_Select_Column {
   /** column name */
   OauthTokenSecret = 'oauth_token_secret',
   /** column name */
+  PasswordHash = 'password_hash',
+  /** column name */
   Provider = 'provider',
   /** column name */
   ProviderAccountId = 'providerAccountId',
@@ -275,6 +289,8 @@ export enum Accounts_Select_Column {
   RefreshToken = 'refresh_token',
   /** column name */
   RefreshTokenExpiresIn = 'refresh_token_expires_in',
+  /** column name */
+  Salt = 'salt',
   /** column name */
   Scope = 'scope',
   /** column name */
@@ -295,10 +311,12 @@ export type Accounts_Set_Input = {
   id_token?: InputMaybe<Scalars['String']['input']>;
   oauth_token?: InputMaybe<Scalars['String']['input']>;
   oauth_token_secret?: InputMaybe<Scalars['String']['input']>;
+  password_hash?: InputMaybe<Scalars['String']['input']>;
   provider?: InputMaybe<Scalars['String']['input']>;
   providerAccountId?: InputMaybe<Scalars['String']['input']>;
   refresh_token?: InputMaybe<Scalars['String']['input']>;
   refresh_token_expires_in?: InputMaybe<Scalars['Int']['input']>;
+  salt?: InputMaybe<Scalars['String']['input']>;
   scope?: InputMaybe<Scalars['String']['input']>;
   session_state?: InputMaybe<Scalars['String']['input']>;
   token_type?: InputMaybe<Scalars['String']['input']>;
@@ -343,10 +361,12 @@ export type Accounts_Stream_Cursor_Value_Input = {
   id_token?: InputMaybe<Scalars['String']['input']>;
   oauth_token?: InputMaybe<Scalars['String']['input']>;
   oauth_token_secret?: InputMaybe<Scalars['String']['input']>;
+  password_hash?: InputMaybe<Scalars['String']['input']>;
   provider?: InputMaybe<Scalars['String']['input']>;
   providerAccountId?: InputMaybe<Scalars['String']['input']>;
   refresh_token?: InputMaybe<Scalars['String']['input']>;
   refresh_token_expires_in?: InputMaybe<Scalars['Int']['input']>;
+  salt?: InputMaybe<Scalars['String']['input']>;
   scope?: InputMaybe<Scalars['String']['input']>;
   session_state?: InputMaybe<Scalars['String']['input']>;
   token_type?: InputMaybe<Scalars['String']['input']>;
@@ -376,6 +396,8 @@ export enum Accounts_Update_Column {
   /** column name */
   OauthTokenSecret = 'oauth_token_secret',
   /** column name */
+  PasswordHash = 'password_hash',
+  /** column name */
   Provider = 'provider',
   /** column name */
   ProviderAccountId = 'providerAccountId',
@@ -383,6 +405,8 @@ export enum Accounts_Update_Column {
   RefreshToken = 'refresh_token',
   /** column name */
   RefreshTokenExpiresIn = 'refresh_token_expires_in',
+  /** column name */
+  Salt = 'salt',
   /** column name */
   Scope = 'scope',
   /** column name */
@@ -1061,6 +1085,10 @@ export type Mutation_Root = {
   delete_products?: Maybe<Products_Mutation_Response>;
   /** delete single row from the table: "products" */
   delete_products_by_pk?: Maybe<Products>;
+  /** delete data from the table: "roles" */
+  delete_roles?: Maybe<Roles_Mutation_Response>;
+  /** delete single row from the table: "roles" */
+  delete_roles_by_pk?: Maybe<Roles>;
   /** delete data from the table: "sessions" */
   delete_sessions?: Maybe<Sessions_Mutation_Response>;
   /** delete single row from the table: "sessions" */
@@ -1109,6 +1137,10 @@ export type Mutation_Root = {
   insert_products?: Maybe<Products_Mutation_Response>;
   /** insert a single row into the table: "products" */
   insert_products_one?: Maybe<Products>;
+  /** insert data into the table: "roles" */
+  insert_roles?: Maybe<Roles_Mutation_Response>;
+  /** insert a single row into the table: "roles" */
+  insert_roles_one?: Maybe<Roles>;
   /** insert data into the table: "sessions" */
   insert_sessions?: Maybe<Sessions_Mutation_Response>;
   /** insert a single row into the table: "sessions" */
@@ -1175,6 +1207,12 @@ export type Mutation_Root = {
   update_products_by_pk?: Maybe<Products>;
   /** update multiples rows of table: "products" */
   update_products_many?: Maybe<Array<Maybe<Products_Mutation_Response>>>;
+  /** update data of the table: "roles" */
+  update_roles?: Maybe<Roles_Mutation_Response>;
+  /** update single row of the table: "roles" */
+  update_roles_by_pk?: Maybe<Roles>;
+  /** update multiples rows of table: "roles" */
+  update_roles_many?: Maybe<Array<Maybe<Roles_Mutation_Response>>>;
   /** update data of the table: "sessions" */
   update_sessions?: Maybe<Sessions_Mutation_Response>;
   /** update single row of the table: "sessions" */
@@ -1301,6 +1339,18 @@ export type Mutation_RootDelete_ProductsArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Products_By_PkArgs = {
   id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_RolesArgs = {
+  where: Roles_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Roles_By_PkArgs = {
+  role: Scalars['String']['input'];
 };
 
 
@@ -1463,6 +1513,20 @@ export type Mutation_RootInsert_ProductsArgs = {
 export type Mutation_RootInsert_Products_OneArgs = {
   object: Products_Insert_Input;
   on_conflict?: InputMaybe<Products_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_RolesArgs = {
+  objects: Array<Roles_Insert_Input>;
+  on_conflict?: InputMaybe<Roles_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Roles_OneArgs = {
+  object: Roles_Insert_Input;
+  on_conflict?: InputMaybe<Roles_On_Conflict>;
 };
 
 
@@ -1695,6 +1759,26 @@ export type Mutation_RootUpdate_Products_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Products_ManyArgs = {
   updates: Array<Products_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_RolesArgs = {
+  _set?: InputMaybe<Roles_Set_Input>;
+  where: Roles_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Roles_By_PkArgs = {
+  _set?: InputMaybe<Roles_Set_Input>;
+  pk_columns: Roles_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Roles_ManyArgs = {
+  updates: Array<Roles_Updates>;
 };
 
 
@@ -3340,6 +3424,12 @@ export type Query_Root = {
   products_aggregate: Products_Aggregate;
   /** fetch data from the table: "products" using primary key columns */
   products_by_pk?: Maybe<Products>;
+  /** fetch data from the table: "roles" */
+  roles: Array<Roles>;
+  /** fetch aggregated fields from the table: "roles" */
+  roles_aggregate: Roles_Aggregate;
+  /** fetch data from the table: "roles" using primary key columns */
+  roles_by_pk?: Maybe<Roles>;
   /** fetch data from the table: "sessions" */
   sessions: Array<Sessions>;
   /** fetch aggregated fields from the table: "sessions" */
@@ -3568,6 +3658,29 @@ export type Query_RootProducts_By_PkArgs = {
 };
 
 
+export type Query_RootRolesArgs = {
+  distinct_on?: InputMaybe<Array<Roles_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Roles_Order_By>>;
+  where?: InputMaybe<Roles_Bool_Exp>;
+};
+
+
+export type Query_RootRoles_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Roles_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Roles_Order_By>>;
+  where?: InputMaybe<Roles_Bool_Exp>;
+};
+
+
+export type Query_RootRoles_By_PkArgs = {
+  role: Scalars['String']['input'];
+};
+
+
 export type Query_RootSessionsArgs = {
   distinct_on?: InputMaybe<Array<Sessions_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3634,6 +3747,144 @@ export type Query_RootVerification_Tokens_AggregateArgs = {
 
 export type Query_RootVerification_Tokens_By_PkArgs = {
   token: Scalars['String']['input'];
+};
+
+/** enum table */
+export type Roles = {
+  __typename?: 'roles';
+  role: Scalars['String']['output'];
+};
+
+/** aggregated selection of "roles" */
+export type Roles_Aggregate = {
+  __typename?: 'roles_aggregate';
+  aggregate?: Maybe<Roles_Aggregate_Fields>;
+  nodes: Array<Roles>;
+};
+
+/** aggregate fields of "roles" */
+export type Roles_Aggregate_Fields = {
+  __typename?: 'roles_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Roles_Max_Fields>;
+  min?: Maybe<Roles_Min_Fields>;
+};
+
+
+/** aggregate fields of "roles" */
+export type Roles_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Roles_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "roles". All fields are combined with a logical 'AND'. */
+export type Roles_Bool_Exp = {
+  _and?: InputMaybe<Array<Roles_Bool_Exp>>;
+  _not?: InputMaybe<Roles_Bool_Exp>;
+  _or?: InputMaybe<Array<Roles_Bool_Exp>>;
+  role?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "roles" */
+export enum Roles_Constraint {
+  /** unique or primary key constraint on columns "role" */
+  RolesPkey = 'roles_pkey'
+}
+
+export enum Roles_Enum {
+  Admin = 'admin',
+  Manager = 'manager',
+  ReadonlyUser = 'readonly_user',
+  User = 'user'
+}
+
+/** Boolean expression to compare columns of type "roles_enum". All fields are combined with logical 'AND'. */
+export type Roles_Enum_Comparison_Exp = {
+  _eq?: InputMaybe<Roles_Enum>;
+  _in?: InputMaybe<Array<Roles_Enum>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _neq?: InputMaybe<Roles_Enum>;
+  _nin?: InputMaybe<Array<Roles_Enum>>;
+};
+
+/** input type for inserting data into table "roles" */
+export type Roles_Insert_Input = {
+  role?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type Roles_Max_Fields = {
+  __typename?: 'roles_max_fields';
+  role?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type Roles_Min_Fields = {
+  __typename?: 'roles_min_fields';
+  role?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "roles" */
+export type Roles_Mutation_Response = {
+  __typename?: 'roles_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Roles>;
+};
+
+/** on_conflict condition type for table "roles" */
+export type Roles_On_Conflict = {
+  constraint: Roles_Constraint;
+  update_columns?: Array<Roles_Update_Column>;
+  where?: InputMaybe<Roles_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "roles". */
+export type Roles_Order_By = {
+  role?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: roles */
+export type Roles_Pk_Columns_Input = {
+  role: Scalars['String']['input'];
+};
+
+/** select columns of table "roles" */
+export enum Roles_Select_Column {
+  /** column name */
+  Role = 'role'
+}
+
+/** input type for updating data in table "roles" */
+export type Roles_Set_Input = {
+  role?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Streaming cursor of the table "roles" */
+export type Roles_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Roles_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Roles_Stream_Cursor_Value_Input = {
+  role?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** update columns of table "roles" */
+export enum Roles_Update_Column {
+  /** column name */
+  Role = 'role'
+}
+
+export type Roles_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Roles_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Roles_Bool_Exp;
 };
 
 /** columns and relationships of "sessions" */
@@ -3868,6 +4119,14 @@ export type Subscription_Root = {
   products_by_pk?: Maybe<Products>;
   /** fetch data from the table in a streaming manner: "products" */
   products_stream: Array<Products>;
+  /** fetch data from the table: "roles" */
+  roles: Array<Roles>;
+  /** fetch aggregated fields from the table: "roles" */
+  roles_aggregate: Roles_Aggregate;
+  /** fetch data from the table: "roles" using primary key columns */
+  roles_by_pk?: Maybe<Roles>;
+  /** fetch data from the table in a streaming manner: "roles" */
+  roles_stream: Array<Roles>;
   /** fetch data from the table: "sessions" */
   sessions: Array<Sessions>;
   /** fetch aggregated fields from the table: "sessions" */
@@ -4165,6 +4424,36 @@ export type Subscription_RootProducts_StreamArgs = {
 };
 
 
+export type Subscription_RootRolesArgs = {
+  distinct_on?: InputMaybe<Array<Roles_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Roles_Order_By>>;
+  where?: InputMaybe<Roles_Bool_Exp>;
+};
+
+
+export type Subscription_RootRoles_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Roles_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Roles_Order_By>>;
+  where?: InputMaybe<Roles_Bool_Exp>;
+};
+
+
+export type Subscription_RootRoles_By_PkArgs = {
+  role: Scalars['String']['input'];
+};
+
+
+export type Subscription_RootRoles_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Roles_Stream_Cursor_Input>>;
+  where?: InputMaybe<Roles_Bool_Exp>;
+};
+
+
 export type Subscription_RootSessionsArgs = {
   distinct_on?: InputMaybe<Array<Sessions_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -4275,6 +4564,7 @@ export type Users = {
   id: Scalars['uuid']['output'];
   image?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
+  role: Roles_Enum;
 };
 
 /** aggregated selection of "users" */
@@ -4309,6 +4599,7 @@ export type Users_Bool_Exp = {
   id?: InputMaybe<Uuid_Comparison_Exp>;
   image?: InputMaybe<String_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
+  role?: InputMaybe<Roles_Enum_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "users" */
@@ -4326,6 +4617,7 @@ export type Users_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']['input']>;
   image?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<Roles_Enum>;
 };
 
 /** aggregate max on columns */
@@ -4371,6 +4663,7 @@ export type Users_Order_By = {
   id?: InputMaybe<Order_By>;
   image?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
+  role?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: users */
@@ -4389,7 +4682,9 @@ export enum Users_Select_Column {
   /** column name */
   Image = 'image',
   /** column name */
-  Name = 'name'
+  Name = 'name',
+  /** column name */
+  Role = 'role'
 }
 
 /** input type for updating data in table "users" */
@@ -4399,6 +4694,7 @@ export type Users_Set_Input = {
   id?: InputMaybe<Scalars['uuid']['input']>;
   image?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<Roles_Enum>;
 };
 
 /** Streaming cursor of the table "users" */
@@ -4416,6 +4712,7 @@ export type Users_Stream_Cursor_Value_Input = {
   id?: InputMaybe<Scalars['uuid']['input']>;
   image?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<Roles_Enum>;
 };
 
 /** update columns of table "users" */
@@ -4429,7 +4726,9 @@ export enum Users_Update_Column {
   /** column name */
   Image = 'image',
   /** column name */
-  Name = 'name'
+  Name = 'name',
+  /** column name */
+  Role = 'role'
 }
 
 export type Users_Updates = {
