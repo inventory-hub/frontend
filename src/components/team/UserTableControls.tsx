@@ -1,13 +1,15 @@
 import { Flex, Skeleton } from "@chakra-ui/react";
-import Roles from "~/enums/Roles";
-import useUserData from "~/hooks/useUserData";
+
 import InviteUserFormButton from "./InviteUserFormButton";
+import { useSession } from "next-auth/react";
+import { Roles_Enum } from "~/generated/graphql";
 
 const UserTableControls = () => {
-  const { isLoading, user } = useUserData();
+  const { data, status } = useSession();
+  const isLoading = status === "loading";
   const isInviteAuthorized =
-    // remove tautology when endpoint is fixed
-    true || user?.role === Roles.Admin || user?.role === Roles.Manager;
+    data?.user?.role === Roles_Enum.Admin ||
+    data?.user?.role === Roles_Enum.Manager;
 
   return (
     <Skeleton isLoaded={!isLoading}>

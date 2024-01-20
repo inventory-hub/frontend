@@ -6,14 +6,44 @@ import {
   Skeleton,
   Text,
 } from "@chakra-ui/react";
-import useUserData from "~/hooks/useUserData";
+import { useQuery } from "urql";
+import { gql } from "graphql-request";
+import { useSession } from "next-auth/react";
+
 import HeaderMenuList from "./HeaderMenuList";
+import {
+  type GetSelfOverviewQuery,
+  type GetSelfOverviewQueryVariables,
+} from "~/generated/graphql";
+
+const GET_SELF_OVERVIEW_QUERY = gql`
+  query GetSelfOverview($self_id: uuid!) {
+    user: users_by_pk(id: $self_id) {
+      name
+      email
+      role
+      full_name
+    }
+  }
+`;
 
 const HeaderMenu = () => {
-  const { isLoading, user } = useUserData();
+  const { data, status } = useSession();
+  const [{ fetching, data: userOverview }] = useQuery<
+    GetSelfOverviewQuery,
+    GetSelfOverviewQueryVariables
+  >({
+    query: GET_SELF_OVERVIEW_QUERY,
+    pause: !data?.user?.id,
+    variables: {
+      self_id: data?.user?.id,
+    },
+  });
+
+  const user = userOverview?.user;
 
   return (
-    <Skeleton display="flex" isLoaded={!isLoading}>
+    <Skeleton display="flex" isLoaded={status !== "loading" && !fetching}>
       <Menu placement="bottom">
         <MenuButton
           transition="all 0.2s ease-in-out"
@@ -33,9 +63,9 @@ const HeaderMenu = () => {
         <HeaderMenuList />
       </Menu>
       <Box ml={2} w={150}>
-        <Text>{`Names from API ${user?.firstName} ${user?.lastName}`}</Text>
+        <Text>{user?.full_name}</Text>
         <Text fontSize="sm" color="primary.text">
-          Employee #{user?.id}
+          {user?.name} - {user?.role}
         </Text>
       </Box>
     </Skeleton>

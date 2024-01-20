@@ -33,7 +33,7 @@ type LoginForm = z.infer<typeof loginFormSchema>;
 
 const Login = () => {
   const router = useRouter();
-  const redirectUrl = (router.query.redirect as string | undefined) || "/app";
+  const callbackUrl = (router.query.redirect as string | undefined) || "/app";
   const {
     register,
     handleSubmit,
@@ -50,11 +50,11 @@ const Login = () => {
 
   const onSubmit: SubmitHandler<LoginForm> = useCallback(
     (data) => {
-      signIn("credentials", data, {
-        callbackUrl: redirectUrl,
-      }).catch((error) => setError("root", { message: error }));
+      signIn("credentials", { ...data, callbackUrl }).catch((error) =>
+        setError("root", { message: error })
+      );
     },
-    [setError, redirectUrl]
+    [setError, callbackUrl]
   );
 
   return (

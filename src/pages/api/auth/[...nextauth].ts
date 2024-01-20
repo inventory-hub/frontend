@@ -5,11 +5,14 @@ import { type JWT } from "next-auth/jwt";
 import { HasuraAdapter } from "next-auth-hasura-adapter";
 import * as jsonwebtoken from "jsonwebtoken";
 import { gql } from "graphql-request";
-import { graphqlRequest } from "~/server/graphql";
+
 import {
+  type GetUserRoleQuery,
+  type GetUserRoleQueryVariables,
   type GetUserAccountsByEmailQuery,
   type GetUserAccountsByEmailQueryVariables,
 } from "~/generated/graphql";
+import { graphqlRequest } from "~/server/graphql";
 import { verifyPassword } from "~/server/auth";
 
 const GET_USER_ACCOUNTS_BY_EMAIL_QUERY = gql`
@@ -22,6 +25,15 @@ const GET_USER_ACCOUNTS_BY_EMAIL_QUERY = gql`
       id
       name
       email
+      role
+    }
+  }
+`;
+
+const GET_USER_ROLE_QUERY = gql`
+  query GetUserRole($id: uuid!) {
+    user: users_by_pk(id: $id) {
+      role
     }
   }
 `;
@@ -55,7 +67,7 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        const { accounts, id, name } = user;
+        const { accounts, id, name, role } = user;
         const { salt, password_hash } = accounts[0];
         const isPasswordValid = await verifyPassword(
           password,
@@ -66,7 +78,7 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        return { id, name, email };
+        return { id, name, email, role };
       },
     }),
   ],
@@ -112,7 +124,15 @@ export const authOptions: NextAuthOptions = {
     session: async ({ session, token }) => {
       if (session?.user) {
         session.user.id = token.sub!;
+        const { user } = await graphqlRequest<
+          GetUserRoleQuery,
+          GetUserRoleQueryVariables
+        >(GET_USER_ROLE_QUERY, {
+          id: token.sub!,
+        });
+        session.user.role = user?.role!;
       }
+
       return session;
     },
   },

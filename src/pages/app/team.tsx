@@ -1,22 +1,54 @@
-import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
+import { gql } from "graphql-request";
+import { useQuery } from "urql";
+
 import MainLayout from "~/components/main-layout";
 import UserSearch from "~/components/team/UserSearch";
 import UserTable from "~/components/team/UserTable";
 import UserTableControls from "~/components/team/UserTableControls";
-import { getUsers } from "~/services/user-service";
+import {
+  type GetUsersTableQuery,
+  type GetUsersTableQueryVariables,
+} from "~/generated/graphql";
+
+const GET_USERS_TABLE_QUERY = gql`
+  query GetUsersTable($search: String) {
+    users(
+      where: {
+        _or: [
+          { name: { _ilike: $search } }
+          { email: { _ilike: $search } }
+          { full_name: { _ilike: $search } }
+        ]
+      }
+    ) {
+      id
+      name
+      email
+      role
+      full_name
+      created_at
+      deleted_at
+    }
+  }
+`;
 
 const TeamPage = () => {
   const router = useRouter();
-  const { search } = router.query;
-  const usersQuery = useQuery({
-    queryKey: ["users", `users:${search}`],
-    queryFn: () => getUsers({ search: search as string }),
+  const search = Array.isArray(router.query.search)
+    ? ""
+    : router.query.search ?? "";
+  const [{ data }] = useQuery<GetUsersTableQuery, GetUsersTableQueryVariables>({
+    query: GET_USERS_TABLE_QUERY,
+    variables: {
+      search: `%${search}%`,
+    },
   });
+
   return (
     <MainLayout pageName="Team" headerContent={<UserSearch />}>
       <UserTableControls />
-      <UserTable users={usersQuery.data?.users ?? []} />
+      <UserTable users={data?.users ?? []} />
     </MainLayout>
   );
 };
