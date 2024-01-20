@@ -18,3 +18,13 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 5. Run `pnpm hasura:console` to open the hasura console. This is useful for debugging
 6. Run `pnpm graphql:codegen`. This needs to be re-run whenever you write new graphql queries or the schema changes
 7. Run `pnpm dev` to start the Next.js app.
+
+### Seeded Users
+
+The following users are seeded:
+
+- admin@example.com
+- joshua.man@example.com
+- david.plebeu@example.com
+
+and they all have the password `Test1234!`
