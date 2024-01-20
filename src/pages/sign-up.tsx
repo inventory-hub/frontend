@@ -97,16 +97,18 @@ const SignUpPage = ({ invitationInfo }: Props) => {
     mutationFn: (data: SignUpForm | { token: string }) =>
       axios.post("/api/auth/sign-up", data),
     onSuccess: () => {
-      signIn(
-        "credentials",
-        {
-          callbackUrl: "/app",
-        },
-        {
-          email: invitationInfo?.email!,
-          password: getValues("password"),
-        }
-      );
+      toast({
+        title: "Account created.",
+        description: "You are now logged in.",
+        status: "success",
+        duration: 3000,
+        isClosable: false,
+      });
+      signIn("credentials", {
+        callbackUrl: "/app",
+        email: invitationInfo?.email!,
+        password: getValues("password"),
+      });
     },
     onError: (response: { error: string }) =>
       setError("root", { message: response?.error ?? "Network Error" }),
