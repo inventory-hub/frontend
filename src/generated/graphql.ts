@@ -5538,6 +5538,13 @@ export type UpgradeUserMutationVariables = Exact<{
 
 export type UpgradeUserMutation = { __typename?: 'mutation_root', user?: { __typename?: 'users', id: any } | null, deleted_draft_user?: { __typename?: 'draft_users', id: any } | null };
 
+export type InsertProductMutationVariables = Exact<{
+  product: Products_Insert_Input;
+}>;
+
+
+export type InsertProductMutation = { __typename?: 'mutation_root', insert_products_one?: { __typename?: 'products', id: any } | null };
+
 export type CreateDraftUserMutationVariables = Exact<{
   user: Draft_Users_Insert_Input;
 }>;

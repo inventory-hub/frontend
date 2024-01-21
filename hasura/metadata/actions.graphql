@@ -32,6 +32,11 @@ input CreateProductInput {
   category_id: uuid!
 }
 
+input ImageCreationParams {
+  image_base64: String!
+  image_extension: String!
+}
+
 type InviteUserOutput {
   error: String
   id: String

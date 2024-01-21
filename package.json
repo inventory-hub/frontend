@@ -10,13 +10,14 @@
 		"lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
 		"hasura": "hasura --project ./hasura --skip-update-check --admin-secret=admin-key",
 		"hasura:console": "pnpm hasura console",
-		"hasura:apply": "pnpm hasura md apply && pnpm hasura migrate apply --database-name=pg",
+		"hasura:apply": "pnpm hasura md apply && pnpm hasura migrate apply --database-name=pg && pnpm hasura md reload",
 		"hasura:seed": "pnpm hasura seeds apply --database-name=pg",
 		"codegen:graphql": "graphql-codegen --config codegen.ts",
 		"codegen:graphql:watch": "pnpm codegen:graphql --watch"
 	},
-	"packageManager": "pnpm@8.7.6",
+	"packageManager": "pnpm@8.14.1",
 	"dependencies": {
+		"@azure/storage-blob": "^12.17.0",
 		"@azure/storage-queue": "^12.16.0",
 		"@chakra-ui/next-js": "^2.2.0",
 		"@chakra-ui/react": "^2.8.2",

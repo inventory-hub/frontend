@@ -1,6 +1,11 @@
+import { type GraphQLError } from "graphql";
 import { type RequestDocument, request } from "graphql-request";
 
 type Variables = Record<string, unknown>;
+
+export type GraphQLErrors = {
+  errors: Partial<GraphQLError>[];
+};
 
 export const graphqlRequest = <T, V extends Variables = Variables>(
   document: RequestDocument,

@@ -2,7 +2,7 @@ actions:
   - name: create_product
     definition:
       kind: synchronous
-      handler: '{{ACTION_BASE_URL}}/api/create_product'
+      handler: '{{ACTION_BASE_URL}}/api/products/create_product'
     comment: create a product.
   - name: invite_user
     definition:
@@ -30,6 +30,7 @@ custom_types:
   input_objects:
     - name: InviteUserInput
     - name: CreateProductInput
+    - name: ImageCreationParams
   objects:
     - name: InviteUserOutput
     - name: InviteUserResponse
