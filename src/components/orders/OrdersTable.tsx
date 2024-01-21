@@ -13,11 +13,11 @@ import {
   Portal,
   PopoverContent,
   PopoverArrow,
-  Button,
   PopoverHeader,
-  PopoverCloseButton,
-  PopoverBody,
-  PopoverFooter,
+  Flex,
+  Checkbox,
+  Spacer,
+  HStack,
 } from "@chakra-ui/react";
 import { type GetOrdersQuery } from "~/generated/graphql";
 
@@ -31,41 +31,47 @@ const OrdersTable = ({ orders, ...props }: Props) => {
       <Table bg="white" rounded="xl" {...props}>
         <Thead>
           <Tr>
-            <Th w={16}>Id</Th>
-            <Th w={12}>Items</Th>
-            <Th w={32}>Created</Th>
-            <Th w={32}>Updated</Th>
-            <Th w={32}>State</Th>
+            <Th></Th>
+            <Th>Count</Th>
+            <Th>Items</Th>
+            <Th>Created</Th>
+            <Th>Updated</Th>
+            <Th>State</Th>
           </Tr>
         </Thead>
         <Tbody>
           {orders?.map((order) => (
             <Tr key={order.id}>
-              <Td>{order.id}</Td>
               <Td>
-                {order.orders_items.map((item) => {
-                  return (
-                    <Popover key={item.product.name} trigger="hover">
-                      <PopoverTrigger>
-                        <Image
-                          src={item.product.imageUrl}
-                          alt="order product image"
-                          borderRadius="md"
-                          shadow="md"
-                          h="30px"
-                          w="30px"
-                          objectFit="contain"
-                        />
-                      </PopoverTrigger>
-                      <Portal>
-                        <PopoverContent>
-                          <PopoverArrow />
-                          <PopoverHeader>{item.product.name}</PopoverHeader>
-                        </PopoverContent>
-                      </Portal>
-                    </Popover>
-                  );
-                })}
+                <Checkbox borderColor="primary.main" />
+              </Td>
+              <Td>{order.orders_items.length.toString()}</Td>
+              <Td>
+                <HStack spacing="24px">
+                  {order.orders_items.map((item) => {
+                    return (
+                      <Popover key={item.product.id} trigger="hover">
+                        <PopoverTrigger>
+                          <Image
+                            src={item.product.imageUrl}
+                            alt="order product image"
+                            borderRadius="md"
+                            shadow="md"
+                            h="30px"
+                            w="30px"
+                            objectFit="contain"
+                          />
+                        </PopoverTrigger>
+                        <Portal>
+                          <PopoverContent>
+                            <PopoverArrow />
+                            <PopoverHeader>{item.product.name}</PopoverHeader>
+                          </PopoverContent>
+                        </Portal>
+                      </Popover>
+                    );
+                  })}
+                </HStack>
               </Td>
               <Td>{order.created_at.split("T")[0]}</Td>
               <Td>{order.updated_at.split("T")[0]}</Td>
