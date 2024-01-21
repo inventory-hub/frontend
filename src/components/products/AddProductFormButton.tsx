@@ -3,7 +3,6 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Select,
   Tooltip,
   IconButton,
   chakra,
@@ -17,6 +16,9 @@ import {
   Alert,
   AlertDescription,
   type ButtonProps,
+  Textarea,
+  NumberInput,
+  NumberInputField,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { AiOutlineUserAdd } from "react-icons/ai";
@@ -28,21 +30,26 @@ import { useMutation, useQuery } from "urql";
 import { PrimaryOutlineInput } from "../ui/inputs";
 import { FilledSecondaryButton, OutlinePrimaryButton } from "../ui/buttons";
 import {
-  type InviteUserInput,
-  RolesEnum,
   type CreateProductMutation,
   type CreateProductMutationVariables,
+  type CreateProductInput,
 } from "~/generated/graphql";
 
 const AddIcon = chakra(AiOutlineUserAdd);
 const CREATE_PRODUCT_LABEL = "Create Product";
 
 const inviteUserSchema = z.object({
-  email: z.string().email(),
-  role: z.nativeEnum(RolesEnum),
-  first_name: z.string().min(1),
-  last_name: z.string().min(1),
-}) satisfies z.ZodType<InviteUserInput>;
+  name: z.string().min(3, "Name must be at least 3 characters long"),
+  description: z
+    .string()
+    .min(3, "Description must be at least 3 characters long"),
+  category_id: z.string(),
+  initial_count: z.coerce
+    .number()
+    .min(0, "Initial count must be positive")
+    .int("Initial count must be a whole number"),
+  image_base64: z.string().nullish(),
+}) satisfies z.ZodType<CreateProductInput>;
 
 type InviteUserForm = z.infer<typeof inviteUserSchema>;
 
@@ -56,8 +63,8 @@ const GET_CATEGORIES_WITH_IDS = gql`
 `;
 
 const CREATE_PRODUCT_MUTATION = gql`
-  mutation CreateProduct($data: products_insert_input!) {
-    created_product: insert_products_one(object: $data) {
+  mutation CreateProduct($data: CreateProductInput!) {
+    created_product: create_product(product: $data) {
       id
     }
   }
@@ -80,10 +87,7 @@ const AddProductFormButton = (props: Props) => {
   } = useForm<InviteUserForm>({
     resolver: zodResolver(inviteUserSchema),
     defaultValues: {
-      email: "",
-      role: RolesEnum.User,
-      first_name: "",
-      last_name: "",
+      initial_count: 0,
     },
     mode: "onBlur",
   });
@@ -96,7 +100,7 @@ const AddProductFormButton = (props: Props) => {
   useEffect(() => {
     if (createState.data) {
       toast({
-        title: `Invite sent to ${getValues("email")}`,
+        title: `Product "${getValues("name")}" created`,
         status: "success",
         duration: 3000,
         isClosable: true,
@@ -154,46 +158,49 @@ const AddProductFormButton = (props: Props) => {
                     <AlertDescription>{errors.root?.message}</AlertDescription>
                   </Alert>
                 )}
-                <FormControl isInvalid={!!errors.first_name}>
-                  <FormLabel>First Name</FormLabel>
+                <FormControl isInvalid={!!errors.name}>
+                  <FormLabel>Product Name</FormLabel>
                   <PrimaryOutlineInput
-                    placeholder="First Name"
-                    {...register("first_name")}
+                    placeholder="Product Name"
+                    {...register("name")}
+                  />
+                  <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={!!errors.description}>
+                  <FormLabel>Description</FormLabel>
+                  <Textarea
+                    placeholder="Description"
+                    {...register("description")}
                   />
                   <FormErrorMessage>
-                    {errors.first_name?.message}
+                    {errors.description?.message}
                   </FormErrorMessage>
                 </FormControl>
-                <FormControl isInvalid={!!errors.first_name}>
-                  <FormLabel>Last Name</FormLabel>
-                  <PrimaryOutlineInput
-                    placeholder="Last Name"
-                    {...register("last_name")}
-                  />
+                <FormControl isInvalid={!!errors.initial_count}>
+                  <FormLabel>Initial Count</FormLabel>
+                  <NumberInput>
+                    <NumberInputField
+                      placeholder="0"
+                      {...register("initial_count")}
+                    ></NumberInputField>
+                  </NumberInput>
                   <FormErrorMessage>
-                    {errors.last_name?.message}
+                    {errors.initial_count?.message}
                   </FormErrorMessage>
                 </FormControl>
-                <FormControl isInvalid={!!errors.email}>
-                  <FormLabel>Email</FormLabel>
-                  <PrimaryOutlineInput
-                    type="email"
-                    placeholder="Email"
-                    {...register("email")}
-                  />
-                  <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+                <FormControl isInvalid={!!errors.category_id}>
+                  <FormLabel>Category</FormLabel>
+                  Autoselect will be here
+                  <FormErrorMessage>
+                    {errors.category_id?.message}
+                  </FormErrorMessage>
                 </FormControl>
-                <FormControl isInvalid={!!errors.role}>
-                  <FormLabel>Role</FormLabel>
-                  <Select {...register("role")}>
-                    <option value={RolesEnum.User}>User</option>
-                    <option value={RolesEnum.ReadonlyUser}>
-                      Readonly User
-                    </option>
-                    <option value={RolesEnum.Manager}>Manager</option>
-                    <option value={RolesEnum.Admin}>Admin</option>
-                  </Select>
-                  <FormErrorMessage>{errors.role?.message}</FormErrorMessage>
+                <FormControl isInvalid={!!errors.image_base64}>
+                  <FormLabel>Image</FormLabel>
+                  Image upload will be here
+                  <FormErrorMessage>
+                    {errors.image_base64?.message}
+                  </FormErrorMessage>
                 </FormControl>
               </form>
             </ModalBody>
@@ -207,7 +214,7 @@ const AddProductFormButton = (props: Props) => {
                 isLoading={createState.fetching}
                 onClick={handleSubmit(onSubmit)}
               >
-                Send Invitation
+                Create Product
               </OutlinePrimaryButton>
             </ModalFooter>
           </ModalContent>

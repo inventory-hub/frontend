@@ -1,4 +1,9 @@
 actions:
+  - name: create_product
+    definition:
+      kind: synchronous
+      handler: '{{ACTION_BASE_URL}}/api/create_product'
+    comment: create a product.
   - name: invite_user
     definition:
       kind: synchronous
@@ -24,8 +29,10 @@ custom_types:
           value: readonly_user
   input_objects:
     - name: InviteUserInput
+    - name: CreateProductInput
   objects:
     - name: InviteUserOutput
     - name: InviteUserResponse
     - name: Error
+    - name: CreateProductOutput
   scalars: []
