@@ -14,15 +14,35 @@ import {
   PopoverContent,
   PopoverArrow,
   PopoverHeader,
-  Flex,
   Checkbox,
-  Spacer,
   HStack,
+  Text,
 } from "@chakra-ui/react";
 import { type GetOrdersQuery } from "~/generated/graphql";
 
 type Props = TableProps & {
   orders: GetOrdersQuery["orders"] | undefined;
+};
+
+type OrderState = "draft" | "completed" | "awaitingapproval" | "cancelled";
+
+const statusColors: Record<OrderState, { text: string; bg: string }> = {
+  draft: {
+    text: "status.draft.text",
+    bg: "status.draft.bg",
+  },
+  completed: {
+    text: "status.completed.text",
+    bg: "status.completed.bg",
+  },
+  awaitingapproval: {
+    text: "status.awaitingApproval.text",
+    bg: "status.awaitingApproval.bg",
+  },
+  cancelled: {
+    text: "status.canceled.text",
+    bg: "status.canceled.bg",
+  },
 };
 
 const OrdersTable = ({ orders, ...props }: Props) => {
@@ -75,7 +95,25 @@ const OrdersTable = ({ orders, ...props }: Props) => {
               </Td>
               <Td>{order.created_at.split("T")[0]}</Td>
               <Td>{order.updated_at.split("T")[0]}</Td>
-              <Td>{order.state}</Td>
+              <Td>
+                <Text
+                  color={
+                    statusColors[order.state.toLowerCase() as OrderState]
+                      ?.text || "black"
+                  }
+                  backgroundColor={
+                    statusColors[order.state.toLowerCase() as OrderState]?.bg ||
+                    "white"
+                  }
+                  w="fit-content"
+                  py={1}
+                  px={5}
+                  fontSize="0.85rem"
+                  borderRadius={50}
+                >
+                  {order.state}
+                </Text>
+              </Td>
             </Tr>
           ))}
         </Tbody>
