@@ -5492,6 +5492,13 @@ export type CreateProductMutationVariables = Exact<{
 
 export type CreateProductMutation = { __typename?: 'mutation_root', created_product?: { __typename?: 'CreateProductOutput', id: any } | null };
 
+export type CreateCategoryMutationVariables = Exact<{
+  data: Categories_Insert_Input;
+}>;
+
+
+export type CreateCategoryMutation = { __typename?: 'mutation_root', created_category?: { __typename?: 'categories', id: any } | null };
+
 export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 

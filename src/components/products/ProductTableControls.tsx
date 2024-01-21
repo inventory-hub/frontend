@@ -1,7 +1,7 @@
 import { Flex, Select, Skeleton } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { gql } from "graphql-request";
-import { useQuery } from "urql";
+import { type UseQueryExecute, useQuery } from "urql";
 
 import {
   type GetCategoriesQuery,
@@ -19,7 +19,9 @@ const GET_CATEGORIES_QUERY = gql`
   }
 `;
 
-const ProductTableControls = () => {
+type Props = { refetchProducts: UseQueryExecute };
+
+const ProductTableControls = ({ refetchProducts }: Props) => {
   const { data, status } = useSession();
   const category = useProductsFiltersStore(({ category }) => category);
   const setCategory = useProductsFiltersStore(({ setCategory }) => setCategory);
@@ -59,7 +61,7 @@ const ProductTableControls = () => {
             </option>
           ))}
         </Select>
-        <AddProductFormButton ml="auto" />
+        <AddProductFormButton refetchProducts={refetchProducts} ml="auto" />
       </Flex>
     </Skeleton>
   );

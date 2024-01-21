@@ -2,7 +2,7 @@ actions:
   - name: create_product
     definition:
       kind: synchronous
-      handler: '{{ACTION_BASE_URL}}/api/products/create_product'
+      handler: '{{ACTION_BASE_URL}}/api/products/create-product'
     comment: create a product.
   - name: invite_user
     definition:

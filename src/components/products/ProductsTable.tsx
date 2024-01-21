@@ -6,15 +6,10 @@ import {
   Tbody,
   Tr,
   Td,
-  Avatar,
   TableContainer,
-  Text,
   Image,
 } from "@chakra-ui/react";
-import {
-  type GetProductsOverviewQuery,
-  GetProductsOverviewQueryVariables,
-} from "~/generated/graphql";
+import { type GetProductsOverviewQuery } from "~/generated/graphql";
 
 type Props = TableProps & {
   products: GetProductsOverviewQuery["products"] | undefined;

@@ -41,9 +41,9 @@ const handler: NextApiHandler<CreateProductOutput | GraphQLErrors> = async (
     res.status(405).json({ errors: [{ message: "Method not allowed" }] });
     return;
   }
-
-  const { name, category_id, description, initial_count, image_base64 } =
-    req.body as CreateProductInput;
+  console.log(req.body);
+  const { name, category_id, description, initial_count, image_base64 } = req
+    .body.input.product as CreateProductInput;
 
   const hash_name = getHashName(name);
 
@@ -86,6 +86,14 @@ const handler: NextApiHandler<CreateProductOutput | GraphQLErrors> = async (
 
   const id = response.insert_products_one?.id!;
   res.status(200).json({ id });
+};
+
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: "20mb",
+    },
+  },
 };
 
 export default handler;

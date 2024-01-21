@@ -50,7 +50,7 @@ const ProductsPage = () => {
     ? ""
     : router.query.search ?? "";
   const category = useProductsFiltersStore(({ category }) => category);
-  const [productsQuery] = useQuery<
+  const [productsQuery, refetchProducts] = useQuery<
     GetProductsOverviewQuery,
     GetProductsOverviewQueryVariables
   >({
@@ -67,7 +67,7 @@ const ProductsPage = () => {
       pageName="Products"
       headerContent={<HeaderSearch placeholder="Search products" />}
     >
-      <ProductTableControls />
+      <ProductTableControls refetchProducts={refetchProducts} />
       <ProductsTable products={productsQuery.data?.products}></ProductsTable>
     </MainLayout>
   );
