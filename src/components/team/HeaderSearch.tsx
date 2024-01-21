@@ -6,7 +6,11 @@ import { throttle } from "~/utilities/rate-limiting";
 
 const SearchIcon = chakra(RiSearchLine);
 
-const UserSearch = () => {
+type Props = {
+  placeholder?: string;
+};
+
+const UserSearch = ({ placeholder }: Props) => {
   const router = useRouter();
   const handleChange: ChangeEventHandler<HTMLInputElement> = throttle((e) => {
     const query = e.target.value;
@@ -22,7 +26,7 @@ const UserSearch = () => {
         outlineColor="black"
         borderRadius="xl"
         onChange={handleChange}
-        placeholder="Search for someone"
+        placeholder={placeholder}
         defaultValue={router.query.search}
         size="sm"
         w="100%"
