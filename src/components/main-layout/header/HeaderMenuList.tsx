@@ -11,7 +11,7 @@ import { AiOutlineSetting } from "react-icons/ai";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { BsBell } from "react-icons/bs";
 import { useRouter } from "next/router";
-import { useAuthStore } from "~/stores/auth-store";
+import { signOut } from "next-auth/react";
 
 const styledOptions: ChakraStyledOptions = {
   baseStyle: {
@@ -25,9 +25,10 @@ const RiLogoutBoxLineIcon = chakra(RiLogoutBoxLine, styledOptions);
 
 const HeaderMenuList = () => {
   const router = useRouter();
-  const logout = useAuthStore((state) => state.logout);
   const handleLogout = () => {
-    logout();
+    signOut({
+      redirect: false,
+    });
     router.replace({
       pathname: "/login",
       query: {

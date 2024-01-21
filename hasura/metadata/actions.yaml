@@ -1,6 +1,31 @@
-actions: []
+actions:
+  - name: invite_user
+    definition:
+      kind: synchronous
+      handler: '{{ACTION_BASE_URL}}/api/users/invite-user'
+      forward_client_headers: true
+    permissions:
+      - role: manager
 custom_types:
-  enums: []
-  input_objects: []
-  objects: []
+  enums:
+    - name: RolesEnum
+      values:
+        - description: null
+          is_deprecated: null
+          value: admin
+        - description: null
+          is_deprecated: null
+          value: manager
+        - description: null
+          is_deprecated: null
+          value: user
+        - description: null
+          is_deprecated: null
+          value: readonly_user
+  input_objects:
+    - name: InviteUserInput
+  objects:
+    - name: InviteUserOutput
+    - name: InviteUserResponse
+    - name: Error
   scalars: []

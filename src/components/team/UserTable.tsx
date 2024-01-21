@@ -10,10 +10,10 @@ import {
   TableContainer,
   Checkbox,
 } from "@chakra-ui/react";
-import { type UserData } from "~/services/user-service";
+import { type GetUsersTableQuery } from "~/generated/graphql";
 
 type Props = TableProps & {
-  users: UserData[];
+  users: GetUsersTableQuery["users"];
 };
 
 const UserTable = ({ users, ...props }: Props) => {
@@ -24,8 +24,8 @@ const UserTable = ({ users, ...props }: Props) => {
           <Tr>
             <Th w={16}></Th>
             <Th w={16}></Th>
-            <Th w={16}>Id</Th>
             <Th>Username</Th>
+            <Th>Name</Th>
             <Th>Email</Th>
             <Th w={32}>Role</Th>
             <Th>Active?</Th>
@@ -40,11 +40,11 @@ const UserTable = ({ users, ...props }: Props) => {
               <Td>
                 <Avatar size="sm" />
               </Td>
-              <Td>{user.id}</Td>
-              <Td>{user.username}</Td>
+              <Td>{user.name}</Td>
+              <Td>{user.full_name}</Td>
               <Td>{user.email}</Td>
               <Td>{user.role}</Td>
-              <Td>{user.deletedAt !== null ? "Yes" : "No"}</Td>
+              <Td>{user.deleted_at ? "Yes" : "No"}</Td>
             </Tr>
           ))}
         </Tbody>
