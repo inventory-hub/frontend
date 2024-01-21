@@ -5531,6 +5531,13 @@ export type GetUsersEmailExistsQueryVariables = Exact<{
 
 export type GetUsersEmailExistsQuery = { __typename?: 'query_root', users_aggregate: { __typename?: 'users_aggregate', aggregate?: { __typename?: 'users_aggregate_fields', count: number } | null } };
 
+export type GetOrdersTableQueryVariables = Exact<{
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type GetOrdersTableQuery = { __typename?: 'query_root', orders: Array<{ __typename?: 'orders', id: any, client_name?: string | null, created_at: any, state: Order_States_Enum, orders_items: Array<{ __typename?: 'orders_items', product: { __typename?: 'products', name: string, imageUrl: string } }> }> };
+
 export type GetProductsOverviewQueryVariables = Exact<{
   search?: InputMaybe<Scalars['String']['input']>;
   condition: Products_Bool_Exp;
