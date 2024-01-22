@@ -5514,7 +5514,7 @@ export type InviteUserMutation = { __typename?: 'mutation_root', invited_user?: 
 export type GetOrdersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetOrdersQuery = { __typename?: 'query_root', orders: Array<{ __typename?: 'orders', id: any, created_at: any, updated_at: any, state: Order_States_Enum, orders_items: Array<{ __typename?: 'orders_items', count: number, product: { __typename?: 'products', name: string, imageUrl: string } }> }> };
+export type GetOrdersQuery = { __typename?: 'query_root', orders: Array<{ __typename?: 'orders', id: any, created_at: any, updated_at: any, state: Order_States_Enum, orders_items: Array<{ __typename?: 'orders_items', count: number, product: { __typename?: 'products', id: any, name: string, imageUrl: string, hash_name: string } }> }> };
 
 export type GetUserAccountsByEmailQueryVariables = Exact<{
   email: Scalars['String']['input'];

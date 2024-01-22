@@ -9,8 +9,10 @@ export const GET_ORDERS_OVERVIEW = gql`
       state
       orders_items {
         product {
+          id
           name
           imageUrl
+          hash_name
         }
         count
       }

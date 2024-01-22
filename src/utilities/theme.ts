@@ -34,5 +34,23 @@ export const theme = extendTheme({
       hover: "#9671ff",
       focus: "#a383ff",
     },
+    status: {
+      completed: {
+        text: "#43a054",
+        bg: "#e9f5ec",
+      },
+      draft: {
+        text: "#ded449",
+        bg: "#f9fbe2",
+      },
+      canceled: {
+        text: "#fd4d4f",
+        bg: "#ffe6e7",
+      },
+      awaitingApproval: {
+        text: "#59a5ff",
+        bg: "#d6e1ff",
+      },
+    },
   },
 });
