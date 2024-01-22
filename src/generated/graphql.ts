@@ -17,6 +17,19 @@ export type Scalars = {
   uuid: { input: any; output: any; }
 };
 
+export type CreateProductInput = {
+  category_id: Scalars['uuid']['input'];
+  description: Scalars['String']['input'];
+  image_base64?: InputMaybe<Scalars['String']['input']>;
+  initial_count: Scalars['Int']['input'];
+  name: Scalars['String']['input'];
+};
+
+export type CreateProductOutput = {
+  __typename?: 'CreateProductOutput';
+  id: Scalars['uuid']['output'];
+};
+
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 export type Int_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['Int']['input']>;
@@ -1379,6 +1392,8 @@ export type Draft_Users_Updates = {
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
+  /** create a product. */
+  create_product?: Maybe<CreateProductOutput>;
   /** delete data from the table: "accounts" */
   delete_accounts?: Maybe<Accounts_Mutation_Response>;
   /** delete single row from the table: "accounts" */
@@ -1576,6 +1591,12 @@ export type Mutation_Root = {
   update_verification_tokens_by_pk?: Maybe<Verification_Tokens>;
   /** update multiples rows of table: "verification_tokens" */
   update_verification_tokens_many?: Maybe<Array<Maybe<Verification_Tokens_Mutation_Response>>>;
+};
+
+
+/** mutation root */
+export type Mutation_RootCreate_ProductArgs = {
+  product?: InputMaybe<CreateProductInput>;
 };
 
 
@@ -5459,6 +5480,30 @@ export type GetSelfOverviewQueryVariables = Exact<{
 
 export type GetSelfOverviewQuery = { __typename?: 'query_root', user?: { __typename?: 'users', name?: string | null, email?: string | null, role: Roles_Enum, full_name?: string | null } | null };
 
+export type GetCategoriesWithIdsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCategoriesWithIdsQuery = { __typename?: 'query_root', categories: Array<{ __typename?: 'categories', id: any, name: string }> };
+
+export type CreateProductMutationVariables = Exact<{
+  data: CreateProductInput;
+}>;
+
+
+export type CreateProductMutation = { __typename?: 'mutation_root', created_product?: { __typename?: 'CreateProductOutput', id: any } | null };
+
+export type CreateCategoryMutationVariables = Exact<{
+  data: Categories_Insert_Input;
+}>;
+
+
+export type CreateCategoryMutation = { __typename?: 'mutation_root', created_category?: { __typename?: 'categories', id: any } | null };
+
+export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCategoriesQuery = { __typename?: 'query_root', categories: Array<{ __typename?: 'categories', name: string }> };
+
 export type InviteUserMutationVariables = Exact<{
   data: InviteUserInput;
 }>;
@@ -5470,11 +5515,6 @@ export type GetOrdersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetOrdersQuery = { __typename?: 'query_root', orders: Array<{ __typename?: 'orders', id: any, created_at: any, updated_at: any, state: Order_States_Enum, orders_items: Array<{ __typename?: 'orders_items', count: number, product: { __typename?: 'products', id: any, name: string, imageUrl: string, hash_name: string } }> }> };
-
-export type GetProductsOverviewQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetProductsOverviewQuery = { __typename?: 'query_root', products: Array<{ __typename?: 'products', id: any, name: string, description: string, imageUrl: string, quantity: number, hash_name: string, category: { __typename?: 'categories', name: string } }> };
 
 export type GetUserAccountsByEmailQueryVariables = Exact<{
   email: Scalars['String']['input'];
@@ -5505,6 +5545,13 @@ export type UpgradeUserMutationVariables = Exact<{
 
 export type UpgradeUserMutation = { __typename?: 'mutation_root', user?: { __typename?: 'users', id: any } | null, deleted_draft_user?: { __typename?: 'draft_users', id: any } | null };
 
+export type InsertProductMutationVariables = Exact<{
+  product: Products_Insert_Input;
+}>;
+
+
+export type InsertProductMutation = { __typename?: 'mutation_root', insert_products_one?: { __typename?: 'products', id: any } | null };
+
 export type CreateDraftUserMutationVariables = Exact<{
   user: Draft_Users_Insert_Input;
 }>;
@@ -5518,6 +5565,21 @@ export type GetUsersEmailExistsQueryVariables = Exact<{
 
 
 export type GetUsersEmailExistsQuery = { __typename?: 'query_root', users_aggregate: { __typename?: 'users_aggregate', aggregate?: { __typename?: 'users_aggregate_fields', count: number } | null } };
+
+export type GetOrdersTableQueryVariables = Exact<{
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type GetOrdersTableQuery = { __typename?: 'query_root', orders: Array<{ __typename?: 'orders', id: any, client_name?: string | null, created_at: any, state: Order_States_Enum, orders_items: Array<{ __typename?: 'orders_items', product: { __typename?: 'products', name: string, imageUrl: string } }> }> };
+
+export type GetProductsOverviewQueryVariables = Exact<{
+  search?: InputMaybe<Scalars['String']['input']>;
+  condition: Products_Bool_Exp;
+}>;
+
+
+export type GetProductsOverviewQuery = { __typename?: 'query_root', products: Array<{ __typename?: 'products', id: any, name: string, description: string, imageUrl: string, quantity: number, hash_name: string, category: { __typename?: 'categories', name: string } }> };
 
 export type GetUsersTableQueryVariables = Exact<{
   search?: InputMaybe<Scalars['String']['input']>;
