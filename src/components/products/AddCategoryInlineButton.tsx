@@ -1,12 +1,13 @@
 import { Button, type ButtonProps, chakra } from "@chakra-ui/react";
-import { gql } from "graphql-request";
 import { useCallback, type MouseEventHandler } from "react";
+import { BiPlus } from "react-icons/bi";
+import { gql } from "graphql-request";
 import { useMutation } from "urql";
+
 import {
   type CreateCategoryMutation,
   type CreateCategoryMutationVariables,
 } from "~/generated/graphql";
-import { BiPlus } from "react-icons/bi";
 
 const CREATE_CATEGORY_MUTATION = gql`
   mutation CreateCategory($data: categories_insert_input!) {
@@ -52,7 +53,7 @@ const AddCategoryInlineButton = ({ onSuccess, category }: Props) => {
       variant="ghost"
       isLoading={mutationState.fetching}
       onClick={handleClick}
-      maxW="100%"
+      w="100%"
     >
       <BiPlus fontSize="1.5rem" /> Add category "
       <chakra.span fontWeight="bold" textOverflow="ellipsis" overflowX="hidden">

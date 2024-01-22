@@ -1,4 +1,5 @@
 import { extendTheme } from "@chakra-ui/react";
+import { Order_States_Enum } from "~/generated/graphql";
 
 export const theme = extendTheme({
   styles: {
@@ -35,19 +36,19 @@ export const theme = extendTheme({
       focus: "#a383ff",
     },
     status: {
-      completed: {
+      [Order_States_Enum.Completed]: {
         text: "#43a054",
         bg: "#e9f5ec",
       },
-      draft: {
+      [Order_States_Enum.Draft]: {
         text: "#ded449",
         bg: "#f9fbe2",
       },
-      canceled: {
+      [Order_States_Enum.Cancelled]: {
         text: "#fd4d4f",
         bg: "#ffe6e7",
       },
-      awaitingApproval: {
+      [Order_States_Enum.AwaitingApproval]: {
         text: "#59a5ff",
         bg: "#d6e1ff",
       },

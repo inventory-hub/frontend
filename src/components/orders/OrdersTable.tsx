@@ -17,32 +17,13 @@ import {
   Checkbox,
   HStack,
   Text,
+  PopoverBody,
 } from "@chakra-ui/react";
 import { type GetOrdersQuery } from "~/generated/graphql";
+import { orderStateTranslations } from "~/utilities/orders";
 
 type Props = TableProps & {
   orders: GetOrdersQuery["orders"] | undefined;
-};
-
-type OrderState = "draft" | "completed" | "awaitingapproval" | "cancelled";
-
-const statusColors: Record<OrderState, { text: string; bg: string }> = {
-  draft: {
-    text: "status.draft.text",
-    bg: "status.draft.bg",
-  },
-  completed: {
-    text: "status.completed.text",
-    bg: "status.completed.bg",
-  },
-  awaitingapproval: {
-    text: "status.awaitingApproval.text",
-    bg: "status.awaitingApproval.bg",
-  },
-  cancelled: {
-    text: "status.canceled.text",
-    bg: "status.canceled.bg",
-  },
 };
 
 const OrdersTable = ({ orders, ...props }: Props) => {
@@ -52,11 +33,12 @@ const OrdersTable = ({ orders, ...props }: Props) => {
         <Thead>
           <Tr>
             <Th></Th>
-            <Th>Count</Th>
+            <Th>Total Quantity</Th>
             <Th>Items</Th>
             <Th>Created</Th>
             <Th>Updated</Th>
             <Th>State</Th>
+            <Th>Client</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -65,7 +47,12 @@ const OrdersTable = ({ orders, ...props }: Props) => {
               <Td>
                 <Checkbox borderColor="primary.main" />
               </Td>
-              <Td>{order.orders_items.length.toString()}</Td>
+              <Td>
+                {order.orders_items
+                  .map((oi) => oi.product.quantity)
+                  .reduce((acc, q) => q + acc, 0)
+                  .toString()}
+              </Td>
               <Td>
                 <HStack spacing="24px">
                   {order.orders_items.map((item) => {
@@ -83,9 +70,12 @@ const OrdersTable = ({ orders, ...props }: Props) => {
                           />
                         </PopoverTrigger>
                         <Portal>
-                          <PopoverContent>
-                            <PopoverArrow />
+                          <PopoverContent borderColor="primary.outline">
+                            <PopoverArrow bgColor="primary.outline" />
                             <PopoverHeader>{item.product.name}</PopoverHeader>
+                            <PopoverBody>
+                              Quantity: {item.product.quantity}
+                            </PopoverBody>
                           </PopoverContent>
                         </Portal>
                       </Popover>
@@ -97,23 +87,18 @@ const OrdersTable = ({ orders, ...props }: Props) => {
               <Td>{order.updated_at.split("T")[0]}</Td>
               <Td>
                 <Text
-                  color={
-                    statusColors[order.state.toLowerCase() as OrderState]
-                      ?.text || "black"
-                  }
-                  backgroundColor={
-                    statusColors[order.state.toLowerCase() as OrderState]?.bg ||
-                    "white"
-                  }
+                  color={`status.${order.state}.text`}
+                  backgroundColor={`status.${order.state}.bg`}
                   w="fit-content"
                   py={1}
                   px={5}
                   fontSize="0.85rem"
-                  borderRadius={50}
+                  rounded="full"
                 >
-                  {order.state}
+                  {orderStateTranslations[order.state]}
                 </Text>
               </Td>
+              <Td fontWeight={600}>{order.client_name}</Td>
             </Tr>
           ))}
         </Tbody>

@@ -5480,6 +5480,13 @@ export type GetSelfOverviewQueryVariables = Exact<{
 
 export type GetSelfOverviewQuery = { __typename?: 'query_root', user?: { __typename?: 'users', name?: string | null, email?: string | null, role: Roles_Enum, full_name?: string | null } | null };
 
+export type CreateCategoryMutationVariables = Exact<{
+  data: Categories_Insert_Input;
+}>;
+
+
+export type CreateCategoryMutation = { __typename?: 'mutation_root', created_category?: { __typename?: 'categories', id: any } | null };
+
 export type GetCategoriesWithIdsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -5492,13 +5499,6 @@ export type CreateProductMutationVariables = Exact<{
 
 export type CreateProductMutation = { __typename?: 'mutation_root', created_product?: { __typename?: 'CreateProductOutput', id: any } | null };
 
-export type CreateCategoryMutationVariables = Exact<{
-  data: Categories_Insert_Input;
-}>;
-
-
-export type CreateCategoryMutation = { __typename?: 'mutation_root', created_category?: { __typename?: 'categories', id: any } | null };
-
 export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -5510,11 +5510,6 @@ export type InviteUserMutationVariables = Exact<{
 
 
 export type InviteUserMutation = { __typename?: 'mutation_root', invited_user?: { __typename?: 'InviteUserOutput', id?: string | null } | null };
-
-export type GetOrdersQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetOrdersQuery = { __typename?: 'query_root', orders: Array<{ __typename?: 'orders', id: any, created_at: any, updated_at: any, state: Order_States_Enum, orders_items: Array<{ __typename?: 'orders_items', count: number, product: { __typename?: 'products', id: any, name: string, imageUrl: string, hash_name: string } }> }> };
 
 export type GetUserAccountsByEmailQueryVariables = Exact<{
   email: Scalars['String']['input'];
@@ -5566,12 +5561,12 @@ export type GetUsersEmailExistsQueryVariables = Exact<{
 
 export type GetUsersEmailExistsQuery = { __typename?: 'query_root', users_aggregate: { __typename?: 'users_aggregate', aggregate?: { __typename?: 'users_aggregate_fields', count: number } | null } };
 
-export type GetOrdersTableQueryVariables = Exact<{
+export type GetOrdersQueryVariables = Exact<{
   search?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type GetOrdersTableQuery = { __typename?: 'query_root', orders: Array<{ __typename?: 'orders', id: any, client_name?: string | null, created_at: any, state: Order_States_Enum, orders_items: Array<{ __typename?: 'orders_items', product: { __typename?: 'products', name: string, imageUrl: string } }> }> };
+export type GetOrdersQuery = { __typename?: 'query_root', orders: Array<{ __typename?: 'orders', id: any, created_at: any, updated_at: any, state: Order_States_Enum, client_name?: string | null, orders_items: Array<{ __typename?: 'orders_items', product: { __typename?: 'products', id: any, name: string, imageUrl: string, hash_name: string, quantity: number } }> }> };
 
 export type GetProductsOverviewQueryVariables = Exact<{
   search?: InputMaybe<Scalars['String']['input']>;
