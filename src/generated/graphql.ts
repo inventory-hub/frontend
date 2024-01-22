@@ -5563,6 +5563,7 @@ export type GetUsersEmailExistsQuery = { __typename?: 'query_root', users_aggreg
 
 export type GetOrdersQueryVariables = Exact<{
   search?: InputMaybe<Scalars['String']['input']>;
+  states: Array<Order_States_Enum> | Order_States_Enum;
 }>;
 
 

@@ -9,10 +9,14 @@ import {
 import OrdersTable from "~/components/orders/OrdersTable";
 import HeaderSearch from "~/components/team/HeaderSearch";
 import { useRouter } from "next/router";
+import OrderTableControls from "~/components/orders/OrderTableControls";
+import { useOrdersFiltersStore } from "~/stores/orders-filters-store";
 
 const GET_ORDERS_OVERVIEW = gql`
-  query GetOrders($search: String = "%%") {
-    orders(where: { client_name: { _ilike: $search } }) {
+  query GetOrders($search: String = "%%", $states: [order_states_enum!]!) {
+    orders(
+      where: { client_name: { _ilike: $search }, state: { _in: $states } }
+    ) {
       id
       created_at
       updated_at
@@ -33,6 +37,7 @@ const GET_ORDERS_OVERVIEW = gql`
 
 const OrdersPage = () => {
   const router = useRouter();
+  const states = useOrdersFiltersStore(({ states }) => states);
   const search = Array.isArray(router.query.search)
     ? ""
     : router.query.search ?? "";
@@ -43,6 +48,7 @@ const OrdersPage = () => {
     query: GET_ORDERS_OVERVIEW,
     variables: {
       search: `%${search}%`,
+      states,
     },
   });
   return (
@@ -50,6 +56,7 @@ const OrdersPage = () => {
       pageName="Orders"
       headerContent={<HeaderSearch placeholder="Search by client" />}
     >
+      <OrderTableControls refetchOrders={refetch} />
       <OrdersTable orders={ordersQuery.data?.orders} />
     </MainLayout>
   );

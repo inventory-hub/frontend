@@ -16,11 +16,10 @@ import {
   PopoverHeader,
   Checkbox,
   HStack,
-  Text,
   PopoverBody,
 } from "@chakra-ui/react";
 import { type GetOrdersQuery } from "~/generated/graphql";
-import { orderStateTranslations } from "~/utilities/orders";
+import OrderStateTag from "./OrderStateTag";
 
 type Props = TableProps & {
   orders: GetOrdersQuery["orders"] | undefined;
@@ -86,17 +85,7 @@ const OrdersTable = ({ orders, ...props }: Props) => {
               <Td>{order.created_at.split("T")[0]}</Td>
               <Td>{order.updated_at.split("T")[0]}</Td>
               <Td>
-                <Text
-                  color={`status.${order.state}.text`}
-                  backgroundColor={`status.${order.state}.bg`}
-                  w="fit-content"
-                  py={1}
-                  px={5}
-                  fontSize="0.85rem"
-                  rounded="full"
-                >
-                  {orderStateTranslations[order.state]}
-                </Text>
+                <OrderStateTag state={order.state} />
               </Td>
               <Td fontWeight={600}>{order.client_name}</Td>
             </Tr>
