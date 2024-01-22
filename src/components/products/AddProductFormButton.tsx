@@ -99,7 +99,8 @@ const AddProductFormButton = ({ refetchProducts, ...props }: Props) => {
   const isExactMatch = useMemo(
     () =>
       options.some(
-        (option) => option.label.toLowerCase() === categoryInputValue
+        (option) =>
+          option.label.toLowerCase() === categoryInputValue.toLowerCase()
       ),
     [categoryInputValue, options]
   );

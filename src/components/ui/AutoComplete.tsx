@@ -4,18 +4,19 @@ import {
   chakra,
   InputGroup,
   InputRightElement,
-  Menu,
-  MenuList,
-  MenuItem,
   useDisclosure,
-  MenuDivider,
   IconButton,
   useOutsideClick,
+  Popover,
+  PopoverAnchor,
+  PopoverContent,
+  PopoverBody,
+  Button,
+  Text,
 } from "@chakra-ui/react";
 import {
   useState,
   useCallback,
-  useMemo,
   type ChangeEventHandler,
   type ReactNode,
   useRef,
@@ -25,12 +26,50 @@ import { BiChevronDown } from "react-icons/bi";
 
 const ChevronDownIcon = chakra(BiChevronDown);
 
+type OptionInit = {
+  label: string;
+  value: string;
+};
+
+type FilteredOptionsProps = {
+  options: OptionInit[];
+  search: string;
+  onOptionClick: (option: OptionInit) => void;
+};
+
+const FilteredOptions = ({
+  options,
+  search,
+  onOptionClick,
+}: FilteredOptionsProps) => {
+  const filteredOptions = options.filter(({ label }) =>
+    label.toLowerCase().includes(search.toLowerCase())
+  );
+  const hiddenOptionsCount = Math.max(0, filteredOptions.length - 5);
+  return (
+    <>
+      {filteredOptions.slice(0, 5).map((option) => (
+        <Button
+          w="100%"
+          variant="ghost"
+          key={option.value}
+          onClick={() => onOptionClick(option)}
+        >
+          {option.label}
+        </Button>
+      ))}
+      {hiddenOptionsCount > 0 && (
+        <Text fontSize="sm" textAlign="right" w="100%">
+          + {hiddenOptionsCount} more
+        </Text>
+      )}
+    </>
+  );
+};
+
 type Props = Omit<InputProps, "onChange"> & {
   extraElement?: ReactNode;
-  options: {
-    label: string;
-    value: string;
-  }[];
+  options: OptionInit[];
   defaultValue?: string;
   onChange?: (value: string) => void;
   onInputChange?: ChangeEventHandler<HTMLInputElement>;
@@ -62,53 +101,55 @@ const AutoComplete = ({
     enabled: isOpen,
   });
 
-  const filteredOptions = useMemo(
-    () =>
-      options.filter((option) =>
-        option.label.toLowerCase().includes(inputValue.toLowerCase())
-      ),
-    [inputValue, options]
+  const onOptionClick = useCallback(
+    (option: OptionInit) => {
+      onChange && onChange(option.value);
+      onClose();
+      setInputValue(option.label);
+    },
+    [onChange, onClose, setInputValue]
   );
 
   return (
     <>
-      <InputGroup>
-        <Input
-          onChange={handleInputChange}
-          {...props}
-          value={inputValue}
-          placeholder={placeholder}
-          onFocus={onOpen}
-          ref={inputRef}
-        />
-        <InputRightElement>
-          <IconButton variant="ghost" aria-label="Toggle suggestions">
-            {!isOpen && <ChevronDownIcon size="1rem" onClick={onOpen} />}
-          </IconButton>
-        </InputRightElement>
-      </InputGroup>
-      <Menu isOpen={isOpen}>
-        <MenuList mt="4.5rem" w="22rem">
-          {filteredOptions.map((option) => (
-            <MenuItem
-              key={option.value}
-              onClick={() => {
-                onChange && onChange(option.value);
-                onClose();
-                setInputValue(option.label);
-              }}
-            >
-              {option.label}
-            </MenuItem>
-          ))}
-          {extraElement && (
-            <>
-              <MenuDivider />
-              <MenuItem p={0}>{extraElement}</MenuItem>
-            </>
-          )}
-        </MenuList>
-      </Menu>
+      <Popover
+        isOpen={isOpen}
+        autoFocus={false}
+        onClose={onClose}
+        matchWidth
+        placement="bottom"
+      >
+        <PopoverAnchor>
+          <InputGroup>
+            <Input
+              onChange={handleInputChange}
+              {...props}
+              value={inputValue}
+              placeholder={placeholder}
+              onFocus={onOpen}
+              ref={inputRef}
+              role="search"
+            />
+            <InputRightElement>
+              {!isOpen && (
+                <IconButton variant="ghost" aria-label="Toggle suggestions">
+                  <ChevronDownIcon size="1rem" onClick={onOpen} />
+                </IconButton>
+              )}
+            </InputRightElement>
+          </InputGroup>
+        </PopoverAnchor>
+        <PopoverContent>
+          <PopoverBody m={0}>
+            <FilteredOptions
+              options={options}
+              search={inputValue}
+              onOptionClick={onOptionClick}
+            />
+            {extraElement}
+          </PopoverBody>
+        </PopoverContent>
+      </Popover>
     </>
   );
 };

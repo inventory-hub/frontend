@@ -52,9 +52,13 @@ const AddCategoryInlineButton = ({ onSuccess, category }: Props) => {
       variant="ghost"
       isLoading={mutationState.fetching}
       onClick={handleClick}
+      maxW="100%"
     >
-      <BiPlus size="1.5rem" /> Add category "
-      <chakra.span fontWeight="bold">{category}</chakra.span>"
+      <BiPlus fontSize="1.5rem" /> Add category "
+      <chakra.span fontWeight="bold" textOverflow="ellipsis" overflowX="hidden">
+        {category}
+      </chakra.span>
+      "
     </Button>
   );
 };
