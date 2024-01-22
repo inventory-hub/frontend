@@ -1,5 +1,4 @@
 import MainLayout from "~/components/main-layout";
-import UserSearch from "~/components/team/UserSearch";
 import { useQuery } from "urql";
 import {
   type GetOrdersQuery,
@@ -16,7 +15,7 @@ const OrdersPage = () => {
     query: GET_ORDERS_OVERVIEW,
   });
   return (
-    <MainLayout pageName="Products" headerContent={<UserSearch />}>
+    <MainLayout pageName="Products">
       <OrdersTable orders={ordersQuery.data?.orders} />
     </MainLayout>
   );
