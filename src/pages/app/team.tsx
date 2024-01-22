@@ -3,7 +3,7 @@ import { gql } from "graphql-request";
 import { useQuery } from "urql";
 
 import MainLayout from "~/components/main-layout";
-import UserSearch from "~/components/team/UserSearch";
+import HeaderSearch from "~/components/team/HeaderSearch";
 import UserTable from "~/components/team/UserTable";
 import UserTableControls from "~/components/team/UserTableControls";
 import {
@@ -46,7 +46,10 @@ const TeamPage = () => {
   });
 
   return (
-    <MainLayout pageName="Team" headerContent={<UserSearch />}>
+    <MainLayout
+      pageName="Team"
+      headerContent={<HeaderSearch placeholder="Search for someone" />}
+    >
       <UserTableControls />
       <UserTable users={data?.users ?? []} />
     </MainLayout>

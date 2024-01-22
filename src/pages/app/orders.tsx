@@ -1,25 +1,57 @@
-import MainLayout from "~/components/main-layout";
-import UserSearch from "~/components/team/UserSearch";
+import { useRouter } from "next/router";
+import { gql } from "graphql-request";
 import { useQuery } from "urql";
-import {
-  type GetOrdersQuery,
-  type GetOrdersQueryVariables,
-} from "~/generated/graphql";
-import OrdersTable from "~/components/orders/OrdersTable";
-import { GET_ORDERS_OVERVIEW } from "~/graphql/queries/orders";
 
-const OrdersPage = () => {
-  const [ordersQuery, refetch] = useQuery<
-    GetOrdersQuery,
-    GetOrdersQueryVariables
+import MainLayout from "~/components/main-layout";
+import HeaderSearch from "~/components/team/HeaderSearch";
+import {
+  type GetOrdersTableQuery,
+  type GetOrdersTableQueryVariables,
+} from "~/generated/graphql";
+
+const GET_ORDERS_TABLE_QUERY = gql`
+  query GetOrdersTable($search: String) {
+    orders(
+      where: { client_name: { _ilike: $search } }
+      order_by: { updated_at: desc }
+    ) {
+      id
+      client_name
+      created_at
+      state
+      orders_items {
+        product {
+          name
+          imageUrl
+        }
+      }
+    }
+  }
+`;
+
+const TeamPage = () => {
+  const router = useRouter();
+  const search = Array.isArray(router.query.search)
+    ? ""
+    : router.query.search ?? "";
+  const [{ data }] = useQuery<
+    GetOrdersTableQuery,
+    GetOrdersTableQueryVariables
   >({
-    query: GET_ORDERS_OVERVIEW,
+    query: GET_ORDERS_TABLE_QUERY,
+    variables: {
+      search: `%${search}%`,
+    },
   });
+
   return (
-    <MainLayout pageName="Products" headerContent={<UserSearch />}>
-      <OrdersTable orders={ordersQuery.data?.orders} />
+    <MainLayout
+      pageName="Team"
+      headerContent={<HeaderSearch placeholder="Search by client" />}
+    >
+      ...
     </MainLayout>
   );
 };
 
-export default OrdersPage;
+export default TeamPage;
