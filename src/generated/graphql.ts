@@ -5569,6 +5569,13 @@ export type GetOrdersQueryVariables = Exact<{
 
 export type GetOrdersQuery = { __typename?: 'query_root', orders: Array<{ __typename?: 'orders', id: any, created_at: any, updated_at: any, state: Order_States_Enum, client_name?: string | null, orders_items: Array<{ __typename?: 'orders_items', product: { __typename?: 'products', id: any, name: string, imageUrl: string, hash_name: string, quantity: number } }> }> };
 
+export type GetProductDetailsQueryVariables = Exact<{
+  hashName: Scalars['String']['input'];
+}>;
+
+
+export type GetProductDetailsQuery = { __typename?: 'query_root', products: Array<{ __typename?: 'products', id: any, name: string, description: string, imageUrl: string, quantity: number, hash_name: string, category: { __typename?: 'categories', name: string } }> };
+
 export type GetProductsOverviewQueryVariables = Exact<{
   search?: InputMaybe<Scalars['String']['input']>;
   condition: Products_Bool_Exp;
