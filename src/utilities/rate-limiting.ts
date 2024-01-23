@@ -13,8 +13,8 @@ export const debounce = <ArgsT extends unknown[], ReturnT extends unknown>(
   };
 };
 
-export const throttle = <ArgsT extends unknown[], ReturnT extends unknown>(
-  fn: (...args: ArgsT) => ReturnT,
+export const throttle = <ArgsT extends unknown[]>(
+  fn: (...args: ArgsT) => any,
   wait: number
 ) => {
   let timeout: ReturnType<typeof setTimeout> | null = null;

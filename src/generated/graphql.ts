@@ -5480,6 +5480,20 @@ export type GetSelfOverviewQueryVariables = Exact<{
 
 export type GetSelfOverviewQuery = { __typename?: 'query_root', user?: { __typename?: 'users', name?: string | null, email?: string | null, role: Roles_Enum, full_name?: string | null } | null };
 
+export type CreateOrderMutationVariables = Exact<{
+  data: Orders_Insert_Input;
+}>;
+
+
+export type CreateOrderMutation = { __typename?: 'mutation_root', created_order?: { __typename?: 'orders', id: any } | null };
+
+export type SearchProductsQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchProductsQuery = { __typename?: 'query_root', products: Array<{ __typename?: 'products', id: any, name: string, hash_name: string, imageUrl: string, quantity: number }>, products_aggregate: { __typename?: 'products_aggregate', aggregate?: { __typename?: 'products_aggregate_fields', count: number } | null } };
+
 export type CreateCategoryMutationVariables = Exact<{
   data: Categories_Insert_Input;
 }>;

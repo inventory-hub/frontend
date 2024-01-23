@@ -44,7 +44,7 @@ import {
 const AddIcon = chakra(BiPlus);
 const CREATE_PRODUCT_LABEL = "Create Product";
 
-const inviteUserSchema = z.object({
+const createProductSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters long"),
   description: z
     .string()
@@ -57,7 +57,7 @@ const inviteUserSchema = z.object({
   image_base64: z.string().nullish(),
 }) satisfies z.ZodType<CreateProductInput>;
 
-type InviteUserForm = z.infer<typeof inviteUserSchema>;
+type CreateProductForm = z.infer<typeof createProductSchema>;
 
 const GET_CATEGORIES_WITH_IDS = gql`
   query GetCategoriesWithIds {
@@ -114,8 +114,8 @@ const AddProductFormButton = ({ refetchProducts, ...props }: Props) => {
     setError,
     getValues,
     setValue,
-  } = useForm<InviteUserForm>({
-    resolver: zodResolver(inviteUserSchema),
+  } = useForm<CreateProductForm>({
+    resolver: zodResolver(createProductSchema),
     defaultValues: {
       initial_count: 0,
     },
@@ -156,7 +156,7 @@ const AddProductFormButton = ({ refetchProducts, ...props }: Props) => {
   }, [createState.error, setError]);
 
   const onSubmit = useCallback(
-    (data: InviteUserForm) => createMutation({ data }),
+    (data: CreateProductForm) => createMutation({ data }),
     [createMutation]
   );
 

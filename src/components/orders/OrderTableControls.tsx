@@ -1,16 +1,11 @@
-import {
-  Button,
-  Checkbox,
-  CheckboxGroup,
-  Flex,
-  Skeleton,
-} from "@chakra-ui/react";
+import { Checkbox, CheckboxGroup, Flex, Skeleton } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { type UseQueryExecute } from "urql";
 
 import { Order_States_Enum, Roles_Enum } from "~/generated/graphql";
 import { useOrdersFiltersStore } from "~/stores/orders-filters-store";
 import { orderStateTranslations } from "~/utilities/orders";
+import AddOrderFormButton from "./AddOrderFormButton";
 
 type Props = { refetchOrders: UseQueryExecute };
 
@@ -44,7 +39,7 @@ const OrderTableControls = ({ refetchOrders }: Props) => {
             </Checkbox>
           ))}
         </CheckboxGroup>
-        <Button ml="auto">To be added</Button>
+        <AddOrderFormButton ml="auto" refetchOrders={refetchOrders} />
       </Flex>
     </Skeleton>
   );

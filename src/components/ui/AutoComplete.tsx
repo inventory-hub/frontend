@@ -26,7 +26,7 @@ import { BiChevronDown } from "react-icons/bi";
 
 const ChevronDownIcon = chakra(BiChevronDown);
 
-type OptionInit = {
+export type OptionInit = {
   label: string;
   value: string;
 };
@@ -35,17 +35,26 @@ type FilteredOptionsProps = {
   options: OptionInit[];
   search: string;
   onOptionClick: (option: OptionInit) => void;
+  isServerFiltered: boolean;
+  totalOptions?: number;
 };
 
 const FilteredOptions = ({
   options,
   search,
   onOptionClick,
+  isServerFiltered,
+  totalOptions,
 }: FilteredOptionsProps) => {
-  const filteredOptions = options.filter(({ label }) =>
-    label.toLowerCase().includes(search.toLowerCase())
+  const filteredOptions = isServerFiltered
+    ? options
+    : options.filter(({ label }) =>
+        label.toLowerCase().includes(search.toLowerCase())
+      );
+  const hiddenOptionsCount = Math.max(
+    0,
+    (totalOptions ?? filteredOptions.length) - 5
   );
-  const hiddenOptionsCount = Math.max(0, filteredOptions.length - 5);
   return (
     <>
       {filteredOptions.slice(0, 5).map((option) => (
@@ -67,12 +76,14 @@ const FilteredOptions = ({
   );
 };
 
-type Props = Omit<InputProps, "onChange"> & {
+export type AutoCompleteProps = Omit<InputProps, "onChange"> & {
   extraElement?: ReactNode;
   options: OptionInit[];
   defaultValue?: string;
   onChange?: (value: string) => void;
   onInputChange?: ChangeEventHandler<HTMLInputElement>;
+  isServerFiltered?: boolean;
+  totalOptions?: number;
 };
 
 const AutoComplete = ({
@@ -82,8 +93,10 @@ const AutoComplete = ({
   onInputChange,
   defaultValue = "",
   placeholder,
+  isServerFiltered = false,
+  totalOptions,
   ...props
-}: Props) => {
+}: AutoCompleteProps) => {
   const [inputValue, setInputValue] = useState(defaultValue);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -120,24 +133,15 @@ const AutoComplete = ({
         placement="bottom"
       >
         <PopoverAnchor>
-          <InputGroup>
-            <Input
-              onChange={handleInputChange}
-              {...props}
-              value={inputValue}
-              placeholder={placeholder}
-              onFocus={onOpen}
-              ref={inputRef}
-              role="search"
-            />
-            <InputRightElement>
-              {!isOpen && (
-                <IconButton variant="ghost" aria-label="Toggle suggestions">
-                  <ChevronDownIcon size="1rem" onClick={onOpen} />
-                </IconButton>
-              )}
-            </InputRightElement>
-          </InputGroup>
+          <Input
+            onChange={handleInputChange}
+            {...props}
+            value={inputValue}
+            placeholder={placeholder}
+            onFocus={onOpen}
+            ref={inputRef}
+            role="search"
+          />
         </PopoverAnchor>
         <PopoverContent>
           <PopoverBody m={0}>
@@ -145,6 +149,8 @@ const AutoComplete = ({
               options={options}
               search={inputValue}
               onOptionClick={onOptionClick}
+              isServerFiltered={isServerFiltered}
+              totalOptions={totalOptions}
             />
             {extraElement}
           </PopoverBody>
