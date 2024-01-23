@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   FormControl,
   FormErrorMessage,
@@ -20,6 +20,7 @@ import {
   NumberInput,
   NumberInputField,
   Input,
+  Text,
 } from "@chakra-ui/react";
 import { BiPlus } from "react-icons/bi";
 import { useForm } from "react-hook-form";
@@ -88,6 +89,7 @@ const AddProductFormButton = ({ refetchProducts, ...props }: Props) => {
     query: GET_CATEGORIES_WITH_IDS,
   });
   const [categoryInputValue, setCategoryInputValue] = useState("");
+  const [fileName, setFileName] = useState<string>("");
   const options = useMemo(
     () =>
       categoriesData?.categories?.map((category) => ({
@@ -119,6 +121,8 @@ const AddProductFormButton = ({ refetchProducts, ...props }: Props) => {
     },
     mode: "onBlur",
   });
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [createState, createMutation] = useMutation<
     CreateProductMutation,
@@ -248,14 +252,42 @@ const AddProductFormButton = ({ refetchProducts, ...props }: Props) => {
                   </FormErrorMessage>
                 </FormControl>
                 <FormControl isInvalid={!!errors.image_base64}>
-                  <FormLabel>Image</FormLabel>
+                  <FormLabel
+                    w="fit-content"
+                    mt={5}
+                    display="flex"
+                    alignItems="baseline"
+                  >
+                    <OutlinePrimaryButton
+                      onClick={() => {
+                        if (fileInputRef.current) {
+                          fileInputRef.current.click();
+                        }
+                      }}
+                    >
+                      Upload Image
+                    </OutlinePrimaryButton>
+                    {fileName && (
+                      <Text
+                        ml={2}
+                        overflow="hidden"
+                        w={200}
+                        whiteSpace="nowrap"
+                      >
+                        {fileName}
+                      </Text>
+                    )}
+                  </FormLabel>
                   <Input
                     type="file"
                     accept="image/*"
+                    display="none"
+                    ref={fileInputRef}
                     onChange={(e) => {
                       e.preventDefault();
                       const file = e.target.files?.[0];
                       if (file) {
+                        setFileName(file.name);
                         const reader = new FileReader();
                         reader.onload = (e) => {
                           setValue("image_base64", e.target?.result as string);
