@@ -11,6 +11,7 @@ import {
   HStack,
   Heading,
   IconButton,
+  Image,
   Skeleton,
   Text,
   chakra,
@@ -29,6 +30,7 @@ import { z } from "zod";
 import CategoriesAutoComplete from "~/components/categories/CategoriesAutoComplete";
 import MainLayout from "~/components/main-layout";
 import IncreaseQuantityModal from "~/components/products/product-details/IncreaseQuantityModal";
+import LeftCardInfo from "~/components/products/product-details/LeftCardInfo";
 import AutoComplete from "~/components/ui/AutoComplete";
 import {
   FilledPrimaryButton,
@@ -57,6 +59,25 @@ const GET_PRODUCT_DETAILS_QUERY = gql`
       imageUrl
       quantity
       hash_name
+      completed_orders_aggregate: orders_items_aggregate(
+        where: { order: { state: { _eq: Completed } } }
+      ) {
+        aggregate {
+          sum {
+            count
+          }
+        }
+      }
+      pending_orders_aggregate: orders_items_aggregate(
+        where: { order: { state: { _eq: AwaitingApproval } } }
+      ) {
+        aggregate {
+          sum {
+            count # count of all items in pending orders
+          }
+          count # count of orders
+        }
+      }
     }
   }
 `;
@@ -251,14 +272,20 @@ const ProductDetailsPage = () => {
       <MainLayout pageName="Product Details Page">
         <Skeleton height="100%" isLoaded={!isLoading}>
           <Grid
-            templateColumns="repeat(9, 1fr)"
+            templateColumns="repeat(7, 1fr)"
             height="100%"
             color="primary.main"
             gap={4}
             overflow="hidden"
           >
-            <GridItem colSpan={4} borderRadius="30" flex="1" bgColor="white">
-              <Center>1</Center>
+            <GridItem colSpan={2} borderRadius="30" flex="1" bgColor="white">
+              <LeftCardInfo
+                image={product?.imageUrl}
+                name={product?.name}
+                hash_name={product?.hash_name}
+                sum={product?.completed_orders_aggregate.aggregate?.sum?.count}
+                count={product?.pending_orders_aggregate.aggregate?.count}
+              />
             </GridItem>
             <GridItem colSpan={5} borderRadius="30" flex="1" bgColor="white">
               <Flex direction="column" p="10">

@@ -5590,7 +5590,7 @@ export type GetProductDetailsQueryVariables = Exact<{
 }>;
 
 
-export type GetProductDetailsQuery = { __typename?: 'query_root', products: Array<{ __typename?: 'products', id: any, name: string, description: string, imageUrl: string, quantity: number, hash_name: string, category: { __typename?: 'categories', id: any, name: string } }> };
+export type GetProductDetailsQuery = { __typename?: 'query_root', products: Array<{ __typename?: 'products', id: any, name: string, description: string, imageUrl: string, quantity: number, hash_name: string, category: { __typename?: 'categories', id: any, name: string }, completed_orders_aggregate: { __typename?: 'orders_items_aggregate', aggregate?: { __typename?: 'orders_items_aggregate_fields', sum?: { __typename?: 'orders_items_sum_fields', count?: number | null } | null } | null }, pending_orders_aggregate: { __typename?: 'orders_items_aggregate', aggregate?: { __typename?: 'orders_items_aggregate_fields', count: number, sum?: { __typename?: 'orders_items_sum_fields', count?: number | null } | null } | null } }> };
 
 export type EditProductMutationVariables = Exact<{
   id: Scalars['uuid']['input'];

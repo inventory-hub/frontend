@@ -103,7 +103,7 @@ const CategoriesAutoComplete = ({ onChange, defaultValue }: Props) => {
 
   return (
     <AutoComplete
-      w={60}
+      w="100%"
       options={options}
       onChange={handleChange}
       onInputChange={onInputChange}
@@ -112,6 +112,7 @@ const CategoriesAutoComplete = ({ onChange, defaultValue }: Props) => {
       isServerFiltered
       placeholder="Select Category"
       extraElement={extraElement}
+      // {...props}
     />
   );
 };
