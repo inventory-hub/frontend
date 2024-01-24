@@ -5473,6 +5473,13 @@ export type Verification_Tokens_Updates = {
   where: Verification_Tokens_Bool_Exp;
 };
 
+export type CreateCategoryMutationVariables = Exact<{
+  data: Categories_Insert_Input;
+}>;
+
+
+export type CreateCategoryMutation = { __typename?: 'mutation_root', created_category?: { __typename?: 'categories', id: any } | null };
+
 export type SearchCategoriesWithIdsQueryVariables = Exact<{
   search: Scalars['String']['input'];
 }>;
@@ -5500,18 +5507,6 @@ export type SearchProductsQueryVariables = Exact<{
 
 
 export type SearchProductsQuery = { __typename?: 'query_root', products: Array<{ __typename?: 'products', id: any, name: string, hash_name: string, imageUrl: string, quantity: number, orders_items_aggregate: { __typename?: 'orders_items_aggregate', aggregate?: { __typename?: 'orders_items_aggregate_fields', sum?: { __typename?: 'orders_items_sum_fields', count?: number | null } | null } | null } }>, products_aggregate: { __typename?: 'products_aggregate', aggregate?: { __typename?: 'products_aggregate_fields', count: number } | null } };
-
-export type CreateCategoryMutationVariables = Exact<{
-  data: Categories_Insert_Input;
-}>;
-
-
-export type CreateCategoryMutation = { __typename?: 'mutation_root', created_category?: { __typename?: 'categories', id: any } | null };
-
-export type GetCategoriesWithIdsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetCategoriesWithIdsQuery = { __typename?: 'query_root', categories: Array<{ __typename?: 'categories', id: any, name: string }> };
 
 export type CreateProductMutationVariables = Exact<{
   data: CreateProductInput;
@@ -5595,7 +5590,25 @@ export type GetProductDetailsQueryVariables = Exact<{
 }>;
 
 
-export type GetProductDetailsQuery = { __typename?: 'query_root', products: Array<{ __typename?: 'products', id: any, name: string, description: string, imageUrl: string, quantity: number, hash_name: string, category: { __typename?: 'categories', name: string } }> };
+export type GetProductDetailsQuery = { __typename?: 'query_root', products: Array<{ __typename?: 'products', id: any, name: string, description: string, imageUrl: string, quantity: number, hash_name: string, category: { __typename?: 'categories', id: any, name: string } }> };
+
+export type EditProductMutationVariables = Exact<{
+  id: Scalars['uuid']['input'];
+  name: Scalars['String']['input'];
+  category_id: Scalars['uuid']['input'];
+  description: Scalars['String']['input'];
+}>;
+
+
+export type EditProductMutation = { __typename?: 'mutation_root', update_products_by_pk?: { __typename?: 'products', id: any, name: string, category_id: any, description: string } | null };
+
+export type IncreaseProductQuantityMutationVariables = Exact<{
+  id: Scalars['uuid']['input'];
+  quantity: Scalars['Int']['input'];
+}>;
+
+
+export type IncreaseProductQuantityMutation = { __typename?: 'mutation_root', update_products_by_pk?: { __typename?: 'products', id: any, quantity: number } | null };
 
 export type GetProductsOverviewQueryVariables = Exact<{
   search?: InputMaybe<Scalars['String']['input']>;

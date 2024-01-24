@@ -31,9 +31,10 @@ const SEARCH_CATEGORIES_WITH_IDS = gql`
 
 type Props = {
   onChange: (id: string) => void;
+  defaultValue?: string;
 };
 
-const CategoriesAutoComplete = ({ onChange }: Props) => {
+const CategoriesAutoComplete = ({ onChange, defaultValue }: Props) => {
   const [search, setSearch] = useState("");
   const [throttledSearch, _setThrottledSearch] = useState("");
   const setThrottledSearch = useMemo(
@@ -106,6 +107,7 @@ const CategoriesAutoComplete = ({ onChange }: Props) => {
       options={options}
       onChange={handleChange}
       onInputChange={onInputChange}
+      defaultValue={defaultValue}
       totalOptions={totalOptions}
       isServerFiltered
       placeholder="Select Category"
