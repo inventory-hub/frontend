@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   FormControl,
   FormErrorMessage,
@@ -16,23 +16,22 @@ import {
   Alert,
   AlertDescription,
   type ButtonProps,
-  Textarea,
   NumberInput,
   NumberInputField,
-  Input,
-  Text,
-  Stack,
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
   List,
   ListItem,
   HStack,
+  Tag,
+  TagLabel,
+  TagCloseButton,
 } from "@chakra-ui/react";
 import { BiPlus } from "react-icons/bi";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import z, { nativeEnum } from "zod";
+import { z } from "zod";
 import { gql } from "graphql-request";
 import { type UseQueryExecute, useMutation, useQuery } from "urql";
 
@@ -46,7 +45,6 @@ import {
   type CreateOrderMutationVariables,
   Order_States_Enum,
   type CreateOrderMutation,
-  Orders,
 } from "~/generated/graphql";
 import ProductsAutoComplete, {
   type ProductSelection,
@@ -80,6 +78,7 @@ type Props = ButtonProps & {
 
 const AddOrderFormButton = ({ refetchOrders, ...props }: Props) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const { isOpen: key, onToggle: toggleKey } = useDisclosure();
 
   const toast = useToast();
   const {
@@ -221,14 +220,37 @@ const AddOrderFormButton = ({ refetchOrders, ...props }: Props) => {
                 <FormErrorMessage>
                   {errors.order_items?.message}
                 </FormErrorMessage>
-                <List spacing={2}>
+                <List spacing={2} py={1}>
                   {orderItems.map((item, index) => (
-                    <ListItem key={index}>
-                      {item.product.name} x {item.quantity}
-                    </ListItem>
+                    <Tag
+                      as={ListItem}
+                      key={index}
+                      bgColor="secondary.main"
+                      border="1px solid"
+                      borderColor="secondary.outline"
+                    >
+                      <TagLabel color="secondary.text">
+                        {item.product.name} x {item.quantity}
+                      </TagLabel>
+                      <TagCloseButton
+                        color="secondary.text"
+                        onClick={() => {
+                          setOrderItems((prev) =>
+                            prev.filter((_, i) => i !== index)
+                          );
+                          setValue(
+                            "order_items",
+                            getValues("order_items").filter(
+                              (_, i) => i !== index
+                            )
+                          );
+                          trigger("order_items");
+                        }}
+                      />
+                    </Tag>
                   ))}
                 </List>
-                <HStack spacing={1}>
+                <HStack key={key.toString()} spacing={1}>
                   <ProductsAutoComplete onChange={setCurrentProduct} />
                   <NumberInput
                     defaultValue={1}
@@ -262,6 +284,7 @@ const AddOrderFormButton = ({ refetchOrders, ...props }: Props) => {
                           { product_id: product.id, quantity },
                         ]);
                         trigger("order_items");
+                        toggleKey();
                       }
                     }}
                   />

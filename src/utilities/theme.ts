@@ -27,6 +27,8 @@ export const theme = extendTheme({
     },
     secondary: {
       main: "#59a5ff",
+      outline: "#004aaf",
+      text: "#fff",
       hover: "#7ab7ff",
       focus: "#8bc0ff",
     },
