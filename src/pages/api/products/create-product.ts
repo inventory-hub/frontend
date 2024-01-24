@@ -42,7 +42,6 @@ const handler: NextApiHandler<CreateProductOutput | GraphQLErrors> = async (
     res.status(405).json({ errors: [{ message: "Method not allowed" }] });
     return;
   }
-  console.log(req.body);
   const { name, category_id, description, initial_count, image_base64 } = req
     .body.input.product as CreateProductInput;
 
