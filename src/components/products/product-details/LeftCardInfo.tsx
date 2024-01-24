@@ -20,13 +20,19 @@ const LeftCardInfo = ({ image, name, hash_name, sum, count }: Props) => {
   return (
     <HStack flexDirection="column" gap={0} height="100%">
       <Box position="relative" height="100%">
-        <Image borderTopRadius="30" src={image} alt={name} width="100%" />
+        <Image
+          borderTopRadius="30"
+          src={image}
+          alt={name}
+          width="100%"
+          minHeight="60%"
+        />
         <Box
           position="absolute"
           bottom="0"
           left="0"
           right="0"
-          height="300px"
+          height="40%"
           bgGradient="linear(to-r, secondary.main, accent.hover)"
           borderBottomRadius="30"
           color="primary.background"

@@ -9,6 +9,7 @@ import {
   TableContainer,
   Image,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import { type GetProductsOverviewQuery } from "~/generated/graphql";
 
 type Props = TableProps & {
@@ -16,6 +17,8 @@ type Props = TableProps & {
 };
 
 const ProductsTable = ({ products, ...props }: Props) => {
+  const router = useRouter();
+  const url = router.pathname;
   return (
     <TableContainer>
       <Table bg="white" rounded="xl" {...props}>
@@ -31,7 +34,13 @@ const ProductsTable = ({ products, ...props }: Props) => {
         </Thead>
         <Tbody>
           {products?.map((product) => (
-            <Tr key={product.id}>
+            <Tr
+              key={product.id}
+              onClick={() => {
+                router.push(`${url}/${product.hash_name}`);
+              }}
+              cursor="pointer"
+            >
               <Td>
                 <Image
                   src={product.imageUrl}
