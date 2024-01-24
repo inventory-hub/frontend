@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   FormControl,
   FormErrorMessage,
@@ -27,19 +27,16 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { gql } from "graphql-request";
-import { type UseQueryExecute, useMutation, useQuery } from "urql";
+import { type UseQueryExecute, useMutation } from "urql";
 
 import { PrimaryOutlineInput } from "../ui/inputs";
 import { FilledSecondaryButton, OutlinePrimaryButton } from "../ui/buttons";
-import AutoComplete from "../ui/AutoComplete";
-import AddCategoryInlineButton from "./AddCategoryInlineButton";
 import {
   type CreateProductMutation,
   type CreateProductMutationVariables,
   type CreateProductInput,
-  type GetCategoriesWithIdsQuery,
-  type GetCategoriesWithIdsQueryVariables,
 } from "~/generated/graphql";
+import CategoriesAutoComplete from "../categories/CategoriesAutoComplete";
 
 const AddIcon = chakra(BiPlus);
 const CREATE_PRODUCT_LABEL = "Create Product";
@@ -59,15 +56,6 @@ const createProductSchema = z.object({
 
 type CreateProductForm = z.infer<typeof createProductSchema>;
 
-const GET_CATEGORIES_WITH_IDS = gql`
-  query GetCategoriesWithIds {
-    categories {
-      id
-      name
-    }
-  }
-`;
-
 const CREATE_PRODUCT_MUTATION = gql`
   mutation CreateProduct($data: CreateProductInput!) {
     created_product: create_product(product: $data) {
@@ -82,30 +70,7 @@ type Props = ButtonProps & {
 
 const AddProductFormButton = ({ refetchProducts, ...props }: Props) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const [{ data: categoriesData }, refetchCategories] = useQuery<
-    GetCategoriesWithIdsQuery,
-    GetCategoriesWithIdsQueryVariables
-  >({
-    query: GET_CATEGORIES_WITH_IDS,
-  });
-  const [categoryInputValue, setCategoryInputValue] = useState("");
   const [fileName, setFileName] = useState<string>("");
-  const options = useMemo(
-    () =>
-      categoriesData?.categories?.map((category) => ({
-        label: category.name,
-        value: category.id,
-      })) ?? [],
-    [categoriesData?.categories]
-  );
-  const isExactMatch = useMemo(
-    () =>
-      options.some(
-        (option) =>
-          option.label.toLowerCase() === categoryInputValue.toLowerCase()
-      ),
-    [categoryInputValue, options]
-  );
   const toast = useToast();
   const {
     register,
@@ -228,24 +193,8 @@ const AddProductFormButton = ({ refetchProducts, ...props }: Props) => {
                 </FormControl>
                 <FormControl isInvalid={!!errors.category_id}>
                   <FormLabel>Category</FormLabel>
-                  <AutoComplete
-                    options={options}
-                    onInputChange={(e) => setCategoryInputValue(e.target.value)}
+                  <CategoriesAutoComplete
                     onChange={(value) => setValue("category_id", value)}
-                    extraElement={
-                      !isExactMatch &&
-                      categoryInputValue !== "" && (
-                        <AddCategoryInlineButton
-                          onSuccess={({ id }) => {
-                            setValue("category_id", id);
-                            refetchCategories({
-                              requestPolicy: "network-only",
-                            });
-                          }}
-                          category={categoryInputValue}
-                        />
-                      )
-                    }
                   />
                   <FormErrorMessage>
                     {errors.category_id?.message}

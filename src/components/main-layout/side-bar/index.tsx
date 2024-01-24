@@ -34,7 +34,7 @@ const SideBar = (props: SideBarProps) => {
   return (
     <Box
       bg="white"
-      height="100vh"
+      minH="100vh"
       width={60}
       position="sticky"
       top={0}

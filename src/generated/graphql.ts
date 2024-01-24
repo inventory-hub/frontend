@@ -5473,6 +5473,13 @@ export type Verification_Tokens_Updates = {
   where: Verification_Tokens_Bool_Exp;
 };
 
+export type SearchCategoriesWithIdsQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchCategoriesWithIdsQuery = { __typename?: 'query_root', categories: Array<{ __typename?: 'categories', id: any, name: string }>, same_name_categories: Array<{ __typename?: 'categories', id: any, name: string }>, categories_aggregate: { __typename?: 'categories_aggregate', aggregate?: { __typename?: 'categories_aggregate_fields', count: number } | null } };
+
 export type GetSelfOverviewQueryVariables = Exact<{
   self_id: Scalars['uuid']['input'];
 }>;
