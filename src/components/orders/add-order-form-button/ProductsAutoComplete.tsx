@@ -22,6 +22,15 @@ const SEARCH_PRODUCTS_QUERY = gql`
       hash_name
       imageUrl
       quantity
+      orders_items_aggregate(
+        where: { order: { state: { _eq: AwaitingApproval } } }
+      ) {
+        aggregate {
+          sum {
+            count
+          }
+        }
+      }
     }
     products_aggregate(
       where: { name: { _ilike: $search }, hash_name: { _ilike: $search } }

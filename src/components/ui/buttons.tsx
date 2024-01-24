@@ -3,6 +3,7 @@ import { type ComponentProps } from "react";
 
 const filledSecondaryButtonBaseProps = {
   bgColor: "secondary.main",
+  color: "secondary.text",
   _hover: {
     bgColor: "secondary.hover",
     textDecoration: "none",

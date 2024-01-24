@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   FormControl,
   FormErrorMessage,
@@ -27,13 +27,15 @@ import {
   Tag,
   TagLabel,
   TagCloseButton,
+  UnorderedList,
+  AlertIcon,
 } from "@chakra-ui/react";
 import { BiPlus } from "react-icons/bi";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { gql } from "graphql-request";
-import { type UseQueryExecute, useMutation, useQuery } from "urql";
+import { type UseQueryExecute, useMutation } from "urql";
 
 import { PrimaryOutlineInput } from "../ui/inputs";
 import {
@@ -88,7 +90,6 @@ const AddOrderFormButton = ({ refetchOrders, ...props }: Props) => {
     setError,
     getValues,
     setValue,
-    watch,
     trigger,
   } = useForm<AddOrderForm>({
     resolver: zodResolver(addOrderSchema),
@@ -104,6 +105,17 @@ const AddOrderFormButton = ({ refetchOrders, ...props }: Props) => {
   const [orderItems, setOrderItems] = useState<
     { product: ProductSelection; quantity: number }[]
   >([]);
+
+  const warningOrderItems = useMemo(
+    () =>
+      orderItems.filter(
+        ({ product, quantity }) =>
+          quantity +
+            (product.orders_items_aggregate?.aggregate?.sum?.count ?? 0) >
+          product.quantity
+      ),
+    [orderItems]
+  );
 
   const [createState, createMutation] = useMutation<
     CreateOrderMutation,
@@ -274,6 +286,20 @@ const AddOrderFormButton = ({ refetchOrders, ...props }: Props) => {
                       const product = currentProduct;
                       const quantity = currentQuantity.current;
                       if (product && quantity) {
+                        if (
+                          orderItems.some(
+                            (item) => item.product.id === product.id
+                          )
+                        ) {
+                          toast({
+                            title: `Product "${product.name}" already added`,
+                            status: "warning",
+                            duration: 3000,
+                            isClosable: true,
+                          });
+                          return;
+                        }
+
                         setOrderItems((prev) => [
                           ...prev,
                           { product, quantity },
@@ -285,11 +311,38 @@ const AddOrderFormButton = ({ refetchOrders, ...props }: Props) => {
                         ]);
                         trigger("order_items");
                         toggleKey();
+                        currentQuantity.current = 1;
                       }
                     }}
                   />
                 </HStack>
               </FormControl>
+              {!!warningOrderItems.length && (
+                <Alert
+                  status="warning"
+                  mt={6}
+                  rounded="sm"
+                  border="1px solid"
+                  borderColor="yellow.200"
+                  position="relative"
+                >
+                  <AlertIcon position="absolute" top={1} right={-2} />
+                  <AlertDescription pr={2}>
+                    <UnorderedList fontSize="0.8rem" lineHeight={1}>
+                      {warningOrderItems.map(({ product, quantity }, index) => (
+                        <ListItem key={index}>
+                          {product.name} has {product.quantity} items in stock
+                          and{" "}
+                          {product.orders_items_aggregate?.aggregate?.sum
+                            ?.count ?? 0}{" "}
+                          in orders awaiting approval. You are trying to order{" "}
+                          {quantity} items.
+                        </ListItem>
+                      ))}
+                    </UnorderedList>
+                  </AlertDescription>
+                </Alert>
+              )}
             </ModalBody>
             <ModalFooter>
               <FilledSecondaryButton mr={3} onClick={onClose}>

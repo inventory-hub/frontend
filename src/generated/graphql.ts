@@ -5492,7 +5492,7 @@ export type SearchProductsQueryVariables = Exact<{
 }>;
 
 
-export type SearchProductsQuery = { __typename?: 'query_root', products: Array<{ __typename?: 'products', id: any, name: string, hash_name: string, imageUrl: string, quantity: number }>, products_aggregate: { __typename?: 'products_aggregate', aggregate?: { __typename?: 'products_aggregate_fields', count: number } | null } };
+export type SearchProductsQuery = { __typename?: 'query_root', products: Array<{ __typename?: 'products', id: any, name: string, hash_name: string, imageUrl: string, quantity: number, orders_items_aggregate: { __typename?: 'orders_items_aggregate', aggregate?: { __typename?: 'orders_items_aggregate_fields', sum?: { __typename?: 'orders_items_sum_fields', count?: number | null } | null } | null } }>, products_aggregate: { __typename?: 'products_aggregate', aggregate?: { __typename?: 'products_aggregate_fields', count: number } | null } };
 
 export type CreateCategoryMutationVariables = Exact<{
   data: Categories_Insert_Input;
