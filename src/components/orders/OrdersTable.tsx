@@ -18,14 +18,18 @@ import {
   HStack,
   PopoverBody,
 } from "@chakra-ui/react";
+import { type UseQueryExecute } from "urql";
+
 import { type GetOrdersQuery } from "~/generated/graphql";
 import OrderStateTag from "./OrderStateTag";
+import OrderOptions from "./order-options";
 
 type Props = TableProps & {
   orders: GetOrdersQuery["orders"] | undefined;
+  refetchOrders: UseQueryExecute;
 };
 
-const OrdersTable = ({ orders, ...props }: Props) => {
+const OrdersTable = ({ orders, refetchOrders, ...props }: Props) => {
   return (
     <TableContainer>
       <Table bg="white" rounded="xl" {...props}>
@@ -38,6 +42,7 @@ const OrdersTable = ({ orders, ...props }: Props) => {
             <Th>Updated</Th>
             <Th>State</Th>
             <Th>Client</Th>
+            <Th></Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -88,6 +93,9 @@ const OrdersTable = ({ orders, ...props }: Props) => {
                 <OrderStateTag state={order.state} />
               </Td>
               <Td fontWeight={600}>{order.client_name}</Td>
+              <Td>
+                <OrderOptions order={order} refetchOrders={refetchOrders} />
+              </Td>
             </Tr>
           ))}
         </Tbody>

@@ -37,12 +37,12 @@ import { z } from "zod";
 import { gql } from "graphql-request";
 import { type UseQueryExecute, useMutation } from "urql";
 
-import { PrimaryOutlineInput } from "../ui/inputs";
+import { PrimaryOutlineInput } from "../../ui/inputs";
 import {
   FilledSecondaryButton,
   OutlinePrimaryButton,
   OutlineSecondaryButton,
-} from "../ui/buttons";
+} from "../../ui/buttons";
 import {
   type CreateOrderMutationVariables,
   Order_States_Enum,
@@ -50,7 +50,7 @@ import {
 } from "~/generated/graphql";
 import ProductsAutoComplete, {
   type ProductSelection,
-} from "./add-order-form-button/ProductsAutoComplete";
+} from "./ProductsAutoComplete";
 
 const AddIcon = chakra(BiPlus);
 const ADD_ORDER_LABEL = "Add Order";

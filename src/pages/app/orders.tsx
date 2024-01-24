@@ -1,21 +1,22 @@
-import MainLayout from "~/components/main-layout";
+import { useRouter } from "next/router";
 import { useQuery } from "urql";
 import { gql } from "graphql-request";
 
+import MainLayout from "~/components/main-layout";
+import OrdersTable from "~/components/orders/OrdersTable";
+import HeaderSearch from "~/components/team/HeaderSearch";
+import OrderTableControls from "~/components/orders/OrderTableControls";
+import { useOrdersFiltersStore } from "~/stores/orders-filters-store";
 import {
   type GetOrdersQuery,
   type GetOrdersQueryVariables,
 } from "~/generated/graphql";
-import OrdersTable from "~/components/orders/OrdersTable";
-import HeaderSearch from "~/components/team/HeaderSearch";
-import { useRouter } from "next/router";
-import OrderTableControls from "~/components/orders/OrderTableControls";
-import { useOrdersFiltersStore } from "~/stores/orders-filters-store";
 
 const GET_ORDERS_OVERVIEW = gql`
   query GetOrders($search: String = "%%", $states: [order_states_enum!]!) {
     orders(
       where: { client_name: { _ilike: $search }, state: { _in: $states } }
+      order_by: { updated_at: desc }
     ) {
       id
       created_at
@@ -57,7 +58,7 @@ const OrdersPage = () => {
       headerContent={<HeaderSearch placeholder="Search by client" />}
     >
       <OrderTableControls refetchOrders={refetch} />
-      <OrdersTable orders={ordersQuery.data?.orders} />
+      <OrdersTable orders={ordersQuery.data?.orders} refetchOrders={refetch} />
     </MainLayout>
   );
 };

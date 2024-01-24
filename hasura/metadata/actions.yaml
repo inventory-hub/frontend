@@ -1,4 +1,9 @@
 actions:
+  - name: complete_order
+    definition:
+      kind: synchronous
+      handler: '{{ACTION_BASE_URL}}/api/orders/complete-order'
+      forward_client_headers: true
   - name: create_product
     definition:
       kind: synchronous
@@ -31,9 +36,11 @@ custom_types:
     - name: InviteUserInput
     - name: CreateProductInput
     - name: ImageCreationParams
+    - name: CompleteOrderInput
   objects:
     - name: InviteUserOutput
     - name: InviteUserResponse
     - name: Error
     - name: CreateProductOutput
+    - name: CompleteOrderOutput
   scalars: []

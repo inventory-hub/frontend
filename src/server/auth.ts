@@ -1,6 +1,15 @@
 import { randomBytes, pbkdf2 as _pbkdf2 } from "node:crypto";
 import { promisify } from "node:util";
 import { customAlphabet } from "nanoid";
+import {
+  type NextApiRequest,
+  type NextApiResponse,
+  type NextApiHandler,
+} from "next";
+import { getToken } from "next-auth/jwt";
+
+import { type GraphQLErrors } from "./graphql";
+import { Roles_Enum } from "~/generated/graphql";
 
 const ITERATIONS = 1000;
 const pbkdf2 = promisify(_pbkdf2);
@@ -23,3 +32,27 @@ export const verifyPassword = async (
 const nanoid = customAlphabet("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ", 16);
 
 export const generateInvitationToken = () => nanoid(16);
+
+export const withAuth =
+  (
+    roles: Roles_Enum[] = [
+      Roles_Enum.Admin,
+      Roles_Enum.Manager,
+      Roles_Enum.User,
+      Roles_Enum.ReadonlyUser,
+    ]
+  ) =>
+  <T>(fn: NextApiHandler<T>) =>
+  async (req: NextApiRequest, res: NextApiResponse<T | GraphQLErrors>) => {
+    const jwt = await getToken({ req });
+    if (!jwt) {
+      return res.status(401).json({ errors: [{ message: "Unauthorized" }] });
+    }
+
+    const role = jwt.role as Roles_Enum;
+    if (!roles.includes(role)) {
+      return res.status(403).json({ errors: [{ message: "Forbidden" }] });
+    }
+
+    return fn(req, res);
+  };

@@ -61,3 +61,20 @@ const outlineSecondaryButtonBaseProps = {
 export const OutlineSecondaryButton = (
   props: ComponentProps<typeof Button>
 ) => <Button {...outlineSecondaryButtonBaseProps} {...props} />;
+
+const ghostPrimaryButtonBaseProps = {
+  variant: "ghost",
+  bgColor: "primary.main",
+  color: "white",
+  _hover: {
+    bgColor: "primary.hover",
+    textDecoration: "none",
+  },
+  _focus: {
+    bgColor: "primary.focus",
+  },
+};
+
+export const GhostPrimaryButton = (props: ComponentProps<typeof Button>) => (
+  <Button {...ghostPrimaryButtonBaseProps} {...props} />
+);

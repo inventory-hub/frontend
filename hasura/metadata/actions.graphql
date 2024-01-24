@@ -1,4 +1,10 @@
 type Mutation {
+  complete_order(
+    data: CompleteOrderInput!
+  ): CompleteOrderOutput!
+}
+
+type Mutation {
   create_product(
     product: CreateProductInput
   ): CreateProductOutput
@@ -37,6 +43,10 @@ input ImageCreationParams {
   image_extension: String!
 }
 
+input CompleteOrderInput {
+  id: uuid!
+}
+
 type InviteUserOutput {
   error: String
   id: String
@@ -51,6 +61,10 @@ type Error {
 }
 
 type CreateProductOutput {
+  id: uuid!
+}
+
+type CompleteOrderOutput {
   id: uuid!
 }
 

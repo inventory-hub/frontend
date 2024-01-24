@@ -17,6 +17,15 @@ export type Scalars = {
   uuid: { input: any; output: any; }
 };
 
+export type CompleteOrderInput = {
+  id: Scalars['uuid']['input'];
+};
+
+export type CompleteOrderOutput = {
+  __typename?: 'CompleteOrderOutput';
+  id: Scalars['uuid']['output'];
+};
+
 export type CreateProductInput = {
   category_id: Scalars['uuid']['input'];
   description: Scalars['String']['input'];
@@ -1392,6 +1401,7 @@ export type Draft_Users_Updates = {
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
+  complete_order: CompleteOrderOutput;
   /** create a product. */
   create_product?: Maybe<CreateProductOutput>;
   /** delete data from the table: "accounts" */
@@ -1591,6 +1601,12 @@ export type Mutation_Root = {
   update_verification_tokens_by_pk?: Maybe<Verification_Tokens>;
   /** update multiples rows of table: "verification_tokens" */
   update_verification_tokens_many?: Maybe<Array<Maybe<Verification_Tokens_Mutation_Response>>>;
+};
+
+
+/** mutation root */
+export type Mutation_RootComplete_OrderArgs = {
+  data: CompleteOrderInput;
 };
 
 
@@ -5494,6 +5510,13 @@ export type GetSelfOverviewQueryVariables = Exact<{
 
 export type GetSelfOverviewQuery = { __typename?: 'query_root', user?: { __typename?: 'users', name?: string | null, email?: string | null, role: Roles_Enum, full_name?: string | null } | null };
 
+export type SearchProductsQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchProductsQuery = { __typename?: 'query_root', products: Array<{ __typename?: 'products', id: any, name: string, hash_name: string, imageUrl: string, quantity: number, orders_items_aggregate: { __typename?: 'orders_items_aggregate', aggregate?: { __typename?: 'orders_items_aggregate_fields', sum?: { __typename?: 'orders_items_sum_fields', count?: number | null } | null } | null } }>, products_aggregate: { __typename?: 'products_aggregate', aggregate?: { __typename?: 'products_aggregate_fields', count: number } | null } };
+
 export type CreateOrderMutationVariables = Exact<{
   data: Orders_Insert_Input;
 }>;
@@ -5501,12 +5524,27 @@ export type CreateOrderMutationVariables = Exact<{
 
 export type CreateOrderMutation = { __typename?: 'mutation_root', created_order?: { __typename?: 'orders', id: any } | null };
 
-export type SearchProductsQueryVariables = Exact<{
-  search: Scalars['String']['input'];
+export type CompleteOrderMutationVariables = Exact<{
+  id: Scalars['uuid']['input'];
 }>;
 
 
-export type SearchProductsQuery = { __typename?: 'query_root', products: Array<{ __typename?: 'products', id: any, name: string, hash_name: string, imageUrl: string, quantity: number, orders_items_aggregate: { __typename?: 'orders_items_aggregate', aggregate?: { __typename?: 'orders_items_aggregate_fields', sum?: { __typename?: 'orders_items_sum_fields', count?: number | null } | null } | null } }>, products_aggregate: { __typename?: 'products_aggregate', aggregate?: { __typename?: 'products_aggregate_fields', count: number } | null } };
+export type CompleteOrderMutation = { __typename?: 'mutation_root', complete_order: { __typename?: 'CompleteOrderOutput', id: any } };
+
+export type GetOrderItemsStockQueryVariables = Exact<{
+  orderId: Scalars['uuid']['input'];
+}>;
+
+
+export type GetOrderItemsStockQuery = { __typename?: 'query_root', orders_items: Array<{ __typename?: 'orders_items', count: number, product: { __typename?: 'products', id: any, name: string, quantity: number, imageUrl: string } }> };
+
+export type ChangeOrderStateMutationVariables = Exact<{
+  id: Scalars['uuid']['input'];
+  state: Order_States_Enum;
+}>;
+
+
+export type ChangeOrderStateMutation = { __typename?: 'mutation_root', update_orders_by_pk?: { __typename?: 'orders', id: any, state: Order_States_Enum } | null };
 
 export type CreateProductMutationVariables = Exact<{
   data: CreateProductInput;

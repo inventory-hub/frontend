@@ -18,7 +18,7 @@ const SideBarContent = ({ onClose, actionItems, ...props }: SideBarProps) => {
       bg="primary.dark"
       w={{ base: "full", md: 60 }}
       pos="fixed"
-      h="full"
+      minH="100%"
       fontWeight="300"
       {...props}
     >
