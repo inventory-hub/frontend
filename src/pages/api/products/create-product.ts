@@ -1,6 +1,7 @@
 import { type NextApiHandler } from "next";
 import { gql } from "graphql-request";
 import { customAlphabet } from "nanoid";
+import sharp from "sharp";
 
 import { graphqlRequest } from "~/server/graphql";
 import {
@@ -48,21 +49,28 @@ const handler: NextApiHandler<CreateProductOutput | GraphQLErrors> = async (
   const hash_name = getHashName(name);
 
   const imageUrl = image_base64
-    ? `${CDN_PREFIX}${hash_name}.${image_base64.split(";")[0].split("/")[1]}`
+    ? `${CDN_PREFIX}${hash_name}.webp`
     : NO_IMAGE_URL;
 
   if (image_base64) {
-    const [mime, base64Raw] = image_base64.replace(/^data:/, "").split(";");
-    const [, extension] = mime.split("/");
+    const [, base64Raw] = image_base64.replace(/^data:/, "").split(";");
     const base64 = base64Raw.replace(/^base64,/, "");
     const imageBuffer = Buffer.from(base64, "base64");
+    const resizedImageBuffer = await sharp(imageBuffer)
+      .resize({
+        width: 256,
+        height: 256,
+        fit: "cover",
+      })
+      .webp()
+      .toBuffer();
     await blobContainerClient.uploadBlockBlob(
-      `${hash_name}.${extension}`,
-      imageBuffer,
-      imageBuffer.length,
+      `${hash_name}.webp`,
+      resizedImageBuffer,
+      resizedImageBuffer.length,
       {
         blobHTTPHeaders: {
-          blobContentType: mime,
+          blobContentType: "image/webp",
         },
       }
     );
