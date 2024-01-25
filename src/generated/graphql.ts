@@ -5669,6 +5669,11 @@ export type DeleteAlertMutationVariables = Exact<{
 
 export type DeleteAlertMutation = { __typename?: 'mutation_root', deleted_alert?: { __typename?: 'product_alerts', id: any } | null };
 
+export type GetDashboardDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetDashboardDataQuery = { __typename?: 'query_root', products: Array<{ __typename?: 'products', name: string, hash_name: string, imageUrl: string }>, products_aggregate: { __typename?: 'products_aggregate', aggregate?: { __typename?: 'products_aggregate_fields', count: number, sum?: { __typename?: 'products_sum_fields', quantity?: number | null } | null } | null }, orders: { __typename?: 'orders_aggregate', aggregate?: { __typename?: 'orders_aggregate_fields', count: number } | null }, completed_orders: { __typename?: 'orders_aggregate', aggregate?: { __typename?: 'orders_aggregate_fields', count: number } | null }, pending_orders: { __typename?: 'orders_aggregate', aggregate?: { __typename?: 'orders_aggregate_fields', count: number } | null } };
+
 export type GetOrdersQueryVariables = Exact<{
   search?: InputMaybe<Scalars['String']['input']>;
   states: Array<Order_States_Enum> | Order_States_Enum;
