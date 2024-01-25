@@ -5558,6 +5558,13 @@ export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetCategoriesQuery = { __typename?: 'query_root', categories: Array<{ __typename?: 'categories', name: string }> };
 
+export type CreateAlertMutationVariables = Exact<{
+  data: Product_Alerts_Insert_Input;
+}>;
+
+
+export type CreateAlertMutation = { __typename?: 'mutation_root', created_alert?: { __typename?: 'product_alerts', id: any } | null };
+
 export type InviteUserMutationVariables = Exact<{
   data: InviteUserInput;
 }>;

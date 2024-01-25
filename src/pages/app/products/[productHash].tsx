@@ -27,11 +27,13 @@ import { useMutation, useQuery } from "urql";
 import { z } from "zod";
 import CategoriesAutoComplete from "~/components/categories/CategoriesAutoComplete";
 import MainLayout from "~/components/main-layout";
+import CreateAlertForm from "~/components/products/product-details/CreateAlertForm";
 import IncreaseQuantityModal from "~/components/products/product-details/IncreaseQuantityModal";
 import LeftCardInfo from "~/components/products/product-details/LeftCardInfo";
 import {
   FilledPrimaryButton,
   FilledSecondaryButton,
+  OutlinePrimaryButton,
 } from "~/components/ui/buttons";
 import { PrimaryOutlineInput } from "~/components/ui/inputs";
 import {
@@ -153,6 +155,7 @@ const ProductDetailsPage = () => {
   const product = data?.products[0];
 
   const [editable, setEditable] = useState<boolean>(false);
+  const [createAlert, setCreateAlert] = useState<boolean>(false);
 
   const { status } = useSession();
   const isLoading = status === "loading";
@@ -281,7 +284,16 @@ const ProductDetailsPage = () => {
                 count={product?.pending_orders_aggregate.aggregate?.count}
               />
             </GridItem>
-            <GridItem colSpan={5} borderRadius="30" flex="1" bgColor="white">
+            <GridItem
+              as={Flex}
+              colSpan={5}
+              borderRadius="30"
+              flex="1"
+              bgColor="white"
+              height="100%"
+              direction="column"
+              justifyContent="space-between"
+            >
               <Flex direction="column" p="10">
                 <Flex justifyContent="space-between">
                   <Heading fontSize="3xl" fontWeight="500" mb="7">
@@ -421,6 +433,18 @@ const ProductDetailsPage = () => {
                     </HStack>
                   </form>
                 </Flex>
+              </Flex>
+              <Flex m={10} gap={20}>
+                <OutlinePrimaryButton
+                  onClick={() => {
+                    setCreateAlert(!createAlert);
+                  }}
+                >
+                  {createAlert ? "Cancel" : "Create Alert"}
+                </OutlinePrimaryButton>
+                {createAlert && (
+                  <CreateAlertForm refetch={refetch} productId={product?.id} />
+                )}
               </Flex>
             </GridItem>
           </Grid>
