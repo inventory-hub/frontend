@@ -8,9 +8,10 @@ import Head from "next/head";
 type Props = PropsWithChildren<ChakraProps> & {
   pageName: string;
   headerContent?: ReactNode;
+  back?: boolean;
 };
 
-const MainLayout = ({ pageName, headerContent, ...props }: Props) => {
+const MainLayout = ({ pageName, headerContent, back, ...props }: Props) => {
   return (
     <>
       <Head>
@@ -21,7 +22,9 @@ const MainLayout = ({ pageName, headerContent, ...props }: Props) => {
           <SideBar />
         </Box>
         <Flex flexDirection="column" minH="100vh" flexGrow={1}>
-          <Header pageName={pageName}>{headerContent}</Header>
+          <Header pageName={pageName} back={back}>
+            {headerContent}
+          </Header>
           <chakra.main p="1rem" flexGrow={1} {...props} />
         </Flex>
       </Flex>

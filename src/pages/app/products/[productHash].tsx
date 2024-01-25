@@ -263,7 +263,7 @@ const ProductDetailsPage = () => {
 
   return (
     <div>
-      <MainLayout pageName="Product Details Page">
+      <MainLayout pageName="Product Details Page" back={true}>
         <Skeleton height="100%" isLoaded={!isLoading}>
           <Grid
             templateColumns="repeat(7, 1fr)"
