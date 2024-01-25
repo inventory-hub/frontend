@@ -10,6 +10,8 @@ import {
   chakra,
   Tooltip,
   Flex,
+  LinkBox,
+  LinkOverlay,
 } from "@chakra-ui/react";
 import { gql } from "graphql-request";
 import { useQuery } from "urql";
@@ -109,133 +111,169 @@ const MainPage = () => {
 
   return (
     <MainLayout pageName="Dashboard">
-      <Grid gap={4} h="100%" templateColumns="1fr 1.5fr" templateRows="1fr 1fr">
-        <GridItem>
-          <SlideFade
-            style={slideFadeStyles}
-            in={!fetching}
-            offsetX={-20}
-            offsetY={0}
-            delay={0.5}
-          >
-            <chakra.section
-              rounded="md"
-              h="full"
-              bgColor="secondary.hover"
-              color="white"
-              fontSize="4xl"
-              fontWeight="bold"
-              display="flex"
-              flexDirection="column"
-              alignItems="center"
-              p={2}
-              borderRadius={27}
-              justifyContent="center"
+      {!fetching && data && (
+        <Grid
+          gap={4}
+          h="100%"
+          templateColumns="1fr 1.5fr"
+          templateRows="1fr 1fr"
+        >
+          <GridItem>
+            <SlideFade
+              style={slideFadeStyles}
+              in={!fetching}
+              offsetX={-20}
+              offsetY={0}
+              delay={0.5}
             >
-              <chakra.header
-                textAlign="center"
-                fontSize="1.3rem"
-                fontWeight="500"
+              <chakra.section
+                rounded="md"
+                h="full"
+                bgColor="secondary.hover"
+                color="white"
+                fontSize="4xl"
+                fontWeight="bold"
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                p={2}
+                borderRadius={27}
+                justifyContent="center"
               >
-                Total registered products:
-                <span
-                  style={{
-                    backgroundColor: "white",
-                    color: "#8bc0ff",
-                    padding: "0 20px",
-                    fontSize: "1rem",
-                    borderRadius: 15,
-                    marginLeft: 10,
-                  }}
+                <chakra.header
+                  textAlign="center"
+                  fontSize="1.3rem"
+                  fontWeight="500"
                 >
-                  {data?.products_aggregate.aggregate?.count}
-                </span>
-              </chakra.header>
-              <Text fontWeight="500" fontSize="2.2rem" mb={7}>
-                Latest added:{" "}
-              </Text>
-              <HStack gap={6}>
-                {data?.products.map((product) => (
-                  <Tooltip key={product.hash_name} label={product.name}>
-                    <Link href={`/app/products/${product.hash_name}`}>
-                      <NextImage
-                        src={product.imageUrl}
-                        alt={product.name}
-                        width={100}
-                        height={100}
-                        style={{ borderRadius: 15 }}
-                      />
-                    </Link>
-                  </Tooltip>
-                ))}
-              </HStack>
-            </chakra.section>
-          </SlideFade>
-        </GridItem>
-        <GridItem rowSpan={2}>
-          <SlideFade
-            style={slideFadeStyles}
-            in={!fetching}
-            offsetX={100}
-            offsetY={0}
-            delay={1}
-          >
-            <Flex
-              flexDirection="column"
-              rounded="md"
-              h="full"
-              bgColor="white"
-              color="black"
-              fontSize="4xl"
-              borderRadius={27}
-              fontWeight="bold"
-              p={10}
-              gap={10}
+                  Total registered products:
+                  <span
+                    style={{
+                      backgroundColor: "white",
+                      color: "#8bc0ff",
+                      padding: "0 20px",
+                      fontSize: "1rem",
+                      borderRadius: 15,
+                      marginLeft: 10,
+                    }}
+                  >
+                    {data?.products_aggregate.aggregate?.count}
+                  </span>
+                </chakra.header>
+                <Text fontWeight="500" fontSize="2.2rem" mb={7}>
+                  Latest added:{" "}
+                </Text>
+                <HStack gap={6}>
+                  {data?.products.map((product) => (
+                    <Tooltip key={product.hash_name} label={product.name}>
+                      <Link href={`/app/products/${product.hash_name}`}>
+                        <NextImage
+                          src={product.imageUrl}
+                          alt={product.name}
+                          width={100}
+                          height={100}
+                          style={{ borderRadius: 15 }}
+                        />
+                      </Link>
+                    </Tooltip>
+                  ))}
+                </HStack>
+              </chakra.section>
+            </SlideFade>
+          </GridItem>
+          <GridItem rowSpan={2}>
+            <SlideFade
+              style={slideFadeStyles}
+              in={!fetching}
+              offsetX={100}
+              offsetY={0}
+              delay={1}
             >
-              <Text fontSize="2rem" textAlign="center" justifyContent="center">
-                Total Orders:{" "}
-                <span
-                  style={{
-                    backgroundColor: "#a383ff",
-                    color: "white",
-                    padding: "0 25px",
-                    fontSize: "1.5rem",
-                    borderRadius: 15,
-                    marginLeft: 10,
-                    alignSelf: "center",
-                    fontWeight: 500,
-                  }}
+              <Flex
+                flexDirection="column"
+                rounded="md"
+                h="full"
+                bgColor="white"
+                color="black"
+                fontSize="4xl"
+                borderRadius={27}
+                fontWeight="bold"
+                p={10}
+                gap={10}
+              >
+                <Text
+                  fontSize="2rem"
+                  textAlign="center"
+                  justifyContent="center"
                 >
-                  {data?.orders.aggregate?.count}
-                </span>
-              </Text>
-              <OrdersPieChart data={pieChartData} />
-            </Flex>
-          </SlideFade>
-        </GridItem>
-        <GridItem>
-          <SlideFade
-            style={slideFadeStyles}
-            in={!fetching}
-            offsetX={0}
-            offsetY={100}
-            delay={1.5}
-          >
-            <Box
-              rounded="md"
-              h="full"
-              bgColor="accent.focus"
-              color="white"
-              fontSize="4xl"
-              fontWeight="bold"
-              borderRadius={27}
-            >
-              Total products in stock:{" "}
-              {data?.products_aggregate.aggregate?.sum?.quantity}
-            </Box>
-          </SlideFade>
-        </GridItem>
-      </Grid>
+                  Total Orders:{" "}
+                  <span
+                    style={{
+                      backgroundColor: "#a383ff",
+                      color: "white",
+                      padding: "0 25px",
+                      fontSize: "1.5rem",
+                      borderRadius: 15,
+                      marginLeft: 10,
+                      alignSelf: "center",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {data?.orders.aggregate?.count}
+                  </span>
+                </Text>
+                <OrdersPieChart data={pieChartData} />
+              </Flex>
+            </SlideFade>
+          </GridItem>
+          <GridItem>
+            <LinkBox h="100%">
+              <LinkOverlay href="/app/products">
+                <SlideFade
+                  style={slideFadeStyles}
+                  in={!fetching}
+                  offsetX={0}
+                  offsetY={100}
+                  delay={1.5}
+                >
+                  <Flex
+                    flexDirection="column"
+                    alignItems="center"
+                    justifyContent="center"
+                    rounded="md"
+                    h="full"
+                    bgColor="accent.focus"
+                    color="white"
+                    fontSize="4xl"
+                    fontWeight="bold"
+                    borderRadius={27}
+                  >
+                    <Text
+                      textAlign="center"
+                      fontSize="1.3rem"
+                      fontWeight="500"
+                      marginBottom={2}
+                    >
+                      Total products in stock:{" "}
+                    </Text>
+                    <span
+                      style={{
+                        backgroundColor: "white",
+                        color: "#a383ff",
+                        padding: "0 30px",
+                        fontSize: "2rem",
+                        borderRadius: 30,
+                        marginLeft: 10,
+                      }}
+                    >
+                      {data?.products_aggregate.aggregate?.sum?.quantity}
+                    </span>
+                  </Flex>
+                </SlideFade>
+              </LinkOverlay>
+            </LinkBox>
+          </GridItem>
+        </Grid>
+      )}
     </MainLayout>
   );
 };
