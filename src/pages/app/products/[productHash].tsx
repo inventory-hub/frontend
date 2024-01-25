@@ -1,8 +1,6 @@
 import {
   Alert,
   AlertDescription,
-  Box,
-  Center,
   Flex,
   FormControl,
   FormErrorMessage,
@@ -11,9 +9,9 @@ import {
   HStack,
   Heading,
   IconButton,
-  Image,
   Skeleton,
   Text,
+  Tooltip,
   chakra,
   useDisclosure,
   useToast,
@@ -31,7 +29,6 @@ import CategoriesAutoComplete from "~/components/categories/CategoriesAutoComple
 import MainLayout from "~/components/main-layout";
 import IncreaseQuantityModal from "~/components/products/product-details/IncreaseQuantityModal";
 import LeftCardInfo from "~/components/products/product-details/LeftCardInfo";
-import AutoComplete from "~/components/ui/AutoComplete";
 import {
   FilledPrimaryButton,
   FilledSecondaryButton,
@@ -143,7 +140,7 @@ const ADD_PRODUCTS_LABEL = "Add Products";
 const ProductDetailsPage = () => {
   const router = useRouter();
   const productHash = router.query.productHash as string;
-  const [{ data, fetching }, refetch] = useQuery<
+  const [{ data }, refetch] = useQuery<
     GetProductDetailsQuery,
     GetProductDetailsQueryVariables
   >({
@@ -165,7 +162,6 @@ const ProductDetailsPage = () => {
     register,
     handleSubmit,
     formState: { errors, isValid },
-    setError,
     getValues,
     setValue,
   } = useForm<EditProductForm>({
@@ -177,8 +173,6 @@ const ProductDetailsPage = () => {
     register: registerQuantity,
     handleSubmit: handleSubmitQuantity,
     formState: { errors: errorsQuantity, isValid: isValidQuantity },
-    setError: setErrorQuantity,
-    setValue: setValueQuantity,
   } = useForm<IncreaseProductQuantityForm>({
     resolver: zodResolver(increaseProductQuantity),
     mode: "onBlur",
@@ -301,16 +295,23 @@ const ProductDetailsPage = () => {
                         isLoading={editState.fetching}
                         onClick={handleSubmit(onDataSubmit)}
                       >
-                        Save
+                        <Tooltip label="Save the data" aria-label="tooltip">
+                          Save
+                        </Tooltip>
                       </FilledSecondaryButton>
                     )}
+
                     <FilledPrimaryButton
                       onClick={() => {
                         setEditable(!editable);
                         console.log("editable: ", editable);
                       }}
                     >
-                      {editable ? "Cancel" : "Edit"}
+                      <Tooltip
+                        label={editable ? "Cancel editing" : "Edit the data"}
+                      >
+                        {editable ? "Cancel" : "Edit"}
+                      </Tooltip>
                     </FilledPrimaryButton>
                   </Flex>
                 </Flex>
@@ -390,18 +391,23 @@ const ProductDetailsPage = () => {
 
                       <Flex alignItems="center" m={0} gap={7}>
                         <Text>{product?.quantity}</Text>
-                        <IconButton
-                          onClick={onOpen}
-                          outline="2px solid"
-                          outlineColor="primary.dark"
-                          aria-label={ADD_PRODUCTS_LABEL}
-                          icon={
-                            <AddIcon fontSize="1.5rem" color="primary.dark" />
-                          }
-                          colorScheme="primary"
-                          variant="ghost"
-                          size="xs"
-                        />
+                        <Tooltip
+                          label="Increase quantity"
+                          aria-label="tooltip for increasing quantity"
+                        >
+                          <IconButton
+                            onClick={onOpen}
+                            outline="2px solid"
+                            outlineColor="primary.dark"
+                            aria-label={ADD_PRODUCTS_LABEL}
+                            icon={
+                              <AddIcon fontSize="1.5rem" color="primary.dark" />
+                            }
+                            colorScheme="primary"
+                            variant="ghost"
+                            size="xs"
+                          />
+                        </Tooltip>
                         <IncreaseQuantityModal
                           isOpen={isOpen}
                           onClose={onClose}

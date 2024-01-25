@@ -40,6 +40,8 @@ const ProductsTable = ({ products, ...props }: Props) => {
                 router.push(`${url}/${product.hash_name}`);
               }}
               cursor="pointer"
+              _hover={{ bg: "gray.100" }}
+              transition="all 0.3s ease-in-out"
             >
               <Td>
                 <Image
