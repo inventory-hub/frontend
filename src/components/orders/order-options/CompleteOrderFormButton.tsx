@@ -1,10 +1,20 @@
-import { useEffect, useRef } from "react";
+import { type FormEventHandler, useEffect, useMemo, useRef } from "react";
 import {
+  Alert,
+  AlertDescription,
   AlertDialog,
   AlertDialogBody,
+  AlertDialogCloseButton,
   AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
   AlertDialogOverlay,
-  Button,
+  AlertIcon,
+  AlertTitle,
+  HStack,
+  ListItem,
+  UnorderedList,
+  VStack,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -14,11 +24,15 @@ import { type UseQueryExecute, useMutation, useQuery } from "urql";
 import {
   type GetOrderItemsStockQuery,
   type GetOrderItemsStockQueryVariables,
-  type ChangeOrderStateMutationVariables,
   type CompleteOrderMutation,
   type GetOrdersQuery,
+  type CompleteOrderMutationVariables,
 } from "~/generated/graphql";
-import { GhostPrimaryButton } from "~/components/ui/buttons";
+import {
+  FilledSecondaryButton,
+  GhostPrimaryButton,
+  OutlinePrimaryButton,
+} from "~/components/ui/buttons";
 
 const COMPLETE_ORDER_MUTATION = gql`
   mutation CompleteOrder($id: uuid!) {
@@ -62,10 +76,39 @@ const CompleteOrderFormButton = ({ order, refetchOrders }: Props) => {
     },
   });
 
+  const orderItemsWithPreviewStock = useMemo(
+    () =>
+      orderItemsStockData?.orders_items?.map((orderItem) => {
+        const product = orderItem.product;
+
+        return {
+          ...orderItem,
+          previewStock: product.quantity - orderItem.count,
+        };
+      }) ?? [],
+    [orderItemsStockData]
+  );
+
+  const orderItemsWithInsufficientStock = useMemo(
+    () =>
+      orderItemsWithPreviewStock.filter(
+        (orderItem) => orderItem.previewStock < 0
+      ),
+    [orderItemsWithPreviewStock]
+  );
+
   const [completeOrderState, completeOrder] = useMutation<
     CompleteOrderMutation,
-    ChangeOrderStateMutationVariables
+    CompleteOrderMutationVariables
   >(COMPLETE_ORDER_MUTATION);
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+
+    completeOrder({
+      id: order.id,
+    });
+  };
 
   useEffect(() => {
     if (!completeOrderState.data) {
@@ -88,8 +131,60 @@ const CompleteOrderFormButton = ({ order, refetchOrders }: Props) => {
         leastDestructiveRef={leastDestructiveRef}
       >
         <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogBody>Placeholder</AlertDialogBody>
+          <AlertDialogContent as="form" onSubmit={handleSubmit}>
+            <AlertDialogCloseButton />
+            <AlertDialogHeader>Complete Order</AlertDialogHeader>
+            <AlertDialogBody minH={40}>
+              {orderItemsWithInsufficientStock?.length ? (
+                <Alert status="error">
+                  <AlertTitle as={HStack}>
+                    <AlertIcon />{" "}
+                    <span>The following products have insufficient stock:</span>
+                  </AlertTitle>
+                  <AlertDescription as={UnorderedList}>
+                    {orderItemsWithInsufficientStock.map((oi) => (
+                      <ListItem key={oi.product.id}>
+                        {oi.product.name} (
+                        {`${oi.count} / ${oi.product.quantity}`})
+                      </ListItem>
+                    ))}
+                  </AlertDescription>
+                </Alert>
+              ) : (
+                <Alert status="warning" as={VStack}>
+                  <AlertTitle as={HStack}>
+                    <AlertIcon />{" "}
+                    <span>
+                      After completing this order, the stocks will be the
+                      following:
+                    </span>
+                  </AlertTitle>
+                  <AlertDescription as={UnorderedList} alignSelf="flex-start">
+                    {orderItemsWithPreviewStock.map((oi) => (
+                      <ListItem key={oi.product.id}>
+                        {oi.product.name}: {oi.previewStock}
+                      </ListItem>
+                    ))}
+                  </AlertDescription>
+                </Alert>
+              )}
+            </AlertDialogBody>
+            <AlertDialogFooter>
+              <FilledSecondaryButton
+                ref={leastDestructiveRef}
+                onClick={onClose}
+              >
+                Cancel
+              </FilledSecondaryButton>
+              <OutlinePrimaryButton
+                disabled={!!orderItemsWithInsufficientStock?.length || fetching}
+                isLoading={completeOrderState.fetching}
+                type="submit"
+                ml={3}
+              >
+                Complete
+              </OutlinePrimaryButton>
+            </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
