@@ -9,6 +9,7 @@ import {
   Text,
   chakra,
   Tooltip,
+  Flex,
 } from "@chakra-ui/react";
 import { gql } from "graphql-request";
 import { useQuery } from "urql";
@@ -18,6 +19,10 @@ import {
   type GetDashboardDataQuery,
   type GetDashboardDataQueryVariables,
 } from "~/generated/graphql";
+import { useEffect } from "react";
+import OrdersPieChart from "~/components/dashboard/OrdersPieChart";
+
+const pieChartData: Array<{ name: string; value: number; fill: string }> = [];
 
 const GET_DASHBOARD_DATA_QUERY = gql`
   query GetDashboardData {
@@ -51,6 +56,16 @@ const GET_DASHBOARD_DATA_QUERY = gql`
         count
       }
     }
+    canceled_orders: orders_aggregate(where: { state: { _eq: Cancelled } }) {
+      aggregate {
+        count
+      }
+    }
+    draft_orders: orders_aggregate(where: { state: { _eq: Draft } }) {
+      aggregate {
+        count
+      }
+    }
   }
 `;
 
@@ -67,6 +82,31 @@ const MainPage = () => {
     query: GET_DASHBOARD_DATA_QUERY,
   });
 
+  useEffect(() => {
+    if (data) {
+      pieChartData.push({
+        name: "Completed",
+        value: data.completed_orders.aggregate?.count ?? 0,
+        fill: "#0088FE",
+      });
+      pieChartData.push({
+        name: "Pending",
+        value: data.pending_orders.aggregate?.count ?? 0,
+        fill: "#00C49F",
+      });
+      pieChartData.push({
+        name: "Cancelled",
+        value: data.canceled_orders.aggregate?.count ?? 0,
+        fill: "#FFBB28",
+      });
+      pieChartData.push({
+        name: "Draft",
+        value: data.draft_orders.aggregate?.count ?? 0,
+        fill: "#FF8042",
+      });
+    }
+  }, [data]);
+
   return (
     <MainLayout pageName="Dashboard">
       <Grid gap={4} h="100%" templateColumns="1fr 1.5fr" templateRows="1fr 1fr">
@@ -81,7 +121,7 @@ const MainPage = () => {
             <chakra.section
               rounded="md"
               h="full"
-              bgColor="primary.dark"
+              bgColor="secondary.hover"
               color="white"
               fontSize="4xl"
               fontWeight="bold"
@@ -89,12 +129,31 @@ const MainPage = () => {
               flexDirection="column"
               alignItems="center"
               p={2}
+              borderRadius={27}
+              justifyContent="center"
             >
-              <chakra.header textAlign="center">
-                Total registered products: 
-                {data?.products_aggregate.aggregate?.count}
+              <chakra.header
+                textAlign="center"
+                fontSize="1.3rem"
+                fontWeight="500"
+              >
+                Total registered products:
+                <span
+                  style={{
+                    backgroundColor: "white",
+                    color: "#8bc0ff",
+                    padding: "0 20px",
+                    fontSize: "1rem",
+                    borderRadius: 15,
+                    marginLeft: 10,
+                  }}
+                >
+                  {data?.products_aggregate.aggregate?.count}
+                </span>
               </chakra.header>
-              <Text>Latest added: </Text>
+              <Text fontWeight="500" fontSize="2.2rem" mb={7}>
+                Latest added:{" "}
+              </Text>
               <HStack gap={6}>
                 {data?.products.map((product) => (
                   <Tooltip key={product.hash_name} label={product.name}>
@@ -104,6 +163,7 @@ const MainPage = () => {
                         alt={product.name}
                         width={100}
                         height={100}
+                        style={{ borderRadius: 15 }}
                       />
                     </Link>
                   </Tooltip>
@@ -120,18 +180,37 @@ const MainPage = () => {
             offsetY={0}
             delay={1}
           >
-            <Box
+            <Flex
+              flexDirection="column"
               rounded="md"
               h="full"
-              bgColor="primary.main"
-              color="white"
+              bgColor="white"
+              color="black"
               fontSize="4xl"
+              borderRadius={27}
               fontWeight="bold"
+              p={10}
+              gap={10}
             >
-              Total Orders: {data?.orders.aggregate?.count}
-              Completed orders: {data?.completed_orders.aggregate?.count}
-              Pending orders: {data?.pending_orders.aggregate?.count}
-            </Box>
+              <Text fontSize="2rem" textAlign="center" justifyContent="center">
+                Total Orders:{" "}
+                <span
+                  style={{
+                    backgroundColor: "#a383ff",
+                    color: "white",
+                    padding: "0 25px",
+                    fontSize: "1.5rem",
+                    borderRadius: 15,
+                    marginLeft: 10,
+                    alignSelf: "center",
+                    fontWeight: 500,
+                  }}
+                >
+                  {data?.orders.aggregate?.count}
+                </span>
+              </Text>
+              <OrdersPieChart data={pieChartData} />
+            </Flex>
           </SlideFade>
         </GridItem>
         <GridItem>
@@ -145,10 +224,11 @@ const MainPage = () => {
             <Box
               rounded="md"
               h="full"
-              bgColor="accent.main"
+              bgColor="accent.focus"
               color="white"
               fontSize="4xl"
               fontWeight="bold"
+              borderRadius={27}
             >
               Total products in stock:{" "}
               {data?.products_aggregate.aggregate?.sum?.quantity}
