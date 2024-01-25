@@ -6,7 +6,7 @@ import {
   type NextApiResponse,
   type NextApiHandler,
 } from "next";
-import { getToken } from "next-auth/jwt";
+import * as jsonwebtoken from "jsonwebtoken";
 
 import { type GraphQLErrors } from "./graphql";
 import { Roles_Enum } from "~/generated/graphql";
@@ -44,10 +44,21 @@ export const withAuth =
   ) =>
   <T>(fn: NextApiHandler<T>) =>
   async (req: NextApiRequest, res: NextApiResponse<T | GraphQLErrors>) => {
-    const jwt = await getToken({ req });
-    if (!jwt) {
+    const encodedJwt = req.cookies["next-auth.session-token"];
+    if (!encodedJwt) {
       return res.status(401).json({ errors: [{ message: "Unauthorized" }] });
     }
+    const isJwtValid = jsonwebtoken.verify(
+      encodedJwt,
+      process.env.NEXTAUTH_SECRET!
+    );
+    if (!isJwtValid) {
+      return res
+        .status(401)
+        .json({ errors: [{ message: "Invalid signature for JWT" }] });
+    }
+
+    const jwt = jsonwebtoken.decode(encodedJwt) as jsonwebtoken.JwtPayload;
 
     const role = jwt.role as Roles_Enum;
     if (!roles.includes(role)) {

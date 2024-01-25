@@ -9,9 +9,9 @@ import {
   type GetUsersEmailExistsQueryVariables,
   type CreateDraftUserMutation,
   type CreateDraftUserMutationVariables,
-  type Roles_Enum,
+  Roles_Enum,
 } from "~/generated/graphql";
-import { generateInvitationToken } from "~/server/auth";
+import { generateInvitationToken, withAuth } from "~/server/auth";
 import { queueClient } from "~/server/azure";
 
 type InvitationEmailMessage = {
@@ -96,4 +96,4 @@ const handler: NextApiHandler<InviteUserOutput> = async (req, res) => {
   }
 };
 
-export default handler;
+export default withAuth([Roles_Enum.Admin, Roles_Enum.Manager])(handler);

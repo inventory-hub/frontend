@@ -118,9 +118,12 @@ const CompleteOrderFormButton = ({ order, refetchOrders }: Props) => {
     toast({
       title: `Completed order successfully`,
       status: "success",
+      duration: 5000,
+      isClosable: true,
     });
     refetchOrders();
-  }, [completeOrderState.data, refetchOrders, toast]);
+    onClose();
+  }, [completeOrderState.data, refetchOrders, toast, onClose]);
 
   return (
     <>

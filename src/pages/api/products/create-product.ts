@@ -12,6 +12,7 @@ import {
 } from "~/generated/graphql";
 import { type GraphQLErrors } from "~/server/graphql";
 import { blobContainerClient } from "~/server/azure";
+import { withAuth } from "~/server/auth";
 
 const CDN_PREFIX = "https://cdn.inventory-hub.space/uploads/";
 const NO_IMAGE_URL = `${CDN_PREFIX}placeholder.jpg`;
@@ -103,4 +104,4 @@ export const config = {
   },
 };
 
-export default handler;
+export default withAuth()(handler);

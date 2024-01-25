@@ -11,6 +11,7 @@ import {
   type GetUserRoleQueryVariables,
   type GetUserAccountsByEmailQuery,
   type GetUserAccountsByEmailQueryVariables,
+  Roles_Enum,
 } from "~/generated/graphql";
 import { graphqlRequest } from "~/server/graphql";
 import { verifyPassword } from "~/server/auth";
@@ -110,12 +111,27 @@ export const authOptions: NextAuthOptions = {
     // Add the required Hasura claims
     // https://hasura.io/docs/latest/graphql/core/auth/authentication/jwt/#the-spec
     async jwt({ token }) {
+      const { user } = await graphqlRequest<
+        GetUserRoleQuery,
+        GetUserRoleQueryVariables
+      >(GET_USER_ROLE_QUERY, {
+        id: token.sub!,
+      });
+
+      const role = user?.role || Roles_Enum.User;
+
       return {
         ...token,
+        role: user?.role || role,
         "https://hasura.io/jwt/claims": {
-          "x-hasura-allowed-roles": ["admin"],
-          "x-hasura-default-role": "admin",
-          "x-hasura-role": "admin",
+          "x-hasura-allowed-roles": [
+            Roles_Enum.Admin,
+            Roles_Enum.Manager,
+            Roles_Enum.User,
+            Roles_Enum.ReadonlyUser,
+          ],
+          "x-hasura-default-role": role,
+          "x-hasura-role": role,
           "x-hasura-user-id": token.sub,
         },
       };

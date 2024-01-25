@@ -5634,6 +5634,21 @@ export type UpgradeUserMutationVariables = Exact<{
 
 export type UpgradeUserMutation = { __typename?: 'mutation_root', user?: { __typename?: 'users', id: any } | null, deleted_draft_user?: { __typename?: 'draft_users', id: any } | null };
 
+export type GetOrderItemsServerQueryVariables = Exact<{
+  id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetOrderItemsServerQuery = { __typename?: 'query_root', order?: { __typename?: 'orders', id: any, orders_items: Array<{ __typename?: 'orders_items', count: number, product: { __typename?: 'products', id: any, quantity: number } }> } | null };
+
+export type UpdateProductQuantityServerMutationVariables = Exact<{
+  order_id: Scalars['uuid']['input'];
+  product_updates: Array<Products_Updates> | Products_Updates;
+}>;
+
+
+export type UpdateProductQuantityServerMutation = { __typename?: 'mutation_root', update_products_many?: Array<{ __typename?: 'products_mutation_response', affected_rows: number } | null> | null, update_orders_by_pk?: { __typename?: 'orders', id: any } | null };
+
 export type InsertProductMutationVariables = Exact<{
   product: Products_Insert_Input;
 }>;
