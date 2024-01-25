@@ -3059,6 +3059,8 @@ export type Product_Alerts = {
   count_operand: Scalars['Int']['output'];
   id: Scalars['uuid']['output'];
   operator: Alert_Operators_Enum;
+  /** An object relationship */
+  product: Products;
   product_id: Scalars['uuid']['output'];
   user_id: Scalars['uuid']['output'];
 };
@@ -3146,6 +3148,7 @@ export type Product_Alerts_Bool_Exp = {
   count_operand?: InputMaybe<Int_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   operator?: InputMaybe<Alert_Operators_Enum_Comparison_Exp>;
+  product?: InputMaybe<Products_Bool_Exp>;
   product_id?: InputMaybe<Uuid_Comparison_Exp>;
   user_id?: InputMaybe<Uuid_Comparison_Exp>;
 };
@@ -3169,6 +3172,7 @@ export type Product_Alerts_Insert_Input = {
   count_operand?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   operator?: InputMaybe<Alert_Operators_Enum>;
+  product?: InputMaybe<Products_Obj_Rel_Insert_Input>;
   product_id?: InputMaybe<Scalars['uuid']['input']>;
   user_id?: InputMaybe<Scalars['uuid']['input']>;
 };
@@ -3229,6 +3233,7 @@ export type Product_Alerts_Order_By = {
   count_operand?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   operator?: InputMaybe<Order_By>;
+  product?: InputMaybe<Products_Order_By>;
   product_id?: InputMaybe<Order_By>;
   user_id?: InputMaybe<Order_By>;
 };
@@ -3394,6 +3399,10 @@ export type Products = {
   orders_items: Array<Orders_Items>;
   /** An aggregate relationship */
   orders_items_aggregate: Orders_Items_Aggregate;
+  /** An array relationship */
+  product_alerts: Array<Product_Alerts>;
+  /** An aggregate relationship */
+  product_alerts_aggregate: Product_Alerts_Aggregate;
   quantity: Scalars['Int']['output'];
   updated_at: Scalars['timestamptz']['output'];
 };
@@ -3416,6 +3425,26 @@ export type ProductsOrders_Items_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Orders_Items_Order_By>>;
   where?: InputMaybe<Orders_Items_Bool_Exp>;
+};
+
+
+/** products which will be managed */
+export type ProductsProduct_AlertsArgs = {
+  distinct_on?: InputMaybe<Array<Product_Alerts_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Product_Alerts_Order_By>>;
+  where?: InputMaybe<Product_Alerts_Bool_Exp>;
+};
+
+
+/** products which will be managed */
+export type ProductsProduct_Alerts_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Product_Alerts_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Product_Alerts_Order_By>>;
+  where?: InputMaybe<Product_Alerts_Bool_Exp>;
 };
 
 /** aggregated selection of "products" */
@@ -3507,6 +3536,8 @@ export type Products_Bool_Exp = {
   name?: InputMaybe<String_Comparison_Exp>;
   orders_items?: InputMaybe<Orders_Items_Bool_Exp>;
   orders_items_aggregate?: InputMaybe<Orders_Items_Aggregate_Bool_Exp>;
+  product_alerts?: InputMaybe<Product_Alerts_Bool_Exp>;
+  product_alerts_aggregate?: InputMaybe<Product_Alerts_Aggregate_Bool_Exp>;
   quantity?: InputMaybe<Int_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
@@ -3537,6 +3568,7 @@ export type Products_Insert_Input = {
   imageUrl?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   orders_items?: InputMaybe<Orders_Items_Arr_Rel_Insert_Input>;
+  product_alerts?: InputMaybe<Product_Alerts_Arr_Rel_Insert_Input>;
   quantity?: InputMaybe<Scalars['Int']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
@@ -3629,6 +3661,7 @@ export type Products_Order_By = {
   imageUrl?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   orders_items_aggregate?: InputMaybe<Orders_Items_Aggregate_Order_By>;
+  product_alerts_aggregate?: InputMaybe<Product_Alerts_Aggregate_Order_By>;
   quantity?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
 };
@@ -5621,6 +5654,20 @@ export type GetUsersEmailExistsQueryVariables = Exact<{
 
 
 export type GetUsersEmailExistsQuery = { __typename?: 'query_root', users_aggregate: { __typename?: 'users_aggregate', aggregate?: { __typename?: 'users_aggregate_fields', count: number } | null } };
+
+export type GetOwnAlertsQueryVariables = Exact<{
+  user_id: Scalars['uuid']['input'];
+}>;
+
+
+export type GetOwnAlertsQuery = { __typename?: 'query_root', product_alerts: Array<{ __typename?: 'product_alerts', id: any, count_operand: number, operator: Alert_Operators_Enum, product_id: any, product: { __typename?: 'products', name: string, quantity: number, imageUrl: string, pending_orders: { __typename?: 'orders_items_aggregate', aggregate?: { __typename?: 'orders_items_aggregate_fields', sum?: { __typename?: 'orders_items_sum_fields', count?: number | null } | null } | null } } }> };
+
+export type DeleteAlertMutationVariables = Exact<{
+  id: Scalars['uuid']['input'];
+}>;
+
+
+export type DeleteAlertMutation = { __typename?: 'mutation_root', deleted_alert?: { __typename?: 'product_alerts', id: any } | null };
 
 export type GetOrdersQueryVariables = Exact<{
   search?: InputMaybe<Scalars['String']['input']>;

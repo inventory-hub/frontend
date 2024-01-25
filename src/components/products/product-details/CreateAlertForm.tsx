@@ -3,8 +3,6 @@ import {
   AlertDescription,
   Flex,
   FormControl,
-  FormErrorMessage,
-  FormLabel,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
@@ -15,19 +13,11 @@ import {
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
-import { type FormEventHandler, useCallback, useState, useEffect } from "react";
-import {
-  useForm,
-  type FieldErrors,
-  type UseFormRegister,
-} from "react-hook-form";
+import { useCallback, useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { gql, useMutation, type UseQueryExecute } from "urql";
 import { z } from "zod";
-import {
-  OutlinePrimaryButton,
-  OutlineSecondaryButton,
-} from "~/components/ui/buttons";
-import { PrimaryOutlineInput } from "~/components/ui/inputs";
+import { OutlineSecondaryButton } from "~/components/ui/buttons";
 import {
   Alert_Operators_Enum,
   type CreateAlertMutation,
@@ -37,12 +27,6 @@ import {
 type Props = {
   refetch: UseQueryExecute;
   productId: string;
-};
-
-const operatorsSymbols = {
-  [Alert_Operators_Enum.Equal]: "=",
-  [Alert_Operators_Enum.MoreThan]: ">",
-  [Alert_Operators_Enum.LessThan]: "<",
 };
 
 const CREATE_ALERT_MUTATION = gql`
