@@ -1,7 +1,6 @@
 import { Link } from "@chakra-ui/next-js";
 import NextImage from "next/image";
 import {
-  Box,
   Grid,
   GridItem,
   HStack,

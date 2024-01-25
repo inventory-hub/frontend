@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Flex,
-  HStack,
   IconButton,
   Image,
   Modal,
@@ -20,13 +19,10 @@ import {
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { FiDelete, FiTrash } from "react-icons/fi";
+import { FiTrash } from "react-icons/fi";
 import { gql, useMutation, useQuery } from "urql";
 import MainLayout from "~/components/main-layout";
-import {
-  FilledPrimaryButton,
-  FilledSecondaryButton,
-} from "~/components/ui/buttons";
+import { FilledSecondaryButton } from "~/components/ui/buttons";
 import {
   Alert_Operators_Enum,
   type DeleteAlertMutation,
